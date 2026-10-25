@@ -8,6 +8,7 @@ import { EditorSidebar } from "@/components/editor/editor-sidebar";
 import { EditorPreview } from "@/components/editor/editor-preview";
 import { AiAssistModal } from "@/components/editor/ai-assist-modal";
 import { UrlImportModal } from "@/components/editor/url-import-modal";
+import { ResumeImportModal } from "@/components/editor/resume-import-modal";
 import { usePortfolioEditor } from "@/components/editor/use-portfolio-editor";
 import { DesignDirection } from "@/lib/url-import/types";
 import { Loader2, Sliders, Eye } from "lucide-react";
@@ -24,6 +25,7 @@ function EditorContent() {
   const [mobileView, setMobileView] = useState<"edit" | "preview">("edit");
   const [isAiModalOpen, setIsAiModalOpen] = useState(false);
   const [isUrlModalOpen, setIsUrlModalOpen] = useState(false);
+  const [isResumeModalOpen, setIsResumeModalOpen] = useState(false);
 
   // Canonical Editor State & Persistence Layer
   const {
@@ -93,6 +95,11 @@ function EditorContent() {
     }));
   };
 
+  // Resume Content Merge Application
+  const handleApplyResumeMerged = (mergedPortfolio: PortfolioData) => {
+    updatePortfolio(() => mergedPortfolio);
+  };
+
   if (!portfolio) {
     return (
       <div className="h-screen w-screen flex flex-col items-center justify-center bg-zinc-950 text-zinc-400 gap-3">
@@ -128,6 +135,7 @@ function EditorContent() {
         onTogglePublish={togglePublish}
         onOpenAiAssistant={() => setIsAiModalOpen(true)}
         onOpenUrlImport={() => setIsUrlModalOpen(true)}
+        onOpenResumeImport={() => setIsResumeModalOpen(true)}
       />
 
       {/* Honest Operational Notification Bar */}
@@ -213,6 +221,14 @@ function EditorContent() {
         onClose={() => setIsUrlModalOpen(false)}
         existingPortfolio={portfolio}
         onApplyDirection={handleApplyUrlDirection}
+      />
+
+      {/* Resume Import Modal */}
+      <ResumeImportModal
+        isOpen={isResumeModalOpen}
+        onClose={() => setIsResumeModalOpen(false)}
+        existingPortfolio={portfolio}
+        onApplyMerged={handleApplyResumeMerged}
       />
     </div>
   );

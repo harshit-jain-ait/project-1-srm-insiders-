@@ -22,6 +22,7 @@ import {
   Globe,
   Sliders,
   Check,
+  FileText,
 } from "lucide-react";
 
 export const metadata = {
@@ -55,11 +56,17 @@ export default function HomePage() {
             Create a professional portfolio that showcases your skills, projects, and story—with flexible templates and tools designed to make the process easier.
           </Text>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+          <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-3 pt-2">
             <Link href="/generate" className="w-full sm:w-auto">
               <Button variant="brand" size="lg" className="w-full sm:w-auto gap-2 shadow-sm font-semibold">
                 <Sparkles className="w-4 h-4 text-white" />
                 <span>Create with AI</span>
+              </Button>
+            </Link>
+            <Link href="/import-resume" className="w-full sm:w-auto">
+              <Button variant="outline" size="lg" className="w-full sm:w-auto border-zinc-700 hover:bg-zinc-900 text-zinc-200 gap-2">
+                <FileText className="w-4 h-4 text-blue-400" />
+                <span>Import Resume</span>
               </Button>
             </Link>
             <Link href="/import-url" className="w-full sm:w-auto">

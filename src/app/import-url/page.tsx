@@ -28,6 +28,9 @@ function ImportUrlContent() {
         </div>
 
         <div className="flex items-center gap-4 text-xs text-zinc-400">
+          <Link href="/import-resume" className="text-blue-400 hover:text-blue-300 transition-colors font-medium">
+            Import from Resume
+          </Link>
           <Link href="/generate" className="hover:text-white transition-colors">
             AI Guided Notes
           </Link>

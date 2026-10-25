@@ -33,8 +33,11 @@ function GeneratePageContent() {
         </div>
 
         <div className="flex items-center gap-4 text-xs text-zinc-400">
-          <Link href="/import-url" className="text-blue-400 hover:text-blue-300 transition-colors font-medium">
-            Import from URL instead
+          <Link href="/import-resume" className="text-blue-400 hover:text-blue-300 transition-colors font-medium">
+            Import from Resume
+          </Link>
+          <Link href="/import-url" className="hover:text-white transition-colors">
+            Import from URL
           </Link>
           <Link href="/templates" className="hover:text-white transition-colors">
             Browse Templates

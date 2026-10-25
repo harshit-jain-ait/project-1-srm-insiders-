@@ -21,6 +21,7 @@ import {
   AlertCircle,
   Pencil,
   CheckCheck,
+  FileText,
 } from "lucide-react";
 import { TemplateId } from "@/lib/schema/portfolio";
 import { SaveStatus } from "./use-portfolio-editor";
@@ -51,6 +52,7 @@ interface EditorToolbarProps {
   onTogglePublish: () => void;
   onOpenAiAssistant: () => void;
   onOpenUrlImport?: () => void;
+  onOpenResumeImport?: () => void;
 }
 
 export function EditorToolbar({
@@ -76,6 +78,7 @@ export function EditorToolbar({
   onTogglePublish,
   onOpenAiAssistant,
   onOpenUrlImport,
+  onOpenResumeImport,
 }: EditorToolbarProps) {
   const [isEditingTitle, setIsEditingTitle] = useState(false);
   const [titleInput, setTitleInput] = useState(portfolioTitle);
@@ -283,6 +286,19 @@ export function EditorToolbar({
 
       {/* Right: Actions */}
       <div className="flex items-center gap-2">
+        {onOpenResumeImport && (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={onOpenResumeImport}
+            className="h-8 gap-1.5 border-zinc-700 text-zinc-200 hover:bg-zinc-900"
+            title="Import content from your PDF or Word resume"
+          >
+            <FileText className="w-3.5 h-3.5 text-blue-400" />
+            <span className="hidden sm:inline">Import Resume</span>
+          </Button>
+        )}
+
         {onOpenUrlImport && (
           <Button
             variant="outline"
