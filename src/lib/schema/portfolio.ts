@@ -237,6 +237,7 @@ export type Profile = z.infer<typeof ProfileSchema>;
 
 export const PortfolioDataSchema = z.object({
   version: z.number().optional().default(1),
+  revision: z.number().optional().default(1),
   id: z.string(),
   userId: z.string().default("anonymous"),
   title: z.string().default("Untitled Portfolio"),
@@ -303,6 +304,7 @@ export function createEmptyPortfolio(partial?: DeepPartial<PortfolioData>): Port
 
   const defaultStructure = {
     version: partial?.version || 1,
+    revision: partial?.revision || 1,
     id,
     userId: partial?.userId || "anonymous",
     title: partial?.title || "New Portfolio",

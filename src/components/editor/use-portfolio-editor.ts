@@ -42,7 +42,14 @@ export function usePortfolioEditor({ portfolioId, templateParam }: UsePortfolioE
     async function loadPortfolio() {
       if (portfolioId) {
         try {
-          const res = await fetch(`/api/portfolios/${portfolioId}`);
+          const claimToken =
+            typeof window !== "undefined"
+              ? localStorage.getItem(`portfolify_claim_${portfolioId}`)
+              : null;
+          const headers: Record<string, string> = {};
+          if (claimToken) headers["x-draft-claim-token"] = claimToken;
+
+          const res = await fetch(`/api/portfolios/${portfolioId}`, { headers });
           if (res.ok) {
             const data = await res.json();
             if (data.success && data.data) {
@@ -74,18 +81,49 @@ export function usePortfolioEditor({ portfolioId, templateParam }: UsePortfolioE
     setSaveStatus("saving");
 
     try {
+      const claimToken =
+        typeof window !== "undefined" && dataToSave.id
+          ? localStorage.getItem(`portfolify_claim_${dataToSave.id}`)
+          : null;
+      const headers: Record<string, string> = { "Content-Type": "application/json" };
+      if (claimToken) headers["x-draft-claim-token"] = claimToken;
+
       const res = await fetch("/api/portfolios", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers,
         body: JSON.stringify(dataToSave),
       });
 
       const result = await res.json();
       if (res.ok && result.success) {
-        lastSavedJsonRef.current = JSON.stringify(dataToSave);
+        // Store claim token locally for future requests
+        if (result.claimToken && typeof window !== "undefined") {
+          localStorage.setItem(`portfolify_claim_${result.data.id}`, result.claimToken);
+        }
+
+        // Update the revision number without destroying newer local keystrokes
+        setPortfolio((curr) => {
+          if (!curr) return curr;
+          return {
+            ...curr,
+            revision: result.data.revision,
+            updatedAt: result.data.updatedAt,
+          };
+        });
+
+        lastSavedJsonRef.current = JSON.stringify({
+          ...dataToSave,
+          revision: result.data.revision,
+          updatedAt: result.data.updatedAt,
+        });
+
         setSaveStatus("saved");
         setLastSavedAt(new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }));
         return true;
+      } else if (res.status === 409) {
+        setSaveStatus("error");
+        setFeedbackMessage("Conflict: Portfolio was modified elsewhere. Your local edits are preserved.");
+        return false;
       } else {
         setSaveStatus("error");
         setFeedbackMessage(result.error || "Failed to save portfolio");
@@ -242,9 +280,16 @@ export function usePortfolioEditor({ portfolioId, templateParam }: UsePortfolioE
     if (!saved) return;
 
     try {
+      const claimToken =
+        typeof window !== "undefined"
+          ? localStorage.getItem(`portfolify_claim_${current.id}`)
+          : null;
+      const headers: Record<string, string> = { "Content-Type": "application/json" };
+      if (claimToken) headers["x-draft-claim-token"] = claimToken;
+
       const res = await fetch(`/api/portfolios/${current.id}/publish`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers,
         body: JSON.stringify({ action }),
       });
 
