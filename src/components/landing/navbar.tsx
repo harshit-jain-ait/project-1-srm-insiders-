@@ -24,6 +24,13 @@ export function LandingNavbar() {
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-8 text-sm">
           <Link
+            href="/generate"
+            className="text-zinc-400 hover:text-white transition-colors font-medium flex items-center gap-1.5"
+          >
+            <span className="text-blue-400">✨</span>
+            <span>AI Builder</span>
+          </Link>
+          <Link
             href="/templates"
             className="text-zinc-400 hover:text-white transition-colors font-medium"
           >

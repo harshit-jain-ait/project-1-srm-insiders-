@@ -56,14 +56,19 @@ export default function HomePage() {
           </Text>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
-            <Link href="/editor" className="w-full sm:w-auto">
+            <Link href="/generate" className="w-full sm:w-auto">
               <Button variant="brand" size="lg" className="w-full sm:w-auto gap-2 shadow-sm font-semibold">
-                <span>Build your portfolio</span>
-                <ArrowRight className="w-4 h-4" />
+                <Sparkles className="w-4 h-4 text-white" />
+                <span>Create with AI</span>
+              </Button>
+            </Link>
+            <Link href="/editor" className="w-full sm:w-auto">
+              <Button variant="outline" size="lg" className="w-full sm:w-auto border-zinc-700 hover:bg-zinc-900 text-zinc-200">
+                Open Blank Studio
               </Button>
             </Link>
             <Link href="/templates" className="w-full sm:w-auto">
-              <Button variant="outline" size="lg" className="w-full sm:w-auto border-zinc-700 hover:bg-zinc-900 text-zinc-200">
+              <Button variant="ghost" size="lg" className="w-full sm:w-auto text-zinc-400 hover:text-white">
                 Explore templates
               </Button>
             </Link>
@@ -353,14 +358,19 @@ export default function HomePage() {
           </Text>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
-            <Link href="/editor" className="w-full sm:w-auto">
+            <Link href="/generate" className="w-full sm:w-auto">
               <Button variant="brand" size="lg" className="w-full sm:w-auto gap-2 shadow-sm font-semibold">
-                <span>Build your portfolio</span>
-                <ArrowRight className="w-4 h-4" />
+                <Sparkles className="w-4 h-4 text-white" />
+                <span>Create with AI</span>
+              </Button>
+            </Link>
+            <Link href="/editor" className="w-full sm:w-auto">
+              <Button variant="outline" size="lg" className="w-full sm:w-auto border-zinc-700 text-zinc-200 hover:bg-zinc-900">
+                Open Blank Studio
               </Button>
             </Link>
             <Link href="/templates" className="w-full sm:w-auto">
-              <Button variant="outline" size="lg" className="w-full sm:w-auto border-zinc-700 text-zinc-200 hover:bg-zinc-900">
+              <Button variant="ghost" size="lg" className="w-full sm:w-auto text-zinc-400 hover:text-white">
                 Explore templates
               </Button>
             </Link>
