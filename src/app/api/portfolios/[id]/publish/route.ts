@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { portfolioRepository } from "@/lib/services/portfolio-repository";
+import { validatePublishReadiness } from "@/lib/schema/portfolio";
 
 export async function POST(
   req: NextRequest,
@@ -21,6 +22,13 @@ export async function POST(
       portfolio.published = false;
       portfolio.publishedAt = null;
     } else {
+      const readiness = validatePublishReadiness(portfolio);
+      if (!readiness.isReady) {
+        return NextResponse.json(
+          { success: false, error: readiness.errors[0] },
+          { status: 400 }
+        );
+      }
       portfolio.published = true;
       portfolio.publishedAt = new Date().toISOString();
     }

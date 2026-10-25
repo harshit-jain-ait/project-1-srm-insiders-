@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { RegisteredTemplate } from "@/templates/types";
-import { PortfolioData } from "@/lib/schema/portfolio";
+import { PortfolioData, createEmptyPortfolio } from "@/lib/schema/portfolio";
 import { PortfolioRenderer } from "@/templates/renderer";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -15,7 +15,7 @@ interface TemplatePreviewModalProps {
   onClose: () => void;
 }
 
-const PREVIEW_DATA: PortfolioData = {
+const PREVIEW_DATA: PortfolioData = createEmptyPortfolio({
   id: "preview_portfolio",
   userId: "preview_user",
   title: "Preview Portfolio",
@@ -109,7 +109,7 @@ const PREVIEW_DATA: PortfolioData = {
   },
   createdAt: "2026-10-25T12:00:00Z",
   updatedAt: "2026-10-25T12:00:00Z",
-};
+});
 
 export function TemplatePreviewModal({
   template,

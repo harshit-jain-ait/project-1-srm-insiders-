@@ -5,20 +5,65 @@ import { z } from "zod";
  * Single source of truth for Editor, Templates, AI Services, and Persistence.
  */
 
+/**
+ * Validates that a string is either empty (allowed in drafts) or a valid HTTP/HTTPS URL.
+ * Strictly disallows dangerous pseudo-protocols such as javascript:, data:, vbscript:.
+ */
+export function isSafeHttpUrl(urlString?: string): boolean {
+  if (!urlString || urlString.trim() === "") return true;
+  const trimmed = urlString.trim();
+  // Quick pre-check for dangerous protocols
+  const lower = trimmed.toLowerCase();
+  if (
+    lower.startsWith("javascript:") ||
+    lower.startsWith("data:") ||
+    lower.startsWith("vbscript:")
+  ) {
+    return false;
+  }
+  try {
+    const parsed = new URL(trimmed);
+    return parsed.protocol === "http:" || parsed.protocol === "https:";
+  } catch {
+    return false;
+  }
+}
+
+export const SafeUrlSchema = z
+  .string()
+  .default("")
+  .refine((val) => isSafeHttpUrl(val), {
+    message: "Must be a valid HTTP or HTTPS address",
+  });
+
+export const SocialLinkPlatformSchema = z.enum([
+  "github",
+  "linkedin",
+  "twitter",
+  "dribbble",
+  "behance",
+  "website",
+  "email",
+  "other",
+]);
+
+export type SocialLinkPlatform = z.infer<typeof SocialLinkPlatformSchema>;
+
 export const SocialLinkSchema = z.object({
   id: z.string(),
-  platform: z.enum([
-    "github",
-    "linkedin",
-    "twitter",
-    "dribbble",
-    "behance",
-    "website",
-    "email",
-    "other",
-  ]),
+  platform: SocialLinkPlatformSchema,
   label: z.string().min(1, "Label is required"),
-  url: z.string().url("Must be a valid URL").or(z.string().email("Must be a valid email")),
+  url: z.string().refine(
+    (val) => {
+      if (!val || val.trim() === "") return false;
+      const trimmed = val.trim();
+      if (trimmed.startsWith("mailto:")) return true;
+      if (isSafeHttpUrl(trimmed)) return true;
+      // Allow pure email as fallback
+      return z.string().email().safeParse(trimmed).success;
+    },
+    { message: "Must be a valid URL or email address" }
+  ),
 });
 
 export type SocialLink = z.infer<typeof SocialLinkSchema>;
@@ -28,6 +73,7 @@ export const SkillSchema = z.object({
   name: z.string().min(1, "Skill name is required"),
   category: z.string().default("General"),
   level: z.enum(["beginner", "intermediate", "advanced", "expert"]).optional(),
+  order: z.number().optional().default(0),
 });
 
 export type Skill = z.infer<typeof SkillSchema>;
@@ -39,8 +85,8 @@ export const ProjectCaseStudySchema = z.object({
   process: z.string().default(""),
   outcomes: z.string().default(""),
   technologies: z.array(z.string()).default([]),
-  liveUrl: z.string().url().or(z.literal("")).default(""),
-  repoUrl: z.string().url().or(z.literal("")).default(""),
+  liveUrl: SafeUrlSchema.default(""),
+  repoUrl: SafeUrlSchema.default(""),
   mediaUrls: z.array(z.string()).default([]),
 });
 
@@ -53,25 +99,46 @@ export const ProjectSchema = z.object({
   description: z.string().default(""),
   featured: z.boolean().default(false),
   technologies: z.array(z.string()).default([]),
-  liveUrl: z.string().url().or(z.literal("")).default(""),
-  repoUrl: z.string().url().or(z.literal("")).default(""),
-  coverImageUrl: z.string().default(""),
+  liveUrl: SafeUrlSchema.default(""),
+  repoUrl: SafeUrlSchema.default(""),
+  coverImageUrl: SafeUrlSchema.default(""),
+  startDate: z.string().optional().default(""),
+  endDate: z.string().optional().default(""),
+  order: z.number().optional().default(0),
   caseStudy: ProjectCaseStudySchema.optional(),
 });
 
 export type Project = z.infer<typeof ProjectSchema>;
 
-export const ExperienceSchema = z.object({
-  id: z.string(),
-  company: z.string().min(1, "Company is required"),
-  role: z.string().min(1, "Role is required"),
-  location: z.string().default(""),
-  startDate: z.string().default(""),
-  endDate: z.string().default(""),
-  current: z.boolean().default(false),
-  description: z.string().default(""),
-  highlights: z.array(z.string()).default([]),
-});
+export const ExperienceSchema = z
+  .object({
+    id: z.string(),
+    company: z.string().min(1, "Company is required"),
+    role: z.string().min(1, "Role is required"),
+    location: z.string().default(""),
+    startDate: z.string().default(""),
+    endDate: z.string().default(""),
+    current: z.boolean().default(false),
+    description: z.string().default(""),
+    highlights: z.array(z.string()).default([]),
+    order: z.number().optional().default(0),
+  })
+  .refine(
+    (data) => {
+      if (data.current) return true;
+      if (!data.startDate || !data.endDate) return true;
+      const start = new Date(data.startDate).getTime();
+      const end = new Date(data.endDate).getTime();
+      if (!isNaN(start) && !isNaN(end)) {
+        return end >= start;
+      }
+      return true;
+    },
+    {
+      message: "End date cannot be earlier than start date",
+      path: ["endDate"],
+    }
+  );
 
 export type Experience = z.infer<typeof ExperienceSchema>;
 
@@ -83,6 +150,7 @@ export const EducationSchema = z.object({
   startDate: z.string().default(""),
   endDate: z.string().default(""),
   description: z.string().default(""),
+  order: z.number().optional().default(0),
 });
 
 export type Education = z.infer<typeof EducationSchema>;
@@ -92,7 +160,7 @@ export const CertificationSchema = z.object({
   name: z.string().min(1, "Certification name is required"),
   issuer: z.string().min(1, "Issuer is required"),
   issueDate: z.string().default(""),
-  credentialUrl: z.string().url().or(z.literal("")).default(""),
+  credentialUrl: SafeUrlSchema.default(""),
 });
 
 export type Certification = z.infer<typeof CertificationSchema>;
@@ -132,6 +200,7 @@ export const SectionConfigSchema = z.object({
   key: SectionKeySchema,
   label: z.string(),
   visible: z.boolean().default(true),
+  order: z.number().optional().default(0),
 });
 
 export type SectionConfig = z.infer<typeof SectionConfigSchema>;
@@ -156,19 +225,22 @@ export const ProfileSchema = z.object({
   fullName: z.string().default(""),
   headline: z.string().default(""),
   bio: z.string().default(""),
+  longBio: z.string().optional().default(""),
   location: z.string().default(""),
   email: z.string().email("Must be a valid email").or(z.literal("")).default(""),
   phone: z.string().default(""),
-  avatarUrl: z.string().default(""),
+  avatarUrl: SafeUrlSchema.default(""),
   statusBadge: z.string().default(""),
 });
 
 export type Profile = z.infer<typeof ProfileSchema>;
 
 export const PortfolioDataSchema = z.object({
+  version: z.number().optional().default(1),
   id: z.string(),
   userId: z.string().default("anonymous"),
   title: z.string().default("Untitled Portfolio"),
+  tagline: z.string().optional().default(""),
   slug: z.string().min(1, "Slug is required"),
   published: z.boolean().default(false),
   publishedAt: z.string().nullable().default(null),
@@ -176,6 +248,7 @@ export const PortfolioDataSchema = z.object({
     fullName: "",
     headline: "",
     bio: "",
+    longBio: "",
     location: "",
     email: "",
     phone: "",
@@ -190,13 +263,13 @@ export const PortfolioDataSchema = z.object({
   certifications: z.array(CertificationSchema).default([]),
   customSections: z.array(CustomSectionSchema).default([]),
   sections: z.array(SectionConfigSchema).default([
-    { key: "profile", label: "Profile & About", visible: true },
-    { key: "projects", label: "Projects", visible: true },
-    { key: "experience", label: "Work Experience", visible: true },
-    { key: "skills", label: "Skills", visible: true },
-    { key: "education", label: "Education", visible: true },
-    { key: "certifications", label: "Certifications", visible: true },
-    { key: "contact", label: "Contact", visible: true },
+    { key: "profile", label: "Profile & About", visible: true, order: 0 },
+    { key: "projects", label: "Projects", visible: true, order: 1 },
+    { key: "experience", label: "Work Experience", visible: true, order: 2 },
+    { key: "skills", label: "Skills", visible: true, order: 3 },
+    { key: "education", label: "Education", visible: true, order: 4 },
+    { key: "certifications", label: "Certifications", visible: true, order: 5 },
+    { key: "contact", label: "Contact", visible: true, order: 6 },
   ]),
   appearance: AppearanceSettingsSchema.default(() => ({
     templateId: "minimal-portfolio" as const,
@@ -210,26 +283,38 @@ export const PortfolioDataSchema = z.object({
 
 export type PortfolioData = z.infer<typeof PortfolioDataSchema>;
 
+export type DeepPartial<T> = {
+  [P in keyof T]?: T[P] extends (infer U)[]
+    ? DeepPartial<U>[]
+    : T[P] extends object
+    ? DeepPartial<T[P]>
+    : T[P];
+};
+
 /**
  * Creates an empty, valid canonical portfolio with zero fabricated content.
+ * Accepts optional DeepPartial overrides and ensures all array items receive valid defaults.
  * Complies strictly with the No-Dummy-Data policy.
  */
-export function createEmptyPortfolio(partial?: Partial<PortfolioData>): PortfolioData {
+export function createEmptyPortfolio(partial?: DeepPartial<PortfolioData>): PortfolioData {
   const now = new Date().toISOString();
   const id = partial?.id || `portfolio_${Date.now()}`;
   const slug = partial?.slug || `portfolio-${Date.now().toString().slice(-6)}`;
 
-  const defaultStructure: PortfolioData = {
+  const defaultStructure = {
+    version: partial?.version || 1,
     id,
     userId: partial?.userId || "anonymous",
     title: partial?.title || "New Portfolio",
+    tagline: partial?.tagline || "",
     slug,
-    published: false,
-    publishedAt: null,
+    published: partial?.published || false,
+    publishedAt: partial?.publishedAt || null,
     profile: {
       fullName: "",
       headline: "",
       bio: "",
+      longBio: "",
       location: "",
       email: "",
       phone: "",
@@ -237,27 +322,60 @@ export function createEmptyPortfolio(partial?: Partial<PortfolioData>): Portfoli
       statusBadge: "",
       ...partial?.profile,
     },
-    socialLinks: partial?.socialLinks || [],
-    skills: partial?.skills || [],
-    projects: partial?.projects || [],
-    experience: partial?.experience || [],
-    education: partial?.education || [],
-    certifications: partial?.certifications || [],
-    customSections: partial?.customSections || [],
-    sections: partial?.sections || [
-      { key: "profile", label: "Profile & About", visible: true },
-      { key: "projects", label: "Projects", visible: true },
-      { key: "experience", label: "Work Experience", visible: true },
-      { key: "skills", label: "Skills", visible: true },
-      { key: "education", label: "Education", visible: true },
-      { key: "certifications", label: "Certifications", visible: true },
-      { key: "contact", label: "Contact", visible: true },
-    ],
+    socialLinks: (partial?.socialLinks || []) as SocialLink[],
+    skills: (partial?.skills || []).map((s, i) => ({
+      category: "General",
+      order: i,
+      ...s,
+    })) as Skill[],
+    projects: (partial?.projects || []).map((p, i) => ({
+      tagline: "",
+      description: "",
+      featured: false,
+      technologies: [],
+      liveUrl: "",
+      repoUrl: "",
+      coverImageUrl: "",
+      startDate: "",
+      endDate: "",
+      order: i,
+      ...p,
+    })) as Project[],
+    experience: (partial?.experience || []).map((e, i) => ({
+      location: "",
+      startDate: "",
+      endDate: "",
+      current: false,
+      description: "",
+      highlights: [],
+      order: i,
+      ...e,
+    })) as Experience[],
+    education: (partial?.education || []).map((ed, i) => ({
+      degree: "",
+      fieldOfStudy: "",
+      startDate: "",
+      endDate: "",
+      description: "",
+      order: i,
+      ...ed,
+    })) as Education[],
+    certifications: (partial?.certifications || []) as Certification[],
+    customSections: (partial?.customSections || []) as CustomSection[],
+    sections: (partial?.sections || [
+      { key: "profile", label: "Profile & About", visible: true, order: 0 },
+      { key: "projects", label: "Projects", visible: true, order: 1 },
+      { key: "experience", label: "Work Experience", visible: true, order: 2 },
+      { key: "skills", label: "Skills", visible: true, order: 3 },
+      { key: "education", label: "Education", visible: true, order: 4 },
+      { key: "certifications", label: "Certifications", visible: true, order: 5 },
+      { key: "contact", label: "Contact", visible: true, order: 6 },
+    ]).map((sec, i) => ({ order: i, ...sec })) as SectionConfig[],
     appearance: {
-      templateId: "minimal-portfolio",
-      colorScheme: "system",
-      accentColor: "neutral",
-      fontFamily: "sans",
+      templateId: "minimal-portfolio" as const,
+      colorScheme: "system" as const,
+      accentColor: "neutral" as const,
+      fontFamily: "sans" as const,
       ...partial?.appearance,
     },
     createdAt: partial?.createdAt || now,
@@ -265,4 +383,142 @@ export function createEmptyPortfolio(partial?: Partial<PortfolioData>): Portfoli
   };
 
   return PortfolioDataSchema.parse(defaultStructure);
+}
+
+/**
+ * Initializes a new portfolio tied to a verified registered template.
+ * Validates template ID against supported templates, falling back to minimal-portfolio if unrecognized.
+ * Starts all collections as empty to uphold the No-Dummy-Data policy.
+ */
+export function initializePortfolioWithTemplate(
+  templateId: string,
+  partial?: Partial<PortfolioData>
+): PortfolioData {
+  const parseResult = TemplateIdSchema.safeParse(templateId);
+  const resolvedTemplate: TemplateId = parseResult.success
+    ? parseResult.data
+    : "minimal-portfolio";
+
+  return createEmptyPortfolio({
+    ...partial,
+    appearance: {
+      templateId: resolvedTemplate,
+      colorScheme: "system",
+      accentColor: "neutral",
+      fontFamily: "sans",
+      ...partial?.appearance,
+    },
+  });
+}
+
+/**
+ * Validates date ranges for experiences or educations.
+ * If both start and end date are present, ensures end is not before start.
+ */
+export function validateDateRange(
+  startDate?: string,
+  endDate?: string,
+  current?: boolean
+): { isValid: boolean; error?: string } {
+  if (current) return { isValid: true };
+  if (!startDate || !endDate) return { isValid: true };
+
+  const start = new Date(startDate).getTime();
+  const end = new Date(endDate).getTime();
+  if (!isNaN(start) && !isNaN(end) && end < start) {
+    return {
+      isValid: false,
+      error: "End date cannot be earlier than start date",
+    };
+  }
+  return { isValid: true };
+}
+
+/**
+ * Skill deduplication helper.
+ */
+export function normalizeSkillName(name: string): string {
+  return name.trim();
+}
+
+export function isDuplicateSkill(
+  existingSkills: Skill[],
+  newName: string,
+  excludeId?: string
+): boolean {
+  const normalized = newName.trim().toLowerCase();
+  return existingSkills.some(
+    (s) => s.id !== excludeId && s.name.trim().toLowerCase() === normalized
+  );
+}
+
+/**
+ * Section ordering helper. Reorders a section up or down in the sections array.
+ */
+export function reorderSection(
+  sections: SectionConfig[],
+  index: number,
+  direction: "up" | "down"
+): SectionConfig[] {
+  const targetIndex = direction === "up" ? index - 1 : index + 1;
+  if (targetIndex < 0 || targetIndex >= sections.length) return sections;
+
+  const updated = [...sections];
+  const [moved] = updated.splice(index, 1);
+  updated.splice(targetIndex, 0, moved);
+
+  return updated.map((sec, i) => ({ ...sec, order: i }));
+}
+
+/**
+ * Publishing readiness validation.
+ * Unlike draft validation which allows empty fields, publishing requires
+ * minimum public identity and valid external links.
+ */
+export interface PublishValidationResult {
+  isReady: boolean;
+  errors: string[];
+}
+
+export function validatePublishReadiness(portfolio: PortfolioData): PublishValidationResult {
+  const errors: string[] = [];
+
+  if (!portfolio.title || portfolio.title.trim() === "") {
+    errors.push("Portfolio title is required for publishing");
+  }
+  if (!portfolio.slug || portfolio.slug.trim() === "") {
+    errors.push("Portfolio public URL slug is required");
+  }
+  if (!portfolio.profile.fullName || portfolio.profile.fullName.trim() === "") {
+    errors.push("Full Name is required for a public portfolio");
+  }
+  if (portfolio.profile.avatarUrl && !isSafeHttpUrl(portfolio.profile.avatarUrl)) {
+    errors.push("Profile image must be a valid HTTP or HTTPS address");
+  }
+
+  portfolio.projects.forEach((proj, idx) => {
+    if (!proj.title.trim()) {
+      errors.push(`Project #${idx + 1} requires a title`);
+    }
+    if (proj.liveUrl && !isSafeHttpUrl(proj.liveUrl)) {
+      errors.push(`Project "${proj.title || idx + 1}" live URL is invalid`);
+    }
+    if (proj.repoUrl && !isSafeHttpUrl(proj.repoUrl)) {
+      errors.push(`Project "${proj.title || idx + 1}" repository URL is invalid`);
+    }
+  });
+
+  portfolio.socialLinks.forEach((link, idx) => {
+    if (!link.label.trim()) {
+      errors.push(`Social link #${idx + 1} requires a label`);
+    }
+    if (!link.url.trim()) {
+      errors.push(`Social link #${idx + 1} (${link.label}) requires a URL`);
+    }
+  });
+
+  return {
+    isReady: errors.length === 0,
+    errors,
+  };
 }

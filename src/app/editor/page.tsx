@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
-import { PortfolioData, createEmptyPortfolio, TemplateId } from "@/lib/schema/portfolio";
+import { PortfolioData, initializePortfolioWithTemplate, validatePublishReadiness, TemplateId } from "@/lib/schema/portfolio";
 import { EditorToolbar, DeviceMode } from "@/components/editor/editor-toolbar";
 import { EditorSidebar } from "@/components/editor/editor-sidebar";
 import { EditorPreview } from "@/components/editor/editor-preview";
@@ -39,15 +39,8 @@ function EditorContent() {
         }
       }
 
-      // Initialize fresh empty portfolio
-      const empty = createEmptyPortfolio({
-        appearance: {
-          templateId: templateParam || "minimal-portfolio",
-          colorScheme: "system",
-          accentColor: "neutral",
-          fontFamily: "sans",
-        },
-      });
+      // Initialize fresh empty portfolio using verified template resolution
+      const empty = initializePortfolioWithTemplate(templateParam || "minimal-portfolio");
       setPortfolio(empty);
     }
 
@@ -89,6 +82,19 @@ function EditorContent() {
 
   const handleTogglePublish = async () => {
     if (!portfolio) return;
+
+    const action = portfolio.published ? "unpublish" : "publish";
+
+    // Validate readiness before publishing
+    if (action === "publish") {
+      const readiness = validatePublishReadiness(portfolio);
+      if (!readiness.isReady) {
+        setFeedbackMessage(`Cannot publish: ${readiness.errors[0]}`);
+        setTimeout(() => setFeedbackMessage(null), 5000);
+        return;
+      }
+    }
+
     setIsSaving(true);
 
     try {
@@ -99,7 +105,6 @@ function EditorContent() {
         body: JSON.stringify(portfolio),
       });
 
-      const action = portfolio.published ? "unpublish" : "publish";
       const res = await fetch(`/api/portfolios/${portfolio.id}/publish`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },

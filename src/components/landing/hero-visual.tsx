@@ -1,13 +1,13 @@
 "use client";
 
 import React, { useState } from "react";
-import { PortfolioData, TemplateId } from "@/lib/schema/portfolio";
+import { PortfolioData, createEmptyPortfolio, TemplateId } from "@/lib/schema/portfolio";
 import { PortfolioRenderer } from "@/templates/renderer";
 import { Button } from "@/components/ui/button";
 import { Laptop, Smartphone } from "lucide-react";
 import Link from "next/link";
 
-const DEMO_PREVIEW_PORTFOLIO: PortfolioData = {
+const DEMO_PREVIEW_PORTFOLIO: PortfolioData = createEmptyPortfolio({
   id: "hero_demo_portfolio",
   userId: "demo",
   title: "Engineering Portfolio",
@@ -87,7 +87,7 @@ const DEMO_PREVIEW_PORTFOLIO: PortfolioData = {
   },
   createdAt: "2026-10-25T12:00:00Z",
   updatedAt: "2026-10-25T12:00:00Z",
-};
+});
 
 export function HeroVisual() {
   const [selectedTemplate, setSelectedTemplate] = useState<TemplateId>("developer-pro");

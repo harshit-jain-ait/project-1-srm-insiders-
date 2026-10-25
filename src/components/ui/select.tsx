@@ -2,13 +2,20 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import { ChevronDown } from "lucide-react";
 
+export interface SelectOption {
+  value: string;
+  label: string;
+  disabled?: boolean;
+}
+
 export interface SelectProps
   extends React.SelectHTMLAttributes<HTMLSelectElement> {
   hasError?: boolean;
+  options?: SelectOption[];
 }
 
 const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
-  ({ className, hasError, children, ...props }, ref) => {
+  ({ className, hasError, options, children, ...props }, ref) => {
     return (
       <div className="relative w-full">
         <select
@@ -25,7 +32,13 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
           aria-invalid={hasError ? "true" : undefined}
           {...props}
         >
-          {children}
+          {options
+            ? options.map((opt) => (
+                <option key={opt.value} value={opt.value} disabled={opt.disabled}>
+                  {opt.label}
+                </option>
+              ))
+            : children}
         </select>
         <ChevronDown
           className="absolute right-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400 pointer-events-none"
