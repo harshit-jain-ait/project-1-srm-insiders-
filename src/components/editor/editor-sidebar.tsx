@@ -20,6 +20,7 @@ import {
   Palette,
   SlidersHorizontal,
 } from "lucide-react";
+import { ContentTargetField } from "@/lib/ai-assistant/types";
 
 export type TabKey = "profile" | "projects" | "experience" | "skills" | "education" | "sections" | "appearance";
 
@@ -28,9 +29,18 @@ interface EditorSidebarProps {
   onChange: (updated: PortfolioData) => void;
   className?: string;
   onActiveTabChange?: (tabKey: TabKey) => void;
+  onOpenAiAssist?: (field: ContentTargetField, sourceText?: string, targetId?: string) => void;
+  onOpenRestyle?: () => void;
 }
 
-export function EditorSidebar({ portfolio, onChange, className = "", onActiveTabChange }: EditorSidebarProps) {
+export function EditorSidebar({
+  portfolio,
+  onChange,
+  className = "",
+  onActiveTabChange,
+  onOpenAiAssist,
+  onOpenRestyle,
+}: EditorSidebarProps) {
   const [activeTab, setActiveTab] = useState<TabKey>("profile");
 
   const handleTabSelect = (key: TabKey) => {
@@ -150,6 +160,15 @@ export function EditorSidebar({ portfolio, onChange, className = "", onActiveTab
             socialLinks={portfolio.socialLinks}
             onProfileChange={handleProfileChange}
             onSocialLinksChange={handleSocialLinksChange}
+            onOpenAiAssist={(field) => {
+              if (field === "headline") {
+                onOpenAiAssist?.("headline", portfolio.profile.headline);
+              } else if (field === "bio") {
+                onOpenAiAssist?.("bio", portfolio.profile.bio);
+              } else if (field === "long_bio") {
+                onOpenAiAssist?.("long_bio", portfolio.profile.longBio);
+              }
+            }}
           />
         )}
 
@@ -157,6 +176,11 @@ export function EditorSidebar({ portfolio, onChange, className = "", onActiveTab
           <ProjectForm
             projects={portfolio.projects}
             onProjectsChange={handleProjectsChange}
+            onOpenAiAssist={(field, projectId) => {
+              const proj = portfolio.projects.find((p) => p.id === projectId);
+              const sourceText = field === "project_description" ? proj?.description : proj?.tagline;
+              onOpenAiAssist?.(field, sourceText, projectId);
+            }}
           />
         )}
 
@@ -164,6 +188,11 @@ export function EditorSidebar({ portfolio, onChange, className = "", onActiveTab
           <ExperienceForm
             experience={portfolio.experience}
             onExperienceChange={handleExperienceChange}
+            onOpenAiAssist={(field, entryId, highlightText) => {
+              const entry = portfolio.experience.find((e) => e.id === entryId);
+              const sourceText = field === "experience_description" ? entry?.description : highlightText;
+              onOpenAiAssist?.(field, sourceText, entryId);
+            }}
           />
         )}
 
@@ -192,6 +221,7 @@ export function EditorSidebar({ portfolio, onChange, className = "", onActiveTab
           <AppearanceForm
             appearance={portfolio.appearance}
             onAppearanceChange={handleAppearanceChange}
+            onOpenRestyle={onOpenRestyle}
           />
         )}
       </div>

@@ -5,16 +5,18 @@ import { AppearanceSettings, TemplateId } from "@/lib/schema/portfolio";
 import { getAllTemplates } from "@/templates/registry";
 import { Select } from "@/components/ui/select";
 import { FormLabel, FormHelperText } from "@/components/ui/form-field";
-import { Check } from "lucide-react";
+import { Check, Sparkles, ArrowRight } from "lucide-react";
 
 interface AppearanceFormProps {
   appearance: AppearanceSettings;
   onAppearanceChange: (appearance: AppearanceSettings) => void;
+  onOpenRestyle?: () => void;
 }
 
 export function AppearanceForm({
   appearance,
   onAppearanceChange,
+  onOpenRestyle,
 }: AppearanceFormProps) {
   const registeredTemplates = getAllTemplates();
 
@@ -33,6 +35,30 @@ export function AppearanceForm({
           Switch portfolio templates and typographic presentation settings.
         </p>
       </div>
+
+      {/* AI Restyle Banner Action */}
+      {onOpenRestyle && (
+        <button
+          type="button"
+          onClick={onOpenRestyle}
+          className="w-full p-3 rounded-xl border border-blue-900/50 bg-blue-950/20 hover:bg-blue-950/30 transition-all text-left flex items-center justify-between group cursor-pointer"
+        >
+          <div className="flex items-center gap-2.5">
+            <div className="h-7 w-7 rounded-lg bg-[#356ae6]/10 border border-[#356ae6]/30 flex items-center justify-center text-[#356ae6]">
+              <Sparkles className="w-3.5 h-3.5" />
+            </div>
+            <div>
+              <span className="text-xs font-semibold text-white group-hover:text-blue-300 transition-colors">
+                AI Visual Restyling & Presets
+              </span>
+              <p className="text-[11px] text-zinc-400">
+                Preview minimal, technical, editorial, or custom aesthetic directions with live compare.
+              </p>
+            </div>
+          </div>
+          <ArrowRight className="w-3.5 h-3.5 text-zinc-500 group-hover:text-blue-400 group-hover:translate-x-0.5 transition-all shrink-0 ml-2" />
+        </button>
+      )}
 
       {/* Template Selection */}
       <div className="space-y-3">

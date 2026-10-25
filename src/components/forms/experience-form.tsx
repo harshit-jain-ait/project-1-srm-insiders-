@@ -16,16 +16,19 @@ import {
   ArrowDown,
   Briefcase,
   X,
+  Sparkles,
 } from "lucide-react";
 
 interface ExperienceFormProps {
   experience: Experience[];
   onExperienceChange: (experience: Experience[]) => void;
+  onOpenAiAssist?: (field: "experience_description" | "experience_highlight", entryId: string, highlightText?: string) => void;
 }
 
 export function ExperienceForm({
   experience,
   onExperienceChange,
+  onOpenAiAssist,
 }: ExperienceFormProps) {
   const [expandedId, setExpandedId] = useState<string | null>(
     experience.length > 0 ? experience[0].id : null
@@ -346,7 +349,20 @@ export function ExperienceForm({
 
                     {/* Description */}
                     <div>
-                      <FormLabel htmlFor={`exp-desc-${entry.id}`}>Overview</FormLabel>
+                      <div className="flex items-center justify-between">
+                        <FormLabel htmlFor={`exp-desc-${entry.id}`}>Overview</FormLabel>
+                        {onOpenAiAssist && (
+                          <button
+                            type="button"
+                            onClick={() => onOpenAiAssist("experience_description", entry.id)}
+                            className="inline-flex items-center gap-1 text-[11px] text-blue-400 hover:text-blue-300 transition-colors cursor-pointer"
+                            title="Improve experience overview with AI Content Assistant"
+                          >
+                            <Sparkles className="w-3 h-3 text-[#356ae6]" />
+                            <span>AI Improve</span>
+                          </button>
+                        )}
+                      </div>
                       <Textarea
                         id={`exp-desc-${entry.id}`}
                         value={entry.description}
@@ -398,19 +414,32 @@ export function ExperienceForm({
                           {entry.highlights.map((hl, hlIdx) => (
                             <div
                               key={hlIdx}
-                              className="flex items-start justify-between gap-2 text-xs text-zinc-300 bg-zinc-950 p-2 rounded border border-zinc-850"
+                              className="flex items-start justify-between gap-2 text-xs text-zinc-300 bg-zinc-950 p-2 rounded border border-zinc-850 group"
                             >
                               <span className="leading-relaxed flex-1">
                                 • {hl}
                               </span>
-                              <button
-                                type="button"
-                                onClick={() => handleRemoveHighlight(entry.id, hlIdx)}
-                                className="text-zinc-500 hover:text-red-400 cursor-pointer pt-0.5"
-                                aria-label="Remove achievement bullet"
-                              >
-                                <X className="w-3.5 h-3.5" />
-                              </button>
+                              <div className="flex items-center gap-1 shrink-0 pt-0.5">
+                                {onOpenAiAssist && (
+                                  <button
+                                    type="button"
+                                    onClick={() => onOpenAiAssist("experience_highlight", entry.id, hl)}
+                                    className="text-zinc-500 hover:text-blue-400 cursor-pointer p-0.5 transition-colors"
+                                    title="Improve bullet wording with AI"
+                                    aria-label="Improve bullet with AI"
+                                  >
+                                    <Sparkles className="w-3 h-3" />
+                                  </button>
+                                )}
+                                <button
+                                  type="button"
+                                  onClick={() => handleRemoveHighlight(entry.id, hlIdx)}
+                                  className="text-zinc-500 hover:text-red-400 cursor-pointer p-0.5 transition-colors"
+                                  aria-label="Remove achievement bullet"
+                                >
+                                  <X className="w-3.5 h-3.5" />
+                                </button>
+                              </div>
                             </div>
                           ))}
                         </div>

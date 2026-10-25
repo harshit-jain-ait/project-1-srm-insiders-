@@ -7,13 +7,14 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Select } from "@/components/ui/select";
 import { FormLabel, FormHelperText, FormErrorMessage } from "@/components/ui/form-field";
-import { Plus, Trash2, Globe, AlertCircle } from "lucide-react";
+import { Plus, Trash2, Globe, AlertCircle, Sparkles } from "lucide-react";
 
 interface ProfileFormProps {
   profile: Profile;
   socialLinks: SocialLink[];
   onProfileChange: (profile: Profile) => void;
   onSocialLinksChange: (links: SocialLink[]) => void;
+  onOpenAiAssist?: (field: "headline" | "bio" | "long_bio") => void;
 }
 
 const PLATFORM_OPTIONS: { value: SocialLinkPlatform; label: string }[] = [
@@ -32,6 +33,7 @@ export function ProfileForm({
   socialLinks,
   onProfileChange,
   onSocialLinksChange,
+  onOpenAiAssist,
 }: ProfileFormProps) {
   const [avatarError, setAvatarError] = useState<string | null>(null);
 
@@ -97,7 +99,20 @@ export function ProfileForm({
 
         {/* Professional Headline */}
         <div>
-          <FormLabel htmlFor="profile-headline">Professional Headline</FormLabel>
+          <div className="flex items-center justify-between">
+            <FormLabel htmlFor="profile-headline">Professional Headline</FormLabel>
+            {onOpenAiAssist && (
+              <button
+                type="button"
+                onClick={() => onOpenAiAssist("headline")}
+                className="inline-flex items-center gap-1 text-[11px] text-blue-400 hover:text-blue-300 transition-colors cursor-pointer"
+                title="Improve headline with AI Content Assistant"
+              >
+                <Sparkles className="w-3 h-3 text-[#356ae6]" />
+                <span>AI Improve</span>
+              </button>
+            )}
+          </div>
           <Input
             id="profile-headline"
             value={profile.headline}
@@ -112,9 +127,22 @@ export function ProfileForm({
         <div>
           <div className="flex items-center justify-between">
             <FormLabel htmlFor="profile-bio">Summary / Bio</FormLabel>
-            <span className="text-[10px] text-zinc-500 font-mono">
-              {profile.bio.length} / 600
-            </span>
+            <div className="flex items-center gap-3">
+              {onOpenAiAssist && (
+                <button
+                  type="button"
+                  onClick={() => onOpenAiAssist("bio")}
+                  className="inline-flex items-center gap-1 text-[11px] text-blue-400 hover:text-blue-300 transition-colors cursor-pointer"
+                  title="Improve bio with AI Content Assistant"
+                >
+                  <Sparkles className="w-3 h-3 text-[#356ae6]" />
+                  <span>AI Improve</span>
+                </button>
+              )}
+              <span className="text-[10px] text-zinc-500 font-mono">
+                {profile.bio.length} / 600
+              </span>
+            </div>
           </div>
           <Textarea
             id="profile-bio"
@@ -131,9 +159,22 @@ export function ProfileForm({
         <div>
           <div className="flex items-center justify-between">
             <FormLabel htmlFor="profile-longBio">Extended Biography (Optional)</FormLabel>
-            <span className="text-[10px] text-zinc-500 font-mono">
-              {profile.longBio.length} / 2000
-            </span>
+            <div className="flex items-center gap-3">
+              {onOpenAiAssist && (
+                <button
+                  type="button"
+                  onClick={() => onOpenAiAssist("long_bio")}
+                  className="inline-flex items-center gap-1 text-[11px] text-blue-400 hover:text-blue-300 transition-colors cursor-pointer"
+                  title="Improve extended bio with AI Content Assistant"
+                >
+                  <Sparkles className="w-3 h-3 text-[#356ae6]" />
+                  <span>AI Improve</span>
+                </button>
+              )}
+              <span className="text-[10px] text-zinc-500 font-mono">
+                {profile.longBio.length} / 2000
+              </span>
+            </div>
           </div>
           <Textarea
             id="profile-longBio"

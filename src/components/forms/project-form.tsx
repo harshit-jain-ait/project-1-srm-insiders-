@@ -23,9 +23,10 @@ import {
 interface ProjectFormProps {
   projects: Project[];
   onProjectsChange: (projects: Project[]) => void;
+  onOpenAiAssist?: (field: "project_description" | "project_tagline", projectId: string) => void;
 }
 
-export function ProjectForm({ projects, onProjectsChange }: ProjectFormProps) {
+export function ProjectForm({ projects, onProjectsChange, onOpenAiAssist }: ProjectFormProps) {
   const [expandedId, setExpandedId] = useState<string | null>(
     projects.length > 0 ? projects[0].id : null
   );
@@ -300,9 +301,22 @@ export function ProjectForm({ projects, onProjectsChange }: ProjectFormProps) {
 
                     {/* Description */}
                     <div>
-                      <FormLabel htmlFor={`proj-desc-${project.id}`}>
-                        Detailed Summary / Case Study
-                      </FormLabel>
+                      <div className="flex items-center justify-between">
+                        <FormLabel htmlFor={`proj-desc-${project.id}`}>
+                          Detailed Summary / Case Study
+                        </FormLabel>
+                        {onOpenAiAssist && (
+                          <button
+                            type="button"
+                            onClick={() => onOpenAiAssist("project_description", project.id)}
+                            className="inline-flex items-center gap-1 text-[11px] text-blue-400 hover:text-blue-300 transition-colors cursor-pointer"
+                            title="Improve project description with AI Content Assistant"
+                          >
+                            <Sparkles className="w-3 h-3 text-[#356ae6]" />
+                            <span>AI Improve</span>
+                          </button>
+                        )}
+                      </div>
                       <Textarea
                         id={`proj-desc-${project.id}`}
                         value={project.description}

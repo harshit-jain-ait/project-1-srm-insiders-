@@ -2,7 +2,7 @@
 
 import React, { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
-import { PortfolioData, TemplateId } from "@/lib/schema/portfolio";
+import { PortfolioData, TemplateId, AppearanceSettings } from "@/lib/schema/portfolio";
 import { EditorToolbar, DeviceMode } from "@/components/editor/editor-toolbar";
 import { EditorSidebar } from "@/components/editor/editor-sidebar";
 import { EditorPreview } from "@/components/editor/editor-preview";
@@ -11,6 +11,8 @@ import { UrlImportModal } from "@/components/editor/url-import-modal";
 import { ResumeImportModal } from "@/components/editor/resume-import-modal";
 import { usePortfolioEditor } from "@/components/editor/use-portfolio-editor";
 import { DesignDirection } from "@/lib/url-import/types";
+import { ContentTargetField } from "@/lib/ai-assistant/types";
+import { AssistantModalTab } from "@/components/ai-assistant/ai-assistant-modal";
 import { Loader2, Sliders, Eye } from "lucide-react";
 
 function EditorContent() {
@@ -24,6 +26,10 @@ function EditorContent() {
   const [isDistractionFree, setIsDistractionFree] = useState(false);
   const [mobileView, setMobileView] = useState<"edit" | "preview">("edit");
   const [isAiModalOpen, setIsAiModalOpen] = useState(false);
+  const [aiModalTab, setAiModalTab] = useState<AssistantModalTab>("content");
+  const [aiModalTargetField, setAiModalTargetField] = useState<ContentTargetField>("bio");
+  const [aiModalSourceText, setAiModalSourceText] = useState<string>("");
+  const [aiModalTargetId, setAiModalTargetId] = useState<string>("");
   const [isUrlModalOpen, setIsUrlModalOpen] = useState(false);
   const [isResumeModalOpen, setIsResumeModalOpen] = useState(false);
 
@@ -100,6 +106,75 @@ function EditorContent() {
     updatePortfolio(() => mergedPortfolio);
   };
 
+  // Helper to open AI Assistant targeted to a specific tab/field
+  const handleOpenAiAssistant = (
+    tab: AssistantModalTab = "content",
+    field?: ContentTargetField,
+    sourceText?: string,
+    targetId?: string
+  ) => {
+    setAiModalTab(tab);
+    if (field) setAiModalTargetField(field);
+    if (sourceText) setAiModalSourceText(sourceText);
+    if (targetId) setAiModalTargetId(targetId);
+    setIsAiModalOpen(true);
+  };
+
+  // Content Intelligence: Updates single field in portfolio state without touching anything else
+  const handleApplyContentChange = (newText: string, targetField: ContentTargetField, targetId?: string) => {
+    updatePortfolio((prev) => {
+      if (targetField === "headline") {
+        return { ...prev, profile: { ...prev.profile, headline: newText }, updatedAt: new Date().toISOString() };
+      }
+      if (targetField === "bio") {
+        return { ...prev, profile: { ...prev.profile, bio: newText }, updatedAt: new Date().toISOString() };
+      }
+      if (targetField === "long_bio") {
+        return { ...prev, profile: { ...prev.profile, longBio: newText }, updatedAt: new Date().toISOString() };
+      }
+      if (targetField === "project_description" && targetId) {
+        return {
+          ...prev,
+          projects: prev.projects.map((p) => (p.id === targetId ? { ...p, description: newText } : p)),
+          updatedAt: new Date().toISOString(),
+        };
+      }
+      if (targetField === "project_tagline" && targetId) {
+        return {
+          ...prev,
+          projects: prev.projects.map((p) => (p.id === targetId ? { ...p, tagline: newText } : p)),
+          updatedAt: new Date().toISOString(),
+        };
+      }
+      if (targetField === "experience_description" && targetId) {
+        return {
+          ...prev,
+          experience: prev.experience.map((e) => (e.id === targetId ? { ...e, description: newText } : e)),
+          updatedAt: new Date().toISOString(),
+        };
+      }
+      if (targetField === "experience_highlight" && targetId) {
+        return {
+          ...prev,
+          experience: prev.experience.map((e) =>
+            e.id === targetId ? { ...e, highlights: [newText, ...e.highlights.slice(1)] } : e
+          ),
+          updatedAt: new Date().toISOString(),
+        };
+      }
+      return prev;
+    });
+  };
+
+  // Visual Restyling: Updates appearance without touching any portfolio content
+  const handleApplyAppearanceChange = (newAppearance: AppearanceSettings) => {
+    updatePortfolio((prev) => ({
+      ...prev,
+      appearance: newAppearance,
+      updatedAt: new Date().toISOString(),
+    }));
+  };
+
   if (!portfolio) {
     return (
       <div className="h-screen w-screen flex flex-col items-center justify-center bg-zinc-950 text-zinc-400 gap-3">
@@ -133,7 +208,7 @@ function EditorContent() {
         onTemplateChange={handleTemplateChange}
         onSave={manualSave}
         onTogglePublish={togglePublish}
-        onOpenAiAssistant={() => setIsAiModalOpen(true)}
+        onOpenAiAssistant={() => handleOpenAiAssistant("content")}
         onOpenUrlImport={() => setIsUrlModalOpen(true)}
         onOpenResumeImport={() => setIsResumeModalOpen(true)}
       />
@@ -188,6 +263,10 @@ function EditorContent() {
           <EditorSidebar
             portfolio={portfolio}
             onChange={updatePortfolio}
+            onOpenAiAssist={(field, sourceText, targetId) =>
+              handleOpenAiAssistant("content", field, sourceText, targetId)
+            }
+            onOpenRestyle={() => handleOpenAiAssistant("restyle")}
             className={mobileView === "preview" ? "hidden md:flex" : "flex"}
           />
         )}
@@ -212,6 +291,13 @@ function EditorContent() {
       <AiAssistModal
         isOpen={isAiModalOpen}
         onClose={() => setIsAiModalOpen(false)}
+        portfolio={portfolio}
+        initialTab={aiModalTab}
+        initialTargetField={aiModalTargetField}
+        initialSourceText={aiModalSourceText}
+        initialTargetId={aiModalTargetId}
+        onApplyContentChange={handleApplyContentChange}
+        onApplyAppearanceChange={handleApplyAppearanceChange}
         onApplySuggestions={handleApplyAiSuggestions}
       />
 
