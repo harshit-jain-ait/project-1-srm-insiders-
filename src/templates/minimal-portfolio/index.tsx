@@ -36,8 +36,15 @@ export function MinimalPortfolioTemplate({ portfolio, isLivePreview = false }: T
       href: `#section-${sec.key}`,
     }));
 
+  const fontClass =
+    portfolio.appearance?.fontFamily === "serif"
+      ? "font-serif"
+      : portfolio.appearance?.fontFamily === "mono"
+      ? "font-mono"
+      : "font-sans";
+
   return (
-    <article className="min-h-screen bg-[#FAFAF8] text-[#191919] font-sans selection:bg-zinc-200 selection:text-black">
+    <article className={`min-h-screen bg-[#FAFAF8] text-[#191919] ${fontClass} selection:bg-zinc-200 selection:text-black`}>
       {/* Editorial Sticky Navigation Bar */}
       <header className="sticky top-0 z-30 bg-[#FAFAF8]/90 backdrop-blur border-b border-zinc-200/80">
         <div className="max-w-4xl mx-auto px-6 h-16 flex items-center justify-between">

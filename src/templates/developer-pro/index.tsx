@@ -44,8 +44,15 @@ export function DeveloperProTemplate({ portfolio, isLivePreview = false }: Templ
       href: `#section-${sec.key}`,
     }));
 
+  const fontClass =
+    portfolio.appearance?.fontFamily === "serif"
+      ? "font-serif"
+      : portfolio.appearance?.fontFamily === "mono"
+      ? "font-mono"
+      : "font-sans";
+
   return (
-    <article className="min-h-screen bg-[#0A0B0E] text-[#ECECED] font-sans selection:bg-blue-600/30 selection:text-white">
+    <article className={`min-h-screen bg-[#0A0B0E] text-[#ECECED] ${fontClass} selection:bg-blue-600/30 selection:text-white`}>
       {/* Top Technical Status & Nav Bar */}
       <header className="sticky top-0 z-30 border-b border-zinc-800/80 bg-[#0A0B0E]/90 backdrop-blur">
         <div className="max-w-5xl mx-auto px-6 h-13 flex items-center justify-between text-xs">

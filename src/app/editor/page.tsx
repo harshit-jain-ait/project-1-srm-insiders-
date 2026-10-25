@@ -1,162 +1,76 @@
 "use client";
 
-import React, { useState, useEffect, Suspense } from "react";
+import React, { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
-import { PortfolioData, initializePortfolioWithTemplate, validatePublishReadiness, TemplateId } from "@/lib/schema/portfolio";
+import { PortfolioData, TemplateId } from "@/lib/schema/portfolio";
 import { EditorToolbar, DeviceMode } from "@/components/editor/editor-toolbar";
 import { EditorSidebar } from "@/components/editor/editor-sidebar";
 import { EditorPreview } from "@/components/editor/editor-preview";
 import { AiAssistModal } from "@/components/editor/ai-assist-modal";
-import { Loader2 } from "lucide-react";
+import { usePortfolioEditor } from "@/components/editor/use-portfolio-editor";
+import { Loader2, Sliders, Eye } from "lucide-react";
 
 function EditorContent() {
   const searchParams = useSearchParams();
   const portfolioId = searchParams.get("id");
   const templateParam = searchParams.get("template") as TemplateId | null;
 
-  const [portfolio, setPortfolio] = useState<PortfolioData | null>(null);
-  const [isSaving, setIsSaving] = useState(false);
-  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+  // Viewport & Studio UI state
   const [deviceMode, setDeviceMode] = useState<DeviceMode>("desktop");
+  const [zoom, setZoom] = useState<number>(1);
+  const [isDistractionFree, setIsDistractionFree] = useState(false);
+  const [mobileView, setMobileView] = useState<"edit" | "preview">("edit");
   const [isAiModalOpen, setIsAiModalOpen] = useState(false);
-  const [feedbackMessage, setFeedbackMessage] = useState<string | null>(null);
 
-  // Load existing portfolio or initialize new empty portfolio
-  useEffect(() => {
-    async function loadPortfolio() {
-      if (portfolioId) {
-        try {
-          const res = await fetch(`/api/portfolios/${portfolioId}`);
-          if (res.ok) {
-            const data = await res.json();
-            if (data.success && data.data) {
-              setPortfolio(data.data);
-              return;
-            }
-          }
-        } catch (err) {
-          console.error("Failed to fetch existing portfolio:", err);
-        }
-      }
+  // Canonical Editor State & Persistence Layer
+  const {
+    portfolio,
+    updatePortfolio,
+    saveStatus,
+    lastSavedAt,
+    manualSave,
+    togglePublish,
+    feedbackMessage,
+    canUndo,
+    canRedo,
+    undo,
+    redo,
+  } = usePortfolioEditor({ portfolioId, templateParam });
 
-      // Initialize fresh empty portfolio using verified template resolution
-      const empty = initializePortfolioWithTemplate(templateParam || "minimal-portfolio");
-      setPortfolio(empty);
-    }
-
-    loadPortfolio();
-  }, [portfolioId, templateParam]);
-
-  const handlePortfolioChange = (updated: PortfolioData) => {
-    setPortfolio(updated);
-    setHasUnsavedChanges(true);
+  // Handle Title Editing
+  const handleTitleChange = (newTitle: string) => {
+    updatePortfolio((prev) => ({
+      ...prev,
+      title: newTitle,
+      updatedAt: new Date().toISOString(),
+    }));
   };
 
-  const handleSave = async () => {
-    if (!portfolio) return;
-    setIsSaving(true);
-    setFeedbackMessage(null);
-
-    try {
-      const res = await fetch("/api/portfolios", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(portfolio),
-      });
-
-      const data = await res.json();
-      if (res.ok && data.success) {
-        setPortfolio(data.data);
-        setHasUnsavedChanges(false);
-        setFeedbackMessage("Portfolio saved successfully");
-        setTimeout(() => setFeedbackMessage(null), 3000);
-      } else {
-        setFeedbackMessage(data.error || "Save failed");
-      }
-    } catch {
-      setFeedbackMessage("Network error during save");
-    } finally {
-      setIsSaving(false);
-    }
-  };
-
-  const handleTogglePublish = async () => {
-    if (!portfolio) return;
-
-    const action = portfolio.published ? "unpublish" : "publish";
-
-    // Validate readiness before publishing
-    if (action === "publish") {
-      const readiness = validatePublishReadiness(portfolio);
-      if (!readiness.isReady) {
-        setFeedbackMessage(`Cannot publish: ${readiness.errors[0]}`);
-        setTimeout(() => setFeedbackMessage(null), 5000);
-        return;
-      }
-    }
-
-    setIsSaving(true);
-
-    try {
-      // First ensure draft is saved
-      await fetch("/api/portfolios", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(portfolio),
-      });
-
-      const res = await fetch(`/api/portfolios/${portfolio.id}/publish`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action }),
-      });
-
-      const data = await res.json();
-      if (res.ok && data.success) {
-        setPortfolio({
-          ...portfolio,
-          published: data.data.published,
-          publishedAt: data.data.publishedAt,
-        });
-        setHasUnsavedChanges(false);
-        setFeedbackMessage(
-          data.data.published
-            ? `Portfolio is live at /p/${portfolio.slug}`
-            : "Portfolio unpublished"
-        );
-        setTimeout(() => setFeedbackMessage(null), 4000);
-      }
-    } catch {
-      setFeedbackMessage("Failed to update publishing state");
-    } finally {
-      setIsSaving(false);
-    }
-  };
-
+  // Handle Registered Template Switch (Preserves all content)
   const handleTemplateChange = (tpl: TemplateId) => {
-    if (!portfolio) return;
-    handlePortfolioChange({
-      ...portfolio,
+    updatePortfolio((prev) => ({
+      ...prev,
       appearance: {
-        ...portfolio.appearance,
+        ...prev.appearance,
         templateId: tpl,
       },
-    });
+      updatedAt: new Date().toISOString(),
+    }));
   };
 
+  // Grounded AI Suggestions Application
   const handleApplyAiSuggestions = (suggestions: Partial<PortfolioData>) => {
-    if (!portfolio) return;
-
-    handlePortfolioChange({
-      ...portfolio,
+    updatePortfolio((prev) => ({
+      ...prev,
       profile: {
-        ...portfolio.profile,
+        ...prev.profile,
         ...(suggestions.profile || {}),
       },
-      skills: suggestions.skills ? [...portfolio.skills, ...suggestions.skills] : portfolio.skills,
-      projects: suggestions.projects ? [...portfolio.projects, ...suggestions.projects] : portfolio.projects,
-      experience: suggestions.experience ? [...portfolio.experience, ...suggestions.experience] : portfolio.experience,
-    });
+      skills: suggestions.skills ? [...prev.skills, ...suggestions.skills] : prev.skills,
+      projects: suggestions.projects ? [...prev.projects, ...suggestions.projects] : prev.projects,
+      experience: suggestions.experience ? [...prev.experience, ...suggestions.experience] : prev.experience,
+      updatedAt: new Date().toISOString(),
+    }));
   };
 
   if (!portfolio) {
@@ -170,35 +84,102 @@ function EditorContent() {
 
   return (
     <div className="h-screen w-screen flex flex-col bg-zinc-950 overflow-hidden font-sans">
-      {/* Top Action Bar */}
+      {/* Top Action & Persistence Toolbar */}
       <EditorToolbar
         portfolioTitle={portfolio.title}
-        isSaving={isSaving}
-        hasUnsavedChanges={hasUnsavedChanges}
+        onTitleChange={handleTitleChange}
+        saveStatus={saveStatus}
+        lastSavedAt={lastSavedAt}
+        canUndo={canUndo}
+        canRedo={canRedo}
+        onUndo={undo}
+        onRedo={redo}
         isPublished={portfolio.published}
         slug={portfolio.slug}
         activeTemplate={portfolio.appearance.templateId}
         deviceMode={deviceMode}
         onDeviceChange={setDeviceMode}
+        zoom={zoom}
+        onZoomChange={setZoom}
+        isDistractionFree={isDistractionFree}
+        onToggleDistractionFree={() => setIsDistractionFree((prev) => !prev)}
         onTemplateChange={handleTemplateChange}
-        onSave={handleSave}
-        onTogglePublish={handleTogglePublish}
+        onSave={manualSave}
+        onTogglePublish={togglePublish}
         onOpenAiAssistant={() => setIsAiModalOpen(true)}
       />
 
+      {/* Honest Operational Notification Bar */}
       {feedbackMessage && (
-        <div className="bg-blue-950/80 border-b border-blue-800 text-blue-200 text-xs py-1.5 px-4 text-center">
+        <div
+          role="status"
+          aria-live="polite"
+          className="bg-blue-950/90 border-b border-blue-800 text-blue-200 text-xs py-1.5 px-4 text-center font-medium transition-all"
+        >
           {feedbackMessage}
         </div>
       )}
 
-      {/* Editor Main Canvas (Sidebar + Live Preview) */}
+      {/* Mobile Mode Switcher (< md screens) */}
+      {!isDistractionFree && (
+        <div className="md:hidden flex items-center justify-center p-2 bg-zinc-900 border-b border-zinc-800 shrink-0">
+          <div className="inline-flex rounded-lg bg-zinc-950 p-1 border border-zinc-800 text-xs w-full max-w-xs">
+            <button
+              type="button"
+              onClick={() => setMobileView("edit")}
+              className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-md font-medium transition-colors cursor-pointer ${
+                mobileView === "edit"
+                  ? "bg-zinc-800 text-white shadow-sm"
+                  : "text-zinc-400 hover:text-zinc-200"
+              }`}
+            >
+              <Sliders className="w-3.5 h-3.5" />
+              <span>Edit Content</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setMobileView("preview")}
+              className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-md font-medium transition-colors cursor-pointer ${
+                mobileView === "preview"
+                  ? "bg-zinc-800 text-white shadow-sm"
+                  : "text-zinc-400 hover:text-zinc-200"
+              }`}
+            >
+              <Eye className="w-3.5 h-3.5" />
+              <span>Live Preview</span>
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Main Studio Canvas: Form Panels + Live Synchronized Preview */}
       <div className="flex-1 flex flex-col md:flex-row overflow-hidden relative">
-        <EditorSidebar portfolio={portfolio} onChange={handlePortfolioChange} />
-        <EditorPreview portfolio={portfolio} deviceMode={deviceMode} />
+        {/* Editor Sidebar: hidden if distraction-free, or on mobile when viewing preview */}
+        {!isDistractionFree && (
+          <EditorSidebar
+            portfolio={portfolio}
+            onChange={updatePortfolio}
+            className={mobileView === "preview" ? "hidden md:flex" : "flex"}
+          />
+        )}
+
+        {/* Live Preview Canvas: hidden on mobile when viewing edit form */}
+        <div
+          className={`flex-1 flex flex-col overflow-hidden ${
+            !isDistractionFree && mobileView === "edit" ? "hidden md:flex" : "flex"
+          }`}
+        >
+          <EditorPreview
+            portfolio={portfolio}
+            deviceMode={deviceMode}
+            zoom={zoom}
+            isDistractionFree={isDistractionFree}
+            onExitDistractionFree={() => setIsDistractionFree(false)}
+          />
+        </div>
       </div>
 
-      {/* AI Assistant Modal */}
+      {/* Grounded AI Assistant Modal */}
       <AiAssistModal
         isOpen={isAiModalOpen}
         onClose={() => setIsAiModalOpen(false)}

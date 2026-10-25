@@ -21,22 +21,22 @@ import {
   SlidersHorizontal,
 } from "lucide-react";
 
+export type TabKey = "profile" | "projects" | "experience" | "skills" | "education" | "sections" | "appearance";
+
 interface EditorSidebarProps {
   portfolio: PortfolioData;
   onChange: (updated: PortfolioData) => void;
+  className?: string;
+  onActiveTabChange?: (tabKey: TabKey) => void;
 }
 
-type TabKey =
-  | "profile"
-  | "projects"
-  | "experience"
-  | "skills"
-  | "education"
-  | "sections"
-  | "appearance";
-
-export function EditorSidebar({ portfolio, onChange }: EditorSidebarProps) {
+export function EditorSidebar({ portfolio, onChange, className = "", onActiveTabChange }: EditorSidebarProps) {
   const [activeTab, setActiveTab] = useState<TabKey>("profile");
+
+  const handleTabSelect = (key: TabKey) => {
+    setActiveTab(key);
+    onActiveTabChange?.(key);
+  };
 
   const handleProfileChange = (updatedProfile: Profile) => {
     onChange({
@@ -113,7 +113,7 @@ export function EditorSidebar({ portfolio, onChange }: EditorSidebarProps) {
   ];
 
   return (
-    <aside className="w-full md:w-[440px] lg:w-[480px] border-r border-zinc-800 bg-zinc-950 flex flex-col h-full overflow-hidden text-zinc-100 shrink-0">
+    <aside className={`w-full md:w-[440px] lg:w-[480px] border-r border-zinc-800 bg-zinc-950 flex flex-col h-full overflow-hidden text-zinc-100 shrink-0 ${className}`}>
       {/* Category Tabs Header */}
       <div className="flex border-b border-zinc-800 overflow-x-auto p-1.5 gap-1 shrink-0 bg-zinc-900/60 text-xs">
         {tabs.map((tab) => {
@@ -123,7 +123,7 @@ export function EditorSidebar({ portfolio, onChange }: EditorSidebarProps) {
             <button
               key={tab.key}
               type="button"
-              onClick={() => setActiveTab(tab.key)}
+              onClick={() => handleTabSelect(tab.key)}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md font-medium whitespace-nowrap transition-colors cursor-pointer ${
                 isActive
                   ? "bg-zinc-800 text-white shadow-sm"
