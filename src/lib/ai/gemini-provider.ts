@@ -12,7 +12,7 @@ export class GeminiProvider {
   }
 
   private getModel(): string {
-    return process.env.GEMINI_MODEL || "gemini-2.5-flash";
+    return process.env.GEMINI_MODEL || "gemini-3.5-flash-lite";
   }
 
   async executeStructuredPrompt<T>(
