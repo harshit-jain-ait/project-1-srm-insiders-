@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { TemplateProps } from "../types";
 import { SafeExternalLink, EmptySectionHint, SocialPlatformIcon } from "../shared";
+import Link from "next/link";
 import {
   Terminal,
   Code2,
@@ -14,6 +15,7 @@ import {
   Menu,
   X,
   Sparkles,
+  FileText,
 } from "lucide-react";
 import { GithubIcon } from "@/components/ui/icons";
 
@@ -21,9 +23,12 @@ export function DeveloperProTemplate({ portfolio, isLivePreview = false }: Templ
   const { profile, projects, experience, skills, education, socialLinks, sections } = portfolio;
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  // Filter visible projects (hide hidden projects from public view)
+  const visibleProjects = (projects || []).filter((p) => isLivePreview || p.visible !== false);
+
   const activeSections = sections.filter((s) => s.visible);
 
-  const hasProjects = projects.length > 0;
+  const hasProjects = visibleProjects.length > 0;
   const hasExperience = experience.length > 0;
   const hasSkills = skills.length > 0;
   const hasEducation = education.length > 0;
@@ -232,7 +237,7 @@ export function DeveloperProTemplate({ portfolio, isLivePreview = false }: Templ
                     </div>
                     {hasProjects && (
                       <span className="text-xs font-mono text-zinc-500">
-                        {projects.length} systems
+                        {visibleProjects.length} systems
                       </span>
                     )}
                   </div>
@@ -248,73 +253,121 @@ export function DeveloperProTemplate({ portfolio, isLivePreview = false }: Templ
 
                   {hasProjects && (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {projects.map((proj) => (
-                        <div
-                          key={proj.id}
-                          className="rounded-xl border border-zinc-800/80 bg-zinc-900/40 p-5 flex flex-col justify-between hover:border-zinc-700 transition-all group space-y-4"
-                        >
-                          <div className="space-y-2.5">
-                            <div className="flex items-start justify-between gap-3">
-                              <div className="flex items-center gap-2">
-                                <h3 className="font-semibold text-white group-hover:text-blue-400 transition-colors text-base font-sans">
-                                  {proj.liveUrl ? (
-                                    <SafeExternalLink
-                                      href={proj.liveUrl}
-                                      className="inline-flex items-center gap-1.5"
-                                      showIcon
-                                    >
-                                      {proj.title}
-                                    </SafeExternalLink>
-                                  ) : (
-                                    proj.title
+                      {visibleProjects.map((proj) => {
+                        const hasCaseStudy = Boolean(
+                          (proj.caseStudy?.sections && proj.caseStudy.sections.length > 0) ||
+                          proj.caseStudy?.overview
+                        );
+
+                        return (
+                          <div
+                            key={proj.id}
+                            className="rounded-xl border border-zinc-800/80 bg-zinc-900/40 p-5 flex flex-col justify-between hover:border-zinc-700 transition-all group space-y-4"
+                          >
+                            <div className="space-y-3">
+                              {/* Optional Project Cover Image */}
+                              {proj.coverImageUrl && (
+                                <div className="overflow-hidden rounded-lg border border-zinc-800 bg-zinc-950 max-h-48">
+                                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                                  <img
+                                    src={proj.coverImageUrl}
+                                    alt={proj.title || "Project cover"}
+                                    loading="lazy"
+                                    className="w-full h-full object-cover group-hover:scale-[1.01] transition-transform duration-300"
+                                  />
+                                </div>
+                              )}
+
+                              <div className="flex items-start justify-between gap-3">
+                                <div className="space-y-1">
+                                  <div className="flex items-center gap-2">
+                                    <h3 className="font-semibold text-white group-hover:text-blue-400 transition-colors text-base font-sans">
+                                      {proj.liveUrl ? (
+                                        <SafeExternalLink
+                                          href={proj.liveUrl}
+                                          className="inline-flex items-center gap-1.5"
+                                          showIcon
+                                        >
+                                          {proj.title}
+                                        </SafeExternalLink>
+                                      ) : (
+                                        proj.title
+                                      )}
+                                    </h3>
+                                    {proj.featured && (
+                                      <span className="inline-flex items-center gap-0.5 text-[10px] font-mono text-amber-400 bg-amber-950/40 border border-amber-800/60 px-1.5 py-0.2 rounded">
+                                        <Sparkles className="w-2.5 h-2.5" />
+                                        featured
+                                      </span>
+                                    )}
+                                    {isLivePreview && proj.visible === false && (
+                                      <span className="text-[10px] font-mono text-zinc-500 bg-zinc-950 border border-zinc-800 px-1.5 py-0.2 rounded">
+                                        hidden
+                                      </span>
+                                    )}
+                                  </div>
+
+                                  {proj.category && proj.category !== "software" && (
+                                    <span className="inline-block text-[10px] font-mono uppercase text-zinc-500">
+                                      {proj.category}
+                                    </span>
                                   )}
-                                </h3>
-                                {proj.featured && (
-                                  <span className="inline-flex items-center gap-0.5 text-[10px] font-mono text-amber-400 bg-amber-950/40 border border-amber-800/60 px-1.5 py-0.2 rounded">
-                                    <Sparkles className="w-2.5 h-2.5" />
-                                    featured
-                                  </span>
+                                </div>
+
+                                {proj.repoUrl && (
+                                  <SafeExternalLink
+                                    href={proj.repoUrl}
+                                    className="text-xs text-zinc-400 hover:text-white p-1 shrink-0"
+                                    aria-label={`Repository for ${proj.title}`}
+                                  >
+                                    <GithubIcon className="w-4 h-4" />
+                                  </SafeExternalLink>
                                 )}
                               </div>
 
-                              {proj.repoUrl && (
-                                <SafeExternalLink
-                                  href={proj.repoUrl}
-                                  className="text-xs text-zinc-400 hover:text-white p-1 shrink-0"
-                                  aria-label={`Repository for ${proj.title}`}
-                                >
-                                  <GithubIcon className="w-4 h-4" />
-                                </SafeExternalLink>
+                              {proj.tagline && (
+                                <p className="text-xs text-zinc-400 font-mono">
+                                  {proj.tagline}
+                                </p>
+                              )}
+
+                              {proj.description && (
+                                <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed font-light">
+                                  {proj.description}
+                                </p>
                               )}
                             </div>
 
-                            {proj.tagline && (
-                              <p className="text-xs text-zinc-400 font-mono">
-                                {proj.tagline}
-                              </p>
-                            )}
+                            <div className="space-y-3">
+                              {proj.technologies.length > 0 && (
+                                <div className="flex flex-wrap gap-1.5 pt-3 border-t border-zinc-850 font-mono text-[11px]">
+                                  {proj.technologies.map((tech, idx) => (
+                                    <span
+                                      key={idx}
+                                      className="bg-zinc-950 text-zinc-300 px-2 py-0.5 rounded border border-zinc-800"
+                                    >
+                                      {tech}
+                                    </span>
+                                  ))}
+                                </div>
+                              )}
 
-                            {proj.description && (
-                              <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed font-light">
-                                {proj.description}
-                              </p>
-                            )}
-                          </div>
-
-                          {proj.technologies.length > 0 && (
-                            <div className="flex flex-wrap gap-1.5 pt-3 border-t border-zinc-850 font-mono text-[11px]">
-                              {proj.technologies.map((tech, idx) => (
-                                <span
-                                  key={idx}
-                                  className="bg-zinc-950 text-zinc-300 px-2 py-0.5 rounded border border-zinc-800"
-                                >
-                                  {tech}
-                                </span>
-                              ))}
+                              {/* Case Study Read Action */}
+                              {hasCaseStudy && (
+                                <div className="pt-2 border-t border-zinc-850/60">
+                                  <Link
+                                    href={`/p/${portfolio.slug}/projects/${proj.id}`}
+                                    className="inline-flex items-center gap-1.5 text-xs font-mono text-[#7aa2f7] hover:text-white transition-colors group/cs"
+                                  >
+                                    <FileText className="w-3.5 h-3.5 text-[#356ae6]" />
+                                    <span>Read Case Study →</span>
+                                  </Link>
+                                </div>
+                              )}
                             </div>
-                          )}
-                        </div>
-                      ))}
+                          </div>
+                        );
+                      })}
                     </div>
                   )}
                 </section>

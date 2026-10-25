@@ -3,18 +3,22 @@
 import React, { useState } from "react";
 import { TemplateProps } from "../types";
 import { SafeExternalLink, EmptySectionHint, SocialPlatformIcon } from "../shared";
-import { Mail, MapPin, Menu, X, ArrowUpRight } from "lucide-react";
+import Link from "next/link";
+import { Mail, MapPin, Menu, X, ArrowUpRight, FileText, Sparkles } from "lucide-react";
 import { GithubIcon } from "@/components/ui/icons";
 
 export function MinimalPortfolioTemplate({ portfolio, isLivePreview = false }: TemplateProps) {
   const { profile, projects, experience, skills, education, socialLinks, sections } = portfolio;
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  // Filter visible projects (hide hidden projects from public view)
+  const visibleProjects = (projects || []).filter((p) => isLivePreview || p.visible !== false);
+
   // Filter sections that are enabled
   const activeSections = sections.filter((s) => s.visible);
 
   // Check which sections actually have content
-  const hasProjects = projects.length > 0;
+  const hasProjects = visibleProjects.length > 0;
   const hasExperience = experience.length > 0;
   const hasSkills = skills.length > 0;
   const hasEducation = education.length > 0;
@@ -191,7 +195,7 @@ export function MinimalPortfolioTemplate({ portfolio, isLivePreview = false }: T
                     </h2>
                     {hasProjects && (
                       <span className="text-xs font-mono text-zinc-400">
-                        ({projects.length})
+                        ({visibleProjects.length})
                       </span>
                     )}
                   </div>
@@ -207,60 +211,108 @@ export function MinimalPortfolioTemplate({ portfolio, isLivePreview = false }: T
 
                   {hasProjects && (
                     <div className="space-y-16">
-                      {projects.map((proj) => (
-                        <div key={proj.id} className="group space-y-3">
-                          <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2">
-                            <h3 className="text-xl sm:text-2xl font-serif font-normal text-zinc-950">
-                              {proj.liveUrl ? (
-                                <SafeExternalLink
-                                  href={proj.liveUrl}
-                                  className="inline-flex items-center gap-1.5 hover:text-blue-700 transition-colors"
-                                >
-                                  <span>{proj.title}</span>
-                                  <ArrowUpRight className="w-4 h-4 opacity-40 group-hover:opacity-100 transition-opacity" />
-                                </SafeExternalLink>
-                              ) : (
-                                proj.title
-                              )}
-                            </h3>
+                      {visibleProjects.map((proj) => {
+                        const hasCaseStudy = Boolean(
+                          (proj.caseStudy?.sections && proj.caseStudy.sections.length > 0) ||
+                          proj.caseStudy?.overview
+                        );
 
-                            {proj.repoUrl && (
-                              <SafeExternalLink
-                                href={proj.repoUrl}
-                                className="text-xs font-mono text-zinc-500 hover:text-zinc-950 inline-flex items-center gap-1.5"
-                              >
-                                <GithubIcon className="w-3.5 h-3.5" />
-                                <span>Source Code</span>
-                              </SafeExternalLink>
+                        return (
+                          <div key={proj.id} className="group space-y-4">
+                            {/* Cover image if available */}
+                            {proj.coverImageUrl && (
+                              <div className="overflow-hidden rounded-xl border border-zinc-200 bg-zinc-100 max-h-80">
+                                {/* eslint-disable-next-line @next/next/no-img-element */}
+                                <img
+                                  src={proj.coverImageUrl}
+                                  alt={proj.title || "Project cover"}
+                                  loading="lazy"
+                                  className="w-full h-full object-cover group-hover:scale-[1.01] transition-transform duration-300"
+                                />
+                              </div>
+                            )}
+
+                            <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2">
+                              <div className="flex items-center gap-2.5">
+                                <h3 className="text-xl sm:text-2xl font-serif font-normal text-zinc-950">
+                                  {proj.liveUrl ? (
+                                    <SafeExternalLink
+                                      href={proj.liveUrl}
+                                      className="inline-flex items-center gap-1.5 hover:text-blue-700 transition-colors"
+                                    >
+                                      <span>{proj.title}</span>
+                                      <ArrowUpRight className="w-4 h-4 opacity-40 group-hover:opacity-100 transition-opacity" />
+                                    </SafeExternalLink>
+                                  ) : (
+                                    proj.title
+                                  )}
+                                </h3>
+                                {proj.featured && (
+                                  <span className="inline-flex items-center gap-0.5 text-[10px] font-mono text-amber-700 bg-amber-50 border border-amber-200 px-1.5 py-0.5 rounded">
+                                    <Sparkles className="w-2.5 h-2.5" />
+                                    Featured
+                                  </span>
+                                )}
+                                {isLivePreview && proj.visible === false && (
+                                  <span className="text-[10px] font-mono text-zinc-500 bg-zinc-100 px-1.5 py-0.5 rounded">
+                                    Hidden
+                                  </span>
+                                )}
+                              </div>
+
+                              <div className="flex items-center gap-3">
+                                {proj.repoUrl && (
+                                  <SafeExternalLink
+                                    href={proj.repoUrl}
+                                    className="text-xs font-mono text-zinc-500 hover:text-zinc-950 inline-flex items-center gap-1.5"
+                                  >
+                                    <GithubIcon className="w-3.5 h-3.5" />
+                                    <span>Source</span>
+                                  </SafeExternalLink>
+                                )}
+                              </div>
+                            </div>
+
+                            {proj.tagline && (
+                              <p className="text-sm font-light text-zinc-500 leading-normal">
+                                {proj.tagline}
+                              </p>
+                            )}
+
+                            {proj.description && (
+                              <p className="text-sm text-zinc-700 leading-relaxed font-light max-w-2xl">
+                                {proj.description}
+                              </p>
+                            )}
+
+                            {proj.technologies.length > 0 && (
+                              <div className="flex flex-wrap gap-1.5 pt-1">
+                                {proj.technologies.map((tech, idx) => (
+                                  <span
+                                    key={idx}
+                                    className="text-[11px] font-mono text-zinc-600 bg-white border border-zinc-200/90 px-2 py-0.5 rounded"
+                                  >
+                                    {tech}
+                                  </span>
+                                ))}
+                              </div>
+                            )}
+
+                            {/* Case study link */}
+                            {hasCaseStudy && (
+                              <div className="pt-2">
+                                <Link
+                                  href={`/p/${portfolio.slug}/projects/${proj.id}`}
+                                  className="inline-flex items-center gap-1.5 text-xs font-medium text-zinc-900 hover:text-blue-700 transition-colors border-b border-zinc-300 pb-0.5 group/cs"
+                                >
+                                  <FileText className="w-3.5 h-3.5 text-zinc-500 group-hover/cs:text-blue-700 transition-colors" />
+                                  <span>Read Detailed Case Study →</span>
+                                </Link>
+                              </div>
                             )}
                           </div>
-
-                          {proj.tagline && (
-                            <p className="text-sm font-light text-zinc-500 leading-normal">
-                              {proj.tagline}
-                            </p>
-                          )}
-
-                          {proj.description && (
-                            <p className="text-sm text-zinc-700 leading-relaxed font-light max-w-2xl">
-                              {proj.description}
-                            </p>
-                          )}
-
-                          {proj.technologies.length > 0 && (
-                            <div className="flex flex-wrap gap-1.5 pt-1">
-                              {proj.technologies.map((tech, idx) => (
-                                <span
-                                  key={idx}
-                                  className="text-[11px] font-mono text-zinc-600 bg-white border border-zinc-200/90 px-2 py-0.5 rounded"
-                                >
-                                  {tech}
-                                </span>
-                              ))}
-                            </div>
-                          )}
-                        </div>
-                      ))}
+                        );
+                      })}
                     </div>
                   )}
                 </section>

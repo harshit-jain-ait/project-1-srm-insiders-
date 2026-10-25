@@ -68,7 +68,28 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         };
       });
 
-    return [...staticRoutes, ...portfolioRoutes];
+    const caseStudyRoutes: MetadataRoute.Sitemap = [];
+    for (const p of publishedPortfolios) {
+      if (p.seo?.noIndex || p.seo?.includeInSitemap === false) continue;
+      for (const proj of p.projects || []) {
+        // Exclude hidden projects from public sitemap
+        if (proj.visible === false) continue;
+        const hasCaseStudy = Boolean(
+          (proj.caseStudy?.sections && proj.caseStudy.sections.length > 0) ||
+          proj.caseStudy?.overview
+        );
+        if (hasCaseStudy) {
+          caseStudyRoutes.push({
+            url: `${appBaseUrl}/p/${p.slug}/projects/${proj.id}`,
+            lastModified: new Date(p.publishedAt || p.updatedAt || new Date()),
+            changeFrequency: "weekly",
+            priority: 0.6,
+          });
+        }
+      }
+    }
+
+    return [...staticRoutes, ...portfolioRoutes, ...caseStudyRoutes];
   } catch (err) {
     console.error("[sitemap] Failed to query published portfolios:", err);
     return staticRoutes;

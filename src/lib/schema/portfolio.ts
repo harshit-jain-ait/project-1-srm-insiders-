@@ -78,10 +78,126 @@ export const SkillSchema = z.object({
 
 export type Skill = z.infer<typeof SkillSchema>;
 
+export const ProjectCategorySchema = z.enum([
+  "software",
+  "design",
+  "engineering",
+  "research",
+  "business",
+  "creative",
+  "writing",
+  "other",
+]);
+
+export type ProjectCategory = z.infer<typeof ProjectCategorySchema>;
+
+export const ProjectStatusSchema = z.enum([
+  "completed",
+  "in_progress",
+  "maintained",
+  "concept",
+  "archived",
+]);
+
+export type ProjectStatus = z.infer<typeof ProjectStatusSchema>;
+
+export const CaseStudySectionTypeSchema = z.enum([
+  "text",
+  "problem_solution",
+  "technical_architecture",
+  "process",
+  "metrics",
+  "gallery",
+  "image_caption",
+  "video_embed",
+  "prototype_embed",
+  "timeline",
+  "quote",
+  "links",
+]);
+
+export type CaseStudySectionType = z.infer<typeof CaseStudySectionTypeSchema>;
+
+export const CaseStudyMetricSchema = z.object({
+  id: z.string(),
+  label: z.string().min(1, "Metric label is required"),
+  value: z.string().min(1, "Metric value is required"),
+  baseline: z.string().default(""),
+  period: z.string().default(""),
+  context: z.string().default(""),
+  verifiedByUser: z.boolean().default(true),
+});
+
+export type CaseStudyMetric = z.infer<typeof CaseStudyMetricSchema>;
+
+export const CaseStudyMediaItemSchema = z.object({
+  id: z.string(),
+  url: SafeUrlSchema.default(""),
+  caption: z.string().default(""),
+  alt: z.string().default(""),
+  aspectRatio: z.enum(["16:9", "4:3", "1:1", "auto"]).default("auto"),
+});
+
+export type CaseStudyMediaItem = z.infer<typeof CaseStudyMediaItemSchema>;
+
+export const CaseStudyLinkItemSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  url: SafeUrlSchema.default(""),
+  description: z.string().default(""),
+});
+
+export type CaseStudyLinkItem = z.infer<typeof CaseStudyLinkItemSchema>;
+
+export const CaseStudyTimelineItemSchema = z.object({
+  id: z.string(),
+  date: z.string(),
+  title: z.string(),
+  description: z.string().default(""),
+});
+
+export type CaseStudyTimelineItem = z.infer<typeof CaseStudyTimelineItemSchema>;
+
+export const CaseStudyQuoteSchema = z.object({
+  quote: z.string().default(""),
+  author: z.string().default(""),
+  role: z.string().default(""),
+  attributionUrl: SafeUrlSchema.default(""),
+});
+
+export type CaseStudyQuote = z.infer<typeof CaseStudyQuoteSchema>;
+
+export const CaseStudySectionSchema = z.object({
+  id: z.string(),
+  type: CaseStudySectionTypeSchema.default("text"),
+  title: z.string().default(""),
+  content: z.string().default(""),
+  bullets: z.array(z.string()).default([]),
+  metrics: z.array(CaseStudyMetricSchema).default([]),
+  media: z.array(CaseStudyMediaItemSchema).default([]),
+  links: z.array(CaseStudyLinkItemSchema).default([]),
+  timeline: z.array(CaseStudyTimelineItemSchema).default([]),
+  quote: CaseStudyQuoteSchema.optional(),
+  embedUrl: SafeUrlSchema.default(""),
+  embedProvider: z
+    .enum(["youtube", "vimeo", "loom", "figma", "codepen", "custom"])
+    .default("custom"),
+  visible: z.boolean().default(true),
+  order: z.number().default(0),
+});
+
+export type CaseStudySection = z.infer<typeof CaseStudySectionSchema>;
+
 export const ProjectCaseStudySchema = z.object({
+  overview: z.string().default(""),
+  role: z.string().default(""),
+  team: z.string().default(""),
+  client: z.string().default(""),
+  timeline: z.string().default(""),
+  sections: z.array(CaseStudySectionSchema).default([]),
+  // Legacy fields backward compatibility:
   problem: z.string().default(""),
   solution: z.string().default(""),
-  role: z.string().default(""),
   process: z.string().default(""),
   outcomes: z.string().default(""),
   technologies: z.array(z.string()).default([]),
@@ -97,7 +213,11 @@ export const ProjectSchema = z.object({
   title: z.string().min(1, "Project title is required"),
   tagline: z.string().default(""),
   description: z.string().default(""),
+  category: ProjectCategorySchema.default("software"),
+  status: ProjectStatusSchema.default("completed"),
   featured: z.boolean().default(false),
+  visible: z.boolean().default(true),
+  slug: z.string().default(""),
   technologies: z.array(z.string()).default([]),
   liveUrl: SafeUrlSchema.default(""),
   repoUrl: SafeUrlSchema.default(""),
@@ -424,7 +544,11 @@ export function createEmptyPortfolio(partial?: DeepPartial<PortfolioData>): Port
     projects: (partial?.projects || []).map((p, i) => ({
       tagline: "",
       description: "",
+      category: "software" as const,
+      status: "completed" as const,
       featured: false,
+      visible: true,
+      slug: "",
       technologies: [],
       liveUrl: "",
       repoUrl: "",
@@ -709,4 +833,81 @@ export function validatePublishReadiness(portfolio: PortfolioData): PublishValid
     isReady: errors.length === 0,
     errors,
   };
+}
+
+/**
+ * Case Study section helpers.
+ */
+export function createEmptyCaseStudySection(
+  type: CaseStudySectionType = "text",
+  order = 0
+): CaseStudySection {
+  const titles: Record<CaseStudySectionType, string> = {
+    text: "Project Overview",
+    problem_solution: "Problem & Solution",
+    technical_architecture: "Technical Architecture",
+    process: "Approach & Process",
+    metrics: "Key Metrics & Results",
+    gallery: "Visual Showcase",
+    image_caption: "Featured Visual",
+    video_embed: "Video Demonstration",
+    prototype_embed: "Interactive Prototype",
+    timeline: "Project Milestones",
+    quote: "Client / User Testimonial",
+    links: "Resources & References",
+  };
+
+  return {
+    id: `sec_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
+    type,
+    title: titles[type] || "Section",
+    content: "",
+    bullets: [],
+    metrics: [],
+    media: [],
+    links: [],
+    timeline: [],
+    embedUrl: "",
+    embedProvider: "custom",
+    visible: true,
+    order,
+  };
+}
+
+export function createEmptyCaseStudy(
+  overrides?: Partial<ProjectCaseStudy>
+): ProjectCaseStudy {
+  return {
+    overview: "",
+    role: "",
+    team: "",
+    client: "",
+    timeline: "",
+    sections: [],
+    problem: "",
+    solution: "",
+    process: "",
+    outcomes: "",
+    technologies: [],
+    liveUrl: "",
+    repoUrl: "",
+    mediaUrls: [],
+    ...overrides,
+  };
+}
+
+
+export function reorderCaseStudySections(
+  sections: CaseStudySection[],
+  index: number,
+  direction: "up" | "down"
+): CaseStudySection[] {
+  const targetIndex = direction === "up" ? index - 1 : index + 1;
+  if (targetIndex < 0 || targetIndex >= sections.length) return sections;
+
+  const copy = [...sections];
+  const [moved] = copy.splice(index, 1);
+  copy.splice(targetIndex, 0, moved);
+
+  return copy.map((sec, i) => ({ ...sec, order: i }));
 }

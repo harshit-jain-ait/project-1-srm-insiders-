@@ -3,11 +3,15 @@
 import React, { useState } from "react";
 import { TemplateProps } from "../types";
 import { SafeExternalLink, EmptySectionHint, SocialPlatformIcon } from "../shared";
-import { Mail, MapPin, Menu, X, ArrowUpRight, Sparkles } from "lucide-react";
+import Link from "next/link";
+import { Mail, MapPin, Menu, X, ArrowUpRight, Sparkles, FileText } from "lucide-react";
 
 export function SignatureTemplate({ portfolio, isLivePreview = false }: TemplateProps) {
   const { profile, projects, experience, skills, education, socialLinks, sections, appearance } = portfolio;
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Filter visible projects (hide hidden projects from public view)
+  const visibleProjects = (projects || []).filter((p) => isLivePreview || p.visible !== false);
 
   const tokens = appearance.designTokens || {};
   const isDark =
@@ -32,7 +36,7 @@ export function SignatureTemplate({ portfolio, isLivePreview = false }: Template
 
   // Filter sections that are visible
   const activeSections = sections.filter((s) => s.visible);
-  const hasProjects = projects.length > 0;
+  const hasProjects = visibleProjects.length > 0;
   const hasExperience = experience.length > 0;
   const hasSkills = skills.length > 0;
   const hasEducation = education.length > 0;
@@ -197,67 +201,120 @@ export function SignatureTemplate({ portfolio, isLivePreview = false }: Template
             <div className="flex items-baseline justify-between border-b pb-4" style={{ borderColor }}>
               <h2 className="text-2xl font-bold tracking-tight">Selected Work</h2>
               <span className="text-xs uppercase tracking-widest font-mono" style={{ color: mutedTextColor }}>
-                {projects.length} {projects.length === 1 ? "Project" : "Projects"}
+                {visibleProjects.length} {visibleProjects.length === 1 ? "Project" : "Projects"}
               </span>
             </div>
 
             {hasProjects ? (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {projects.map((proj) => (
-                  <div
-                    key={proj.id}
-                    className="p-6 rounded-xl border flex flex-col justify-between transition-all hover:translate-y-[-2px]"
-                    style={{
-                      backgroundColor: surfaceColor,
-                      borderColor,
-                    }}
-                  >
-                    <div className="space-y-3">
-                      <div className="flex items-start justify-between gap-4">
-                        <h3 className="text-lg font-semibold tracking-tight">{proj.title}</h3>
-                        {proj.liveUrl && (
-                          <SafeExternalLink
-                            href={proj.liveUrl}
-                            className="p-1 rounded hover:opacity-80"
-                            aria-label={`Open ${proj.title} live demo`}
+                {visibleProjects.map((proj) => {
+                  const hasCaseStudy = Boolean(
+                    (proj.caseStudy?.sections && proj.caseStudy.sections.length > 0) ||
+                    proj.caseStudy?.overview
+                  );
+
+                  return (
+                    <div
+                      key={proj.id}
+                      className="p-6 rounded-xl border flex flex-col justify-between transition-all hover:translate-y-[-2px] space-y-4"
+                      style={{
+                        backgroundColor: surfaceColor,
+                        borderColor,
+                      }}
+                    >
+                      <div className="space-y-3">
+                        {/* Project Cover Image */}
+                        {proj.coverImageUrl && (
+                          <div
+                            className="overflow-hidden rounded-lg border max-h-48"
+                            style={{ borderColor }}
                           >
-                            <ArrowUpRight className="w-4 h-4" style={{ color: accentColor }} />
-                          </SafeExternalLink>
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                              src={proj.coverImageUrl}
+                              alt={proj.title || "Project cover"}
+                              loading="lazy"
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                        )}
+
+                        <div className="flex items-start justify-between gap-4">
+                          <div className="flex items-center gap-2">
+                            <h3 className="text-lg font-semibold tracking-tight">{proj.title}</h3>
+                            {proj.featured && (
+                              <span
+                                className="inline-flex items-center gap-0.5 text-[10px] font-mono px-1.5 py-0.5 rounded border"
+                                style={{
+                                  backgroundColor: bgColor,
+                                  borderColor: accentColor,
+                                  color: accentColor,
+                                }}
+                              >
+                                <Sparkles className="w-2.5 h-2.5" />
+                                Featured
+                              </span>
+                            )}
+                          </div>
+                          {proj.liveUrl && (
+                            <SafeExternalLink
+                              href={proj.liveUrl}
+                              className="p-1 rounded hover:opacity-80"
+                              aria-label={`Open ${proj.title} live demo`}
+                            >
+                              <ArrowUpRight className="w-4 h-4" style={{ color: accentColor }} />
+                            </SafeExternalLink>
+                          )}
+                        </div>
+
+                        {proj.tagline && (
+                          <p className="text-xs font-medium" style={{ color: accentColor }}>
+                            {proj.tagline}
+                          </p>
+                        )}
+
+                        {proj.description && (
+                          <p className="text-sm leading-relaxed" style={{ color: mutedTextColor }}>
+                            {proj.description}
+                          </p>
                         )}
                       </div>
 
-                      {proj.tagline && (
-                        <p className="text-xs font-medium" style={{ color: accentColor }}>
-                          {proj.tagline}
-                        </p>
-                      )}
+                      <div className="space-y-3">
+                        {proj.technologies && proj.technologies.length > 0 && (
+                          <div className="flex flex-wrap gap-1.5 pt-3 border-t" style={{ borderColor }}>
+                            {proj.technologies.map((t) => (
+                              <span
+                                key={t}
+                                className="text-[11px] font-mono px-2 py-0.5 rounded border"
+                                style={{
+                                  backgroundColor: bgColor,
+                                  borderColor,
+                                  color: mutedTextColor,
+                                }}
+                              >
+                                {t}
+                              </span>
+                            ))}
+                          </div>
+                        )}
 
-                      {proj.description && (
-                        <p className="text-sm leading-relaxed" style={{ color: mutedTextColor }}>
-                          {proj.description}
-                        </p>
-                      )}
-                    </div>
-
-                    {proj.technologies && proj.technologies.length > 0 && (
-                      <div className="flex flex-wrap gap-1.5 pt-4 mt-4 border-t" style={{ borderColor }}>
-                        {proj.technologies.map((t) => (
-                          <span
-                            key={t}
-                            className="text-[11px] font-mono px-2 py-0.5 rounded border"
-                            style={{
-                              backgroundColor: bgColor,
-                              borderColor,
-                              color: mutedTextColor,
-                            }}
-                          >
-                            {t}
-                          </span>
-                        ))}
+                        {hasCaseStudy && (
+                          <div className="pt-2 border-t" style={{ borderColor }}>
+                            <Link
+                              href={`/p/${portfolio.slug}/projects/${proj.id}`}
+                              className="inline-flex items-center gap-1.5 text-xs font-mono transition-opacity hover:opacity-80"
+                              style={{ color: accentColor }}
+                            >
+                              <FileText className="w-3.5 h-3.5" />
+                              <span>Read Case Study →</span>
+                            </Link>
+                          </div>
+                        )}
                       </div>
-                    )}
-                  </div>
-                ))}
+                    </div>
+                  );
+                })}
               </div>
             ) : (
               <EmptySectionHint

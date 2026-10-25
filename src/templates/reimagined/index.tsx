@@ -3,10 +3,14 @@
 import React from "react";
 import { TemplateProps } from "../types";
 import { SafeExternalLink, EmptySectionHint } from "../shared";
-import { Mail, ArrowUpRight, Compass } from "lucide-react";
+import Link from "next/link";
+import { Mail, ArrowUpRight, Compass, FileText, Sparkles } from "lucide-react";
 
 export function ReimaginedTemplate({ portfolio, isLivePreview = false }: TemplateProps) {
   const { profile, projects, experience, skills, education, socialLinks, sections, appearance } = portfolio;
+
+  // Filter visible projects (hide hidden projects from public view)
+  const visibleProjects = (projects || []).filter((p) => isLivePreview || p.visible !== false);
 
   const tokens = appearance.designTokens || {};
   const isDark =
@@ -30,7 +34,7 @@ export function ReimaginedTemplate({ portfolio, isLivePreview = false }: Templat
       : "font-serif";
 
   const activeSections = sections.filter((s) => s.visible);
-  const hasProjects = projects.length > 0;
+  const hasProjects = visibleProjects.length > 0;
   const hasExperience = experience.length > 0;
   const hasSkills = skills.length > 0;
   const hasEducation = education.length > 0;
@@ -143,67 +147,117 @@ export function ReimaginedTemplate({ portfolio, isLivePreview = false }: Templat
                 <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mt-1">Project Anthology</h2>
               </div>
               <span className="text-xs font-mono uppercase tracking-widest" style={{ color: mutedTextColor }}>
-                {projects.length} Works Catalogued
+                {visibleProjects.length} Works Catalogued
               </span>
             </div>
 
             {hasProjects ? (
               <div className="space-y-12">
-                {projects.map((proj, idx) => (
-                  <div
-                    key={proj.id}
-                    className="p-8 sm:p-10 rounded-2xl border transition-all hover:shadow-lg grid grid-cols-1 md:grid-cols-12 gap-8 items-start"
-                    style={{ backgroundColor: surfaceColor, borderColor }}
-                  >
-                    <div className="md:col-span-3">
-                      <span className="text-4xl font-mono font-light opacity-30">
-                        {String(idx + 1).padStart(2, "0")}
-                      </span>
-                    </div>
+                {visibleProjects.map((proj, idx) => {
+                  const hasCaseStudy = Boolean(
+                    (proj.caseStudy?.sections && proj.caseStudy.sections.length > 0) ||
+                    proj.caseStudy?.overview
+                  );
 
-                    <div className="md:col-span-9 space-y-4">
-                      <div className="flex items-start justify-between gap-4">
-                        <h3 className="text-2xl sm:text-3xl font-bold tracking-tight">{proj.title}</h3>
-                        {proj.liveUrl && (
-                          <SafeExternalLink
-                            href={proj.liveUrl}
-                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-mono border hover:opacity-80"
-                            style={{ backgroundColor: bgColor, borderColor, color: textColor }}
+                  return (
+                    <div
+                      key={proj.id}
+                      className="p-8 sm:p-10 rounded-2xl border transition-all hover:shadow-lg grid grid-cols-1 md:grid-cols-12 gap-8 items-start"
+                      style={{ backgroundColor: surfaceColor, borderColor }}
+                    >
+                      <div className="md:col-span-3 space-y-4">
+                        <span className="text-4xl font-mono font-light opacity-30">
+                          {String(idx + 1).padStart(2, "0")}
+                        </span>
+
+                        {proj.coverImageUrl && (
+                          <div
+                            className="overflow-hidden rounded-xl border max-h-40"
+                            style={{ borderColor }}
                           >
-                            <span>Live View</span>
-                            <ArrowUpRight className="w-3.5 h-3.5" style={{ color: accentColor }} />
-                          </SafeExternalLink>
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                              src={proj.coverImageUrl}
+                              alt={proj.title || "Project cover"}
+                              loading="lazy"
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
                         )}
                       </div>
 
-                      {proj.tagline && (
-                        <p className="text-sm font-medium" style={{ color: accentColor }}>
-                          {proj.tagline}
-                        </p>
-                      )}
-
-                      {proj.description && (
-                        <p className="text-base leading-relaxed font-sans" style={{ color: mutedTextColor }}>
-                          {proj.description}
-                        </p>
-                      )}
-
-                      {proj.technologies && proj.technologies.length > 0 && (
-                        <div className="flex flex-wrap gap-2 pt-2">
-                          {proj.technologies.map((t) => (
-                            <span
-                              key={t}
-                              className="text-xs font-mono px-2.5 py-1 rounded-md border"
-                              style={{ backgroundColor: bgColor, borderColor, color: mutedTextColor }}
+                      <div className="md:col-span-9 space-y-4">
+                        <div className="flex items-start justify-between gap-4">
+                          <div className="flex items-center gap-2">
+                            <h3 className="text-2xl sm:text-3xl font-bold tracking-tight">{proj.title}</h3>
+                            {proj.featured && (
+                              <span
+                                className="inline-flex items-center gap-0.5 text-[10px] font-mono px-2 py-0.5 rounded-full border"
+                                style={{
+                                  backgroundColor: bgColor,
+                                  borderColor: accentColor,
+                                  color: accentColor,
+                                }}
+                              >
+                                <Sparkles className="w-2.5 h-2.5" />
+                                Featured
+                              </span>
+                            )}
+                          </div>
+                          {proj.liveUrl && (
+                            <SafeExternalLink
+                              href={proj.liveUrl}
+                              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-mono border hover:opacity-80"
+                              style={{ backgroundColor: bgColor, borderColor, color: textColor }}
                             >
-                              {t}
-                            </span>
-                          ))}
+                              <span>Live View</span>
+                              <ArrowUpRight className="w-3.5 h-3.5" style={{ color: accentColor }} />
+                            </SafeExternalLink>
+                          )}
                         </div>
-                      )}
+
+                        {proj.tagline && (
+                          <p className="text-sm font-medium" style={{ color: accentColor }}>
+                            {proj.tagline}
+                          </p>
+                        )}
+
+                        {proj.description && (
+                          <p className="text-base leading-relaxed font-sans" style={{ color: mutedTextColor }}>
+                            {proj.description}
+                          </p>
+                        )}
+
+                        {proj.technologies && proj.technologies.length > 0 && (
+                          <div className="flex flex-wrap gap-2 pt-2">
+                            {proj.technologies.map((t) => (
+                              <span
+                                key={t}
+                                className="text-xs font-mono px-2.5 py-1 rounded-md border"
+                                style={{ backgroundColor: bgColor, borderColor, color: mutedTextColor }}
+                              >
+                                {t}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+
+                        {hasCaseStudy && (
+                          <div className="pt-4 border-t" style={{ borderColor }}>
+                            <Link
+                              href={`/p/${portfolio.slug}/projects/${proj.id}`}
+                              className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider hover:opacity-80 transition-opacity"
+                              style={{ color: accentColor }}
+                            >
+                              <FileText className="w-3.5 h-3.5" />
+                              <span>Explore In-Depth Case Study →</span>
+                            </Link>
+                          </div>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             ) : (
               <EmptySectionHint

@@ -108,7 +108,11 @@ export class AIService {
       title: p.title || "Project Case Study",
       tagline: p.tagline || "",
       description: p.description || "",
+      category: "software",
+      status: "completed",
       featured: idx === 0, // Mark first as featured by default
+      visible: true,
+      slug: "",
       technologies: Array.isArray(p.technologies) ? p.technologies : [],
       liveUrl: p.liveUrl || "",
       repoUrl: p.repoUrl || "",

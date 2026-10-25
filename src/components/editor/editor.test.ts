@@ -81,6 +81,11 @@ describe("Visual Portfolio Editor & Studio Engine", () => {
         title: "Distributed KV Store",
         tagline: "",
         description: "Raft consensus implementation in Rust.",
+        category: "software",
+        status: "completed",
+        featured: true,
+        visible: true,
+        slug: "",
         technologies: ["Rust", "gRPC", "Protobuf"],
         repoUrl: "https://github.com/developer/raft-kv",
         liveUrl: "",
@@ -88,7 +93,6 @@ describe("Visual Portfolio Editor & Studio Engine", () => {
         startDate: "",
         endDate: "",
         order: 0,
-        featured: true,
       };
 
       // Add Project
