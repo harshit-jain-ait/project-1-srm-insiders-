@@ -1,5 +1,5 @@
 import React from "react";
-import { PortfolioData, TemplateId } from "@/lib/schema/portfolio";
+import { PortfolioData, TemplateId, SectionKey } from "@/lib/schema/portfolio";
 
 export interface TemplateMetadata {
   id: TemplateId;
@@ -10,6 +10,7 @@ export interface TemplateMetadata {
   tags: string[];
   features: string[];
   previewAccent: string;
+  supportedSections: SectionKey[];
 }
 
 export interface TemplateProps {
