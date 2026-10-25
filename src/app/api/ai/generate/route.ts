@@ -1,5 +1,32 @@
 import { NextRequest, NextResponse } from "next/server";
-import { PortfolioDataSchema } from "@/lib/schema/portfolio";
+
+interface RawSkill {
+  id?: string;
+  name?: string;
+  category?: string;
+}
+
+interface RawProject {
+  id?: string;
+  title?: string;
+  tagline?: string;
+  description?: string;
+  technologies?: string[];
+  liveUrl?: string;
+  repoUrl?: string;
+}
+
+interface RawExperience {
+  id?: string;
+  company?: string;
+  role?: string;
+  location?: string;
+  startDate?: string;
+  endDate?: string;
+  current?: boolean;
+  description?: string;
+  highlights?: string[];
+}
 
 export async function POST(req: NextRequest) {
   try {
@@ -112,7 +139,7 @@ Strict Rules:
 
     // Ensure IDs exist for extracted items
     if (Array.isArray(parsedData.skills)) {
-      parsedData.skills = parsedData.skills.map((s: any, i: number) => ({
+      parsedData.skills = parsedData.skills.map((s: RawSkill, i: number) => ({
         id: s.id || `skill_${Date.now()}_${i}`,
         name: s.name || "",
         category: s.category || "General",
@@ -120,7 +147,7 @@ Strict Rules:
     }
 
     if (Array.isArray(parsedData.projects)) {
-      parsedData.projects = parsedData.projects.map((p: any, i: number) => ({
+      parsedData.projects = parsedData.projects.map((p: RawProject, i: number) => ({
         id: p.id || `proj_${Date.now()}_${i}`,
         title: p.title || "Untitled Project",
         tagline: p.tagline || "",
@@ -134,7 +161,7 @@ Strict Rules:
     }
 
     if (Array.isArray(parsedData.experience)) {
-      parsedData.experience = parsedData.experience.map((e: any, i: number) => ({
+      parsedData.experience = parsedData.experience.map((e: RawExperience, i: number) => ({
         id: e.id || `exp_${Date.now()}_${i}`,
         company: e.company || "",
         role: e.role || "",
@@ -148,10 +175,11 @@ Strict Rules:
     }
 
     return NextResponse.json({ success: true, data: parsedData });
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Failed to generate structured portfolio";
     console.error("[API/ai/generate] error:", error);
     return NextResponse.json(
-      { success: false, error: error.message || "Failed to generate structured portfolio" },
+      { success: false, error: message },
       { status: 500 }
     );
   }

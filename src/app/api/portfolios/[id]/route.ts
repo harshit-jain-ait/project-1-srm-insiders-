@@ -52,13 +52,14 @@ export async function PUT(
 
     const updated = await portfolioRepository.save(parsed);
     return NextResponse.json({ success: true, data: updated });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("[API/portfolios/[id]] PUT error:", error);
+    const details = error instanceof Error ? error.message : "Validation failed";
     return NextResponse.json(
       {
         success: false,
         error: "Validation failed",
-        details: error.errors || error.message,
+        details,
       },
       { status: 400 }
     );

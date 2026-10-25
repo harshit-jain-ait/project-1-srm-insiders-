@@ -1,5 +1,4 @@
 import { Metadata } from "next";
-import { notFound } from "next/navigation";
 import { portfolioRepository } from "@/lib/services/portfolio-repository";
 import { PortfolioRenderer } from "@/templates/renderer";
 import Link from "next/link";

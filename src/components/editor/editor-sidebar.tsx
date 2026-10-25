@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { PortfolioData, Project, Experience, Skill, Education } from "@/lib/schema/portfolio";
+import { PortfolioData, Project, Experience, Skill, Education, TemplateId } from "@/lib/schema/portfolio";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -653,7 +653,7 @@ export function EditorSidebar({ portfolio, onChange }: EditorSidebarProps) {
                     ...portfolio,
                     appearance: {
                       ...portfolio.appearance,
-                      templateId: e.target.value as any,
+                      templateId: e.target.value as TemplateId,
                     },
                   })
                 }

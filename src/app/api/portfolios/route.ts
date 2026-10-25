@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { portfolioRepository } from "@/lib/services/portfolio-repository";
-import { createEmptyPortfolio, PortfolioDataSchema } from "@/lib/schema/portfolio";
+import { createEmptyPortfolio } from "@/lib/schema/portfolio";
 
 export async function GET(req: NextRequest) {
   try {
