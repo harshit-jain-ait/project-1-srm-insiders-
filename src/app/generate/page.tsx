@@ -32,7 +32,10 @@ function GeneratePageContent() {
           <span className="text-xs font-semibold text-zinc-200">AI Guided Setup</span>
         </div>
 
-        <div className="flex items-center gap-3 text-xs text-zinc-400">
+        <div className="flex items-center gap-4 text-xs text-zinc-400">
+          <Link href="/import-url" className="text-blue-400 hover:text-blue-300 transition-colors font-medium">
+            Import from URL instead
+          </Link>
           <Link href="/templates" className="hover:text-white transition-colors">
             Browse Templates
           </Link>

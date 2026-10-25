@@ -9,14 +9,14 @@ import { DeveloperProTemplate } from "./developer-pro";
 describe("Template Engine & Registry", () => {
   it("registers Minimal Portfolio and Developer Pro as distinct templates", () => {
     const templates = getAllTemplates();
-    expect(templates).toHaveLength(2);
+    expect(templates.length).toBeGreaterThanOrEqual(2);
 
     const ids = templates.map((t) => t.metadata.id);
     expect(ids).toContain("minimal-portfolio");
     expect(ids).toContain("developer-pro");
 
     // Unique IDs
-    expect(new Set(ids).size).toBe(2);
+    expect(new Set(ids).size).toBe(templates.length);
   });
 
   it("retrieves template by valid ID and exposes component and metadata", () => {

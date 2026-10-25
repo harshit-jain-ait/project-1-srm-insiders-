@@ -7,7 +7,9 @@ import { EditorToolbar, DeviceMode } from "@/components/editor/editor-toolbar";
 import { EditorSidebar } from "@/components/editor/editor-sidebar";
 import { EditorPreview } from "@/components/editor/editor-preview";
 import { AiAssistModal } from "@/components/editor/ai-assist-modal";
+import { UrlImportModal } from "@/components/editor/url-import-modal";
 import { usePortfolioEditor } from "@/components/editor/use-portfolio-editor";
+import { DesignDirection } from "@/lib/url-import/types";
 import { Loader2, Sliders, Eye } from "lucide-react";
 
 function EditorContent() {
@@ -21,6 +23,7 @@ function EditorContent() {
   const [isDistractionFree, setIsDistractionFree] = useState(false);
   const [mobileView, setMobileView] = useState<"edit" | "preview">("edit");
   const [isAiModalOpen, setIsAiModalOpen] = useState(false);
+  const [isUrlModalOpen, setIsUrlModalOpen] = useState(false);
 
   // Canonical Editor State & Persistence Layer
   const {
@@ -73,6 +76,23 @@ function EditorContent() {
     }));
   };
 
+  // URL-Inspired Design Direction Application
+  const handleApplyUrlDirection = (direction: DesignDirection, updatedDraft?: Partial<PortfolioData>) => {
+    updatePortfolio((prev) => ({
+      ...prev,
+      ...(updatedDraft?.profile ? { profile: { ...prev.profile, ...updatedDraft.profile } } : {}),
+      appearance: {
+        ...prev.appearance,
+        templateId: direction.baseTemplateId,
+        colorScheme: direction.designTokens.colorScheme,
+        accentColor: direction.designTokens.accentColor,
+        fontFamily: direction.designTokens.fontFamily,
+        designTokens: direction.designTokens,
+      },
+      updatedAt: new Date().toISOString(),
+    }));
+  };
+
   if (!portfolio) {
     return (
       <div className="h-screen w-screen flex flex-col items-center justify-center bg-zinc-950 text-zinc-400 gap-3">
@@ -107,6 +127,7 @@ function EditorContent() {
         onSave={manualSave}
         onTogglePublish={togglePublish}
         onOpenAiAssistant={() => setIsAiModalOpen(true)}
+        onOpenUrlImport={() => setIsUrlModalOpen(true)}
       />
 
       {/* Honest Operational Notification Bar */}
@@ -184,6 +205,14 @@ function EditorContent() {
         isOpen={isAiModalOpen}
         onClose={() => setIsAiModalOpen(false)}
         onApplySuggestions={handleApplyAiSuggestions}
+      />
+
+      {/* Website URL Import Modal */}
+      <UrlImportModal
+        isOpen={isUrlModalOpen}
+        onClose={() => setIsUrlModalOpen(false)}
+        existingPortfolio={portfolio}
+        onApplyDirection={handleApplyUrlDirection}
       />
     </div>
   );

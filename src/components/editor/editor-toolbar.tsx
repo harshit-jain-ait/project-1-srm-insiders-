@@ -50,6 +50,7 @@ interface EditorToolbarProps {
   onSave: () => void;
   onTogglePublish: () => void;
   onOpenAiAssistant: () => void;
+  onOpenUrlImport?: () => void;
 }
 
 export function EditorToolbar({
@@ -74,6 +75,7 @@ export function EditorToolbar({
   onSave,
   onTogglePublish,
   onOpenAiAssistant,
+  onOpenUrlImport,
 }: EditorToolbarProps) {
   const [isEditingTitle, setIsEditingTitle] = useState(false);
   const [titleInput, setTitleInput] = useState(portfolioTitle);
@@ -281,6 +283,19 @@ export function EditorToolbar({
 
       {/* Right: Actions */}
       <div className="flex items-center gap-2">
+        {onOpenUrlImport && (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={onOpenUrlImport}
+            className="h-8 gap-1.5 border-zinc-700 text-zinc-200 hover:bg-zinc-900"
+            title="Import design inspiration from a website URL"
+          >
+            <Globe className="w-3.5 h-3.5 text-blue-400" />
+            <span className="hidden sm:inline">Import URL</span>
+          </Button>
+        )}
+
         <Button
           variant="outline"
           size="sm"

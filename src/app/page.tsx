@@ -62,6 +62,12 @@ export default function HomePage() {
                 <span>Create with AI</span>
               </Button>
             </Link>
+            <Link href="/import-url" className="w-full sm:w-auto">
+              <Button variant="outline" size="lg" className="w-full sm:w-auto border-zinc-700 hover:bg-zinc-900 text-zinc-200 gap-2">
+                <Globe className="w-4 h-4 text-blue-400" />
+                <span>Import Website</span>
+              </Button>
+            </Link>
             <Link href="/editor" className="w-full sm:w-auto">
               <Button variant="outline" size="lg" className="w-full sm:w-auto border-zinc-700 hover:bg-zinc-900 text-zinc-200">
                 Open Blank Studio

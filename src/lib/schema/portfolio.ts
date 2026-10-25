@@ -208,15 +208,38 @@ export type SectionConfig = z.infer<typeof SectionConfigSchema>;
 export const TemplateIdSchema = z.enum([
   "minimal-portfolio",
   "developer-pro",
+  "signature",
+  "reimagined",
 ]);
 
 export type TemplateId = z.infer<typeof TemplateIdSchema>;
+
+export const DesignTokensSchema = z
+  .object({
+    colorScheme: z.enum(["dark", "light", "system"]).optional(),
+    accentColor: z.enum(["blue", "neutral", "slate"]).optional(),
+    accentHex: z.string().optional(),
+    backgroundColor: z.string().optional(),
+    surfaceColor: z.string().optional(),
+    textColor: z.string().optional(),
+    mutedTextColor: z.string().optional(),
+    borderColor: z.string().optional(),
+    fontFamily: z.enum(["sans", "serif", "mono"]).optional(),
+    headingFont: z.string().optional(),
+    layoutDensity: z.enum(["compact", "balanced", "spacious"]).optional(),
+    cardStyle: z.enum(["bordered", "flat", "elevated", "glass"]).optional(),
+    headerLayout: z.enum(["split", "centered", "editorial", "minimal"]).optional(),
+  })
+  .optional();
+
+export type DesignTokens = z.infer<typeof DesignTokensSchema>;
 
 export const AppearanceSettingsSchema = z.object({
   templateId: TemplateIdSchema.default("minimal-portfolio"),
   colorScheme: z.enum(["system", "light", "dark"]).default("system"),
   accentColor: z.enum(["blue", "neutral", "slate"]).default("neutral"),
   fontFamily: z.enum(["sans", "serif", "mono"]).default("sans"),
+  designTokens: DesignTokensSchema,
 });
 
 export type AppearanceSettings = z.infer<typeof AppearanceSettingsSchema>;

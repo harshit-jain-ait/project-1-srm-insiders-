@@ -2,6 +2,8 @@ import { TemplateId } from "@/lib/schema/portfolio";
 import { RegisteredTemplate } from "./types";
 import { MinimalPortfolioTemplate } from "./minimal-portfolio";
 import { DeveloperProTemplate } from "./developer-pro";
+import { SignatureTemplate } from "./signature";
+import { ReimaginedTemplate } from "./reimagined";
 
 const TEMPLATES: Record<TemplateId, RegisteredTemplate> = {
   "minimal-portfolio": {
@@ -41,6 +43,44 @@ const TEMPLATES: Record<TemplateId, RegisteredTemplate> = {
       supportedSections: ["profile", "projects", "experience", "skills", "education", "contact"],
     },
     component: DeveloperProTemplate,
+  },
+  signature: {
+    metadata: {
+      id: "signature",
+      name: "Signature",
+      description: "Faithful visual harmony echoing a source website's core color palette, typography, and card rhythm.",
+      category: "Creative",
+      tagline: "URL-inspired design preserving the source site's structural harmony",
+      tags: ["AI-Inspired", "URL Import", "Adaptive", "Harmonious"],
+      features: [
+        "Adapts dynamically to extracted source color palette & token rhythm",
+        "Balanced case study presentation with responsive card framing",
+        "Accessible contrast and native mobile reflow",
+        "Grounded factual representation using canonical portfolio schema",
+      ],
+      previewAccent: "#356ae6",
+      supportedSections: ["profile", "projects", "experience", "skills", "education", "contact"],
+    },
+    component: SignatureTemplate,
+  },
+  reimagined: {
+    metadata: {
+      id: "reimagined",
+      name: "Reimagined",
+      description: "Alternative editorial composition reinterpreting source design characteristics with generous whitespace and magazine scale.",
+      category: "Editorial",
+      tagline: "Bold editorial reinterpretation with elevated magazine composition",
+      tags: ["AI-Inspired", "Editorial", "Asymmetrical", "Dynamic"],
+      features: [
+        "Asymmetrical split hero with floating status badge",
+        "Magazine-inspired project anthology showcase",
+        "Elevated serif/sans composition with dramatic visual hierarchy",
+        "High-whitespace layout with distinct visual personality",
+      ],
+      previewAccent: "#18181b",
+      supportedSections: ["profile", "projects", "experience", "skills", "education", "contact"],
+    },
+    component: ReimaginedTemplate,
   },
 };
 

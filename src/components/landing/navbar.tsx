@@ -31,6 +31,12 @@ export function LandingNavbar() {
             <span>AI Builder</span>
           </Link>
           <Link
+            href="/import-url"
+            className="text-zinc-400 hover:text-white transition-colors font-medium"
+          >
+            Import URL
+          </Link>
+          <Link
             href="/templates"
             className="text-zinc-400 hover:text-white transition-colors font-medium"
           >
@@ -80,6 +86,14 @@ export function LandingNavbar() {
       {mobileMenuOpen && (
         <div className="md:hidden border-b border-zinc-800 bg-[#141519] px-6 py-5 space-y-4 animate-in slide-in-from-top-2 duration-150">
           <nav className="flex flex-col space-y-3 text-sm">
+            <Link
+              href="/import-url"
+              onClick={() => setMobileMenuOpen(false)}
+              className="text-zinc-300 hover:text-white transition-colors py-1 flex items-center justify-between"
+            >
+              <span>Import from Website URL</span>
+              <span className="text-xs font-mono text-blue-400">New</span>
+            </Link>
             <Link
               href="/templates"
               onClick={() => setMobileMenuOpen(false)}

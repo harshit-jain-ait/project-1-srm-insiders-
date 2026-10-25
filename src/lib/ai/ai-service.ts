@@ -15,6 +15,7 @@ import {
   Skill,
   Experience,
   Education,
+  TemplateId,
 } from "@/lib/schema/portfolio";
 
 export interface GeneratedPortfolioResult {
@@ -24,7 +25,7 @@ export interface GeneratedPortfolioResult {
   projects: Project[];
   experience: Experience[];
   education: Education[];
-  templateId: "minimal-portfolio" | "developer-pro";
+  templateId: TemplateId;
 }
 
 interface RawGeminiOutput {
