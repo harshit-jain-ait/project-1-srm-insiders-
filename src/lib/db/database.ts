@@ -92,6 +92,20 @@ export const MIGRATIONS = [
       CREATE INDEX IF NOT EXISTS idx_portfolios_updated_at ON portfolios(updated_at);
     `,
   },
+  {
+    version: "002_publishing_and_custom_domains",
+    sql: `
+      ALTER TABLE portfolios ADD COLUMN published_content_json TEXT;
+      ALTER TABLE portfolios ADD COLUMN custom_domain TEXT;
+      ALTER TABLE portfolios ADD COLUMN custom_domain_verified INTEGER NOT NULL DEFAULT 0;
+      ALTER TABLE portfolios ADD COLUMN custom_domain_status TEXT DEFAULT 'none';
+      ALTER TABLE portfolios ADD COLUMN custom_domain_token TEXT;
+
+      CREATE UNIQUE INDEX IF NOT EXISTS idx_portfolios_custom_domain ON portfolios(custom_domain) WHERE custom_domain IS NOT NULL;
+
+      UPDATE portfolios SET published_content_json = content_json WHERE published = 1 AND published_content_json IS NULL;
+    `,
+  },
 ];
 
 /**

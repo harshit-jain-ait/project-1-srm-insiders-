@@ -1,7 +1,19 @@
 "use client";
 
 import React, { useState } from "react";
-import { PortfolioData, Profile, SocialLink, Project, Experience, Skill, Education, SectionConfig, AppearanceSettings } from "@/lib/schema/portfolio";
+import {
+  PortfolioData,
+  Profile,
+  SocialLink,
+  Project,
+  Experience,
+  Skill,
+  Education,
+  SectionConfig,
+  AppearanceSettings,
+  SeoSettings,
+  CustomDomainConfig,
+} from "@/lib/schema/portfolio";
 import {
   ProfileForm,
   ProjectForm,
@@ -10,6 +22,8 @@ import {
   EducationForm,
   SectionsForm,
   AppearanceForm,
+  SeoForm,
+  CustomDomainForm,
 } from "@/components/forms";
 import {
   User,
@@ -19,10 +33,19 @@ import {
   Layers,
   Palette,
   SlidersHorizontal,
+  Globe,
 } from "lucide-react";
 import { ContentTargetField } from "@/lib/ai-assistant/types";
 
-export type TabKey = "profile" | "projects" | "experience" | "skills" | "education" | "sections" | "appearance";
+export type TabKey =
+  | "profile"
+  | "projects"
+  | "experience"
+  | "skills"
+  | "education"
+  | "sections"
+  | "appearance"
+  | "seo";
 
 interface EditorSidebarProps {
   portfolio: PortfolioData;
@@ -112,6 +135,22 @@ export function EditorSidebar({
     });
   };
 
+  const handleSeoChange = (updatedSeo: SeoSettings) => {
+    onChange({
+      ...portfolio,
+      seo: updatedSeo,
+      updatedAt: new Date().toISOString(),
+    });
+  };
+
+  const handleDomainChange = (updatedDomain: CustomDomainConfig) => {
+    onChange({
+      ...portfolio,
+      customDomain: updatedDomain,
+      updatedAt: new Date().toISOString(),
+    });
+  };
+
   const tabs: { key: TabKey; label: string; icon: React.ComponentType<{ className?: string }>; count?: number }[] = [
     { key: "profile", label: "Profile", icon: User },
     { key: "projects", label: "Projects", icon: Code2, count: portfolio.projects.length },
@@ -120,6 +159,7 @@ export function EditorSidebar({
     { key: "education", label: "Education", icon: GraduationCap, count: portfolio.education.length },
     { key: "sections", label: "Layout", icon: SlidersHorizontal },
     { key: "appearance", label: "Theme", icon: Palette },
+    { key: "seo", label: "SEO & Domain", icon: Globe },
   ];
 
   return (
@@ -223,6 +263,27 @@ export function EditorSidebar({
             onAppearanceChange={handleAppearanceChange}
             onOpenRestyle={onOpenRestyle}
           />
+        )}
+
+        {activeTab === "seo" && (
+          <div className="space-y-8">
+            <SeoForm
+              seo={portfolio.seo}
+              portfolioTitle={portfolio.title}
+              fullName={portfolio.profile.fullName}
+              headline={portfolio.profile.headline}
+              slug={portfolio.slug}
+              customDomain={portfolio.customDomain?.domain}
+              onSeoChange={handleSeoChange}
+            />
+            <div className="border-t border-zinc-800 pt-6">
+              <CustomDomainForm
+                portfolioId={portfolio.id}
+                customDomain={portfolio.customDomain}
+                onDomainChange={handleDomainChange}
+              />
+            </div>
+          </div>
         )}
       </div>
     </aside>

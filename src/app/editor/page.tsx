@@ -9,6 +9,7 @@ import { EditorPreview } from "@/components/editor/editor-preview";
 import { AiAssistModal } from "@/components/editor/ai-assist-modal";
 import { UrlImportModal } from "@/components/editor/url-import-modal";
 import { ResumeImportModal } from "@/components/editor/resume-import-modal";
+import { PublishModal } from "@/components/publishing/publish-modal";
 import { usePortfolioEditor } from "@/components/editor/use-portfolio-editor";
 import { DesignDirection } from "@/lib/url-import/types";
 import { ContentTargetField } from "@/lib/ai-assistant/types";
@@ -32,6 +33,7 @@ function EditorContent() {
   const [aiModalTargetId, setAiModalTargetId] = useState<string>("");
   const [isUrlModalOpen, setIsUrlModalOpen] = useState(false);
   const [isResumeModalOpen, setIsResumeModalOpen] = useState(false);
+  const [isPublishModalOpen, setIsPublishModalOpen] = useState(false);
 
   // Canonical Editor State & Persistence Layer
   const {
@@ -40,8 +42,8 @@ function EditorContent() {
     saveStatus,
     lastSavedAt,
     manualSave,
-    togglePublish,
     feedbackMessage,
+    setFeedbackMessage,
     canUndo,
     canRedo,
     undo,
@@ -207,7 +209,7 @@ function EditorContent() {
         onToggleDistractionFree={() => setIsDistractionFree((prev) => !prev)}
         onTemplateChange={handleTemplateChange}
         onSave={manualSave}
-        onTogglePublish={togglePublish}
+        onTogglePublish={() => setIsPublishModalOpen(true)}
         onOpenAiAssistant={() => handleOpenAiAssistant("content")}
         onOpenUrlImport={() => setIsUrlModalOpen(true)}
         onOpenResumeImport={() => setIsResumeModalOpen(true)}
@@ -315,6 +317,20 @@ function EditorContent() {
         onClose={() => setIsResumeModalOpen(false)}
         existingPortfolio={portfolio}
         onApplyMerged={handleApplyResumeMerged}
+      />
+
+      {/* Publishing, SEO & Custom Domain Review Modal */}
+      <PublishModal
+        isOpen={isPublishModalOpen}
+        onClose={() => setIsPublishModalOpen(false)}
+        portfolio={portfolio}
+        onUpdatePortfolio={updatePortfolio}
+        onPublishedChange={(isPub) => {
+          setFeedbackMessage(
+            isPub ? `Portfolio published live at /p/${portfolio.slug}` : "Portfolio unpublished"
+          );
+          setTimeout(() => setFeedbackMessage(null), 4000);
+        }}
       />
     </div>
   );

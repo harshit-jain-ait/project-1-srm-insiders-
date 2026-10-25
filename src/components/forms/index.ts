@@ -5,3 +5,5 @@ export * from "./experience-form";
 export * from "./education-form";
 export * from "./sections-form";
 export * from "./appearance-form";
+export * from "./seo-form";
+export * from "./custom-domain-form";

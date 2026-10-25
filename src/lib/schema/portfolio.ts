@@ -258,6 +258,56 @@ export const ProfileSchema = z.object({
 
 export type Profile = z.infer<typeof ProfileSchema>;
 
+export const SeoSettingsSchema = z.object({
+  title: z.string().trim().max(100, "SEO title must be 100 characters or fewer").default(""),
+  description: z.string().trim().max(300, "Meta description must be 300 characters or fewer").default(""),
+  canonicalUrl: SafeUrlSchema.default(""),
+  ogImage: SafeUrlSchema.default(""),
+  noIndex: z.boolean().default(false),
+  includeInSitemap: z.boolean().default(true),
+  keywords: z.array(z.string()).default([]),
+});
+
+export type SeoSettings = z.infer<typeof SeoSettingsSchema>;
+
+export const CustomDomainStatusSchema = z.enum([
+  "none",
+  "pending_dns",
+  "verified",
+  "active",
+  "failed",
+]);
+
+export type CustomDomainStatus = z.infer<typeof CustomDomainStatusSchema>;
+
+export const CustomDomainDnsRecordsSchema = z.object({
+  verificationRecord: z.object({
+    type: z.literal("TXT"),
+    name: z.string(),
+    value: z.string(),
+  }),
+  cnameRecord: z.object({
+    type: z.literal("CNAME"),
+    name: z.string(),
+    value: z.string(),
+  }),
+});
+
+export type CustomDomainDnsRecords = z.infer<typeof CustomDomainDnsRecordsSchema>;
+
+export const CustomDomainConfigSchema = z.object({
+  domain: z.string().trim().toLowerCase().default(""),
+  status: CustomDomainStatusSchema.default("none"),
+  verificationToken: z.string().default(""),
+  verifiedAt: z.string().nullable().default(null),
+  configuredAt: z.string().nullable().default(null),
+  lastCheckedAt: z.string().nullable().default(null),
+  dnsRecords: CustomDomainDnsRecordsSchema.optional(),
+  errorMessage: z.string().default(""),
+});
+
+export type CustomDomainConfig = z.infer<typeof CustomDomainConfigSchema>;
+
 export const PortfolioDataSchema = z.object({
   version: z.number().optional().default(1),
   revision: z.number().optional().default(1),
@@ -300,6 +350,24 @@ export const PortfolioDataSchema = z.object({
     colorScheme: "system" as const,
     accentColor: "neutral" as const,
     fontFamily: "sans" as const,
+  })),
+  seo: SeoSettingsSchema.default(() => ({
+    title: "",
+    description: "",
+    canonicalUrl: "",
+    ogImage: "",
+    noIndex: false,
+    includeInSitemap: true,
+    keywords: [],
+  })),
+  customDomain: CustomDomainConfigSchema.default(() => ({
+    domain: "",
+    status: "none" as const,
+    verificationToken: "",
+    verifiedAt: null,
+    configuredAt: null,
+    lastCheckedAt: null,
+    errorMessage: "",
   })),
   createdAt: z.string(),
   updatedAt: z.string(),
@@ -403,11 +471,92 @@ export function createEmptyPortfolio(partial?: DeepPartial<PortfolioData>): Port
       fontFamily: "sans" as const,
       ...partial?.appearance,
     },
+    seo: {
+      title: "",
+      description: "",
+      canonicalUrl: "",
+      ogImage: "",
+      noIndex: false,
+      includeInSitemap: true,
+      keywords: [],
+      ...partial?.seo,
+    },
+    customDomain: {
+      domain: "",
+      status: "none" as const,
+      verificationToken: "",
+      verifiedAt: null,
+      configuredAt: null,
+      lastCheckedAt: null,
+      errorMessage: "",
+      ...partial?.customDomain,
+    },
     createdAt: partial?.createdAt || now,
     updatedAt: partial?.updatedAt || now,
   };
 
   return PortfolioDataSchema.parse(defaultStructure);
+}
+
+/**
+ * Reserved slugs to prevent platform collision or impersonation.
+ */
+export const RESERVED_SLUGS = new Set([
+  "api",
+  "admin",
+  "editor",
+  "templates",
+  "generate",
+  "import-url",
+  "import-resume",
+  "design-system",
+  "p",
+  "login",
+  "register",
+  "auth",
+  "signin",
+  "signout",
+  "signup",
+  "settings",
+  "dashboard",
+  "profile",
+  "account",
+  "static",
+  "assets",
+  "public",
+  "robots.txt",
+  "robots",
+  "sitemap.xml",
+  "sitemap",
+  "favicon.ico",
+  "privacy",
+  "terms",
+  "help",
+  "support",
+  "docs",
+  "blog",
+  "pricing",
+  "about",
+  "contact",
+]);
+
+export function isReservedSlug(slug: string): boolean {
+  return RESERVED_SLUGS.has(slug.trim().toLowerCase());
+}
+
+export function isValidSlugFormat(slug: string): boolean {
+  const trimmed = slug.trim();
+  // 3-48 characters, lowercase letters, numbers, hyphens. No leading or trailing hyphen, no consecutive hyphens.
+  return /^[a-z0-9](?:[a-z0-9-]{1,46}[a-z0-9])?$/.test(trimmed) && !trimmed.includes("--");
+}
+
+export function normalizeSlug(slug: string): string {
+  return slug
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9-]/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "");
 }
 
 /**
@@ -513,12 +662,26 @@ export function validatePublishReadiness(portfolio: PortfolioData): PublishValid
   }
   if (!portfolio.slug || portfolio.slug.trim() === "") {
     errors.push("Portfolio public URL slug is required");
+  } else {
+    if (!isValidSlugFormat(portfolio.slug)) {
+      errors.push("Slug must be 3-48 characters of lowercase letters, numbers, and hyphens without consecutive hyphens");
+    }
+    if (isReservedSlug(portfolio.slug)) {
+      errors.push(`Slug "${portfolio.slug}" is reserved by the platform`);
+    }
   }
   if (!portfolio.profile.fullName || portfolio.profile.fullName.trim() === "") {
     errors.push("Full Name is required for a public portfolio");
   }
   if (portfolio.profile.avatarUrl && !isSafeHttpUrl(portfolio.profile.avatarUrl)) {
     errors.push("Profile image must be a valid HTTP or HTTPS address");
+  }
+
+  if (portfolio.seo?.ogImage && !isSafeHttpUrl(portfolio.seo.ogImage)) {
+    errors.push("SEO share image must be a valid HTTP or HTTPS address");
+  }
+  if (portfolio.seo?.canonicalUrl && !isSafeHttpUrl(portfolio.seo.canonicalUrl)) {
+    errors.push("Canonical URL must be a valid HTTP or HTTPS address");
   }
 
   portfolio.projects.forEach((proj, idx) => {
