@@ -6,6 +6,7 @@ import { GET as slugCheckRoute } from "../portfolios/slug-check/route";
 import { POST as createPortfolio } from "../portfolios/route";
 import { getDatabase, runMigrations } from "@/lib/db/database";
 import { portfolioRepository } from "@/lib/services/portfolio-repository";
+import { setUserSubscription } from "@/lib/billing/entitlements";
 
 describe("Part 12 — Publishing, Slug Check & Custom Domain API Endpoints", () => {
   let portfolioId: string;
@@ -227,7 +228,32 @@ describe("Part 12 — Publishing, Slug Check & Custom Domain API Endpoints", () 
       expect(res.status).toBe(403);
     });
 
-    it("configures custom domain and returns DNS setup challenge", async () => {
+    it("rejects domain configuration for Free accounts with upgrade required", async () => {
+      const freeReq = new NextRequest(
+        `http://localhost:3000/api/portfolios/${portfolioId}/domain`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-draft-claim-token": claimToken,
+          },
+          body: JSON.stringify({ action: "configure", domain: testDomain }),
+        }
+      );
+
+      const res = await domainRoute(freeReq, {
+        params: Promise.resolve({ id: portfolioId }),
+      });
+      expect(res.status).toBe(403);
+      const data = await res.json();
+      expect(data.upgradeRequired).toBe(true);
+    });
+
+    it("configures custom domain and returns DNS setup challenge for Pro accounts", async () => {
+      const proUserId = "user-pro-publisher";
+      getDatabase().prepare("UPDATE portfolios SET user_id = ? WHERE id = ?").run(proUserId, portfolioId);
+      setUserSubscription(proUserId, "pro");
+
       const configReq = new NextRequest(
         `http://localhost:3000/api/portfolios/${portfolioId}/domain`,
         {
@@ -235,6 +261,7 @@ describe("Part 12 — Publishing, Slug Check & Custom Domain API Endpoints", () 
           headers: {
             "Content-Type": "application/json",
             "x-draft-claim-token": claimToken,
+            "x-verified-user-id": proUserId,
           },
           body: JSON.stringify({ action: "configure", domain: testDomain }),
         }
@@ -254,6 +281,7 @@ describe("Part 12 — Publishing, Slug Check & Custom Domain API Endpoints", () 
     });
 
     it("handles DNS verification attempt honestly without false positives", async () => {
+      const proUserId = "user-pro-publisher";
       const verifyReq = new NextRequest(
         `http://localhost:3000/api/portfolios/${portfolioId}/domain`,
         {
@@ -261,6 +289,7 @@ describe("Part 12 — Publishing, Slug Check & Custom Domain API Endpoints", () 
           headers: {
             "Content-Type": "application/json",
             "x-draft-claim-token": claimToken,
+            "x-verified-user-id": proUserId,
           },
           body: JSON.stringify({ action: "verify" }),
         }
@@ -279,6 +308,7 @@ describe("Part 12 — Publishing, Slug Check & Custom Domain API Endpoints", () 
     });
 
     it("safely removes custom domain configuration", async () => {
+      const proUserId = "user-pro-publisher";
       const removeReq = new NextRequest(
         `http://localhost:3000/api/portfolios/${portfolioId}/domain`,
         {
@@ -286,6 +316,7 @@ describe("Part 12 — Publishing, Slug Check & Custom Domain API Endpoints", () 
           headers: {
             "Content-Type": "application/json",
             "x-draft-claim-token": claimToken,
+            "x-verified-user-id": proUserId,
           },
           body: JSON.stringify({ action: "remove" }),
         }

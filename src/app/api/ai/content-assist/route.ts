@@ -5,9 +5,24 @@ import {
   AssistantApiResponse,
   ContentAssistResponse,
 } from "@/lib/ai-assistant/types";
+import { getAuthContext } from "@/lib/auth/auth-service";
+import { checkAndConsumeAiUsage } from "@/lib/billing/entitlements";
 
 export async function POST(req: NextRequest) {
   try {
+    const auth = getAuthContext(req);
+    const userId = auth.userId || "anonymous";
+
+    const usage = checkAndConsumeAiUsage(userId, "content_assist");
+    if (!usage.allowed) {
+      const response: AssistantApiResponse<never> = {
+        success: false,
+        code: "RATE_LIMITED",
+        error: `Monthly AI assistance quota reached (${usage.total}/${usage.allowance}). Upgrade to Pro for 150 operations per month.`,
+      };
+      return NextResponse.json(response, { status: 403 });
+    }
+
     const body = await req.json();
     const parseResult = ContentAssistRequestSchema.safeParse(body);
 

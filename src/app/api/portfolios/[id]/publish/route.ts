@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { portfolioRepository } from "@/lib/services/portfolio-repository";
 import { validatePublishReadiness } from "@/lib/schema/portfolio";
 import { getAuthContext, canModifyPortfolio } from "@/lib/auth/auth-service";
+import { canAccessTemplate } from "@/lib/billing/entitlements";
+import { createPortfolioSnapshot } from "@/lib/services/version-history-service";
 
 export async function POST(
   req: NextRequest,
@@ -59,6 +61,19 @@ export async function POST(
     }
 
     // Publish action:
+    const effectiveUserId = auth.userId || ownership.userId || "anonymous";
+    const templateId = portfolio.appearance.templateId;
+    if (!canAccessTemplate(effectiveUserId, templateId)) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: `Template "${templateId}" requires a Pro subscription to publish.`,
+          upgradeRequired: true,
+        },
+        { status: 403 }
+      );
+    }
+
     const readiness = validatePublishReadiness(portfolio);
     if (!readiness.isReady) {
       return NextResponse.json(
@@ -89,6 +104,13 @@ export async function POST(
         { success: false, error: "Failed to complete publishing operation" },
         { status: 500 }
       );
+    }
+
+    // Capture published milestone in version history
+    try {
+      createPortfolioSnapshot(id, effectiveUserId, "publish", "Published Milestone");
+    } catch {
+      // Ignore versioning snapshot failure to not block publishing
     }
 
     const publicUrl = updated.customDomain?.status === "active" && updated.customDomain?.domain

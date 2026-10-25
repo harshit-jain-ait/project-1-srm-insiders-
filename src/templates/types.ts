@@ -11,6 +11,7 @@ export interface TemplateMetadata {
   features: string[];
   previewAccent: string;
   supportedSections: SectionKey[];
+  isPremium?: boolean;
 }
 
 export interface TemplateProps {

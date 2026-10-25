@@ -1,9 +1,27 @@
 import { NextRequest, NextResponse } from "next/server";
 import { aiService } from "@/lib/ai/ai-service";
 import { AIGenerationInput, AIGenerationInputSchema } from "@/lib/ai/types";
+import { getAuthContext } from "@/lib/auth/auth-service";
+import { checkAndConsumeAiUsage } from "@/lib/billing/entitlements";
 
 export async function POST(req: NextRequest) {
   try {
+    const auth = getAuthContext(req);
+    const userId = auth.userId || "anonymous";
+
+    const usage = checkAndConsumeAiUsage(userId, "portfolio_generation");
+    if (!usage.allowed) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: `Monthly AI generation allowance reached (${usage.total}/${usage.allowance}). Upgrade to Pro for 150 operations per month.`,
+          upgradeRequired: true,
+          code: "QUOTA_EXCEEDED",
+        },
+        { status: 403 }
+      );
+    }
+
     const body = await req.json().catch(() => ({}));
 
     // Backwards-compatibility with simple { facts: string } prompt string

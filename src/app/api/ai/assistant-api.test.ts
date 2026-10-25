@@ -5,6 +5,8 @@ import { POST as restyleHandler } from "@/app/api/ai/restyle/route";
 import { aiAssistantService } from "@/lib/ai-assistant/assistant-service";
 import { AppearanceSettings } from "@/lib/schema/portfolio";
 
+import { getDatabase } from "@/lib/db/database";
+
 describe("Part 11: AI Assistant & Restyling API Endpoints", () => {
   const originalEnv = process.env;
 
@@ -27,6 +29,11 @@ describe("Part 11: AI Assistant & Restyling API Endpoints", () => {
     vi.resetModules();
     process.env = { ...originalEnv };
     delete process.env.GEMINI_API_KEY;
+    try {
+      getDatabase().prepare("DELETE FROM usage_records WHERE user_id = 'anonymous'").run();
+    } catch {
+      // Ignore if table not yet created
+    }
   });
 
   afterEach(() => {

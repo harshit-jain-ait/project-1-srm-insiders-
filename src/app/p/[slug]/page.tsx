@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { portfolioRepository } from "@/lib/services/portfolio-repository";
 import { PortfolioRenderer } from "@/templates/renderer";
+import { AnalyticsTracker } from "@/components/analytics/analytics-tracker";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
@@ -104,5 +105,10 @@ export default async function PublicPortfolioPage({ params }: Props) {
     );
   }
 
-  return <PortfolioRenderer portfolio={portfolio} isLivePreview={false} />;
+  return (
+    <>
+      <AnalyticsTracker portfolioId={portfolio.id} path="/" />
+      <PortfolioRenderer portfolio={portfolio} isLivePreview={false} />
+    </>
+  );
 }

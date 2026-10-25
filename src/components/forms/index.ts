@@ -7,3 +7,4 @@ export * from "./sections-form";
 export * from "./appearance-form";
 export * from "./seo-form";
 export * from "./custom-domain-form";
+export * from "./contact-config-form";

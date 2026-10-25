@@ -13,6 +13,7 @@ import {
   AppearanceSettings,
   SeoSettings,
   CustomDomainConfig,
+  ContactConfig,
 } from "@/lib/schema/portfolio";
 import {
   ProfileForm,
@@ -24,6 +25,7 @@ import {
   AppearanceForm,
   SeoForm,
   CustomDomainForm,
+  ContactConfigForm,
 } from "@/components/forms";
 import {
   User,
@@ -34,6 +36,7 @@ import {
   Palette,
   SlidersHorizontal,
   Globe,
+  Mail,
 } from "lucide-react";
 import { ContentTargetField } from "@/lib/ai-assistant/types";
 
@@ -45,7 +48,8 @@ export type TabKey =
   | "education"
   | "sections"
   | "appearance"
-  | "seo";
+  | "seo"
+  | "contact";
 
 interface EditorSidebarProps {
   portfolio: PortfolioData;
@@ -151,6 +155,14 @@ export function EditorSidebar({
     });
   };
 
+  const handleContactConfigChange = (updatedContact: ContactConfig) => {
+    onChange({
+      ...portfolio,
+      contactConfig: updatedContact,
+      updatedAt: new Date().toISOString(),
+    });
+  };
+
   const tabs: { key: TabKey; label: string; icon: React.ComponentType<{ className?: string }>; count?: number }[] = [
     { key: "profile", label: "Profile", icon: User },
     { key: "projects", label: "Projects", icon: Code2, count: portfolio.projects.length },
@@ -160,6 +172,7 @@ export function EditorSidebar({
     { key: "sections", label: "Layout", icon: SlidersHorizontal },
     { key: "appearance", label: "Theme", icon: Palette },
     { key: "seo", label: "SEO & Domain", icon: Globe },
+    { key: "contact", label: "Contact", icon: Mail },
   ];
 
   return (
@@ -284,6 +297,29 @@ export function EditorSidebar({
               />
             </div>
           </div>
+        )}
+
+        {activeTab === "contact" && (
+          <ContactConfigForm
+            portfolioId={portfolio.id}
+            config={
+              portfolio.contactConfig || {
+                enabled: true,
+                title: "Get in Touch",
+                description: "Feel free to reach out with project inquiries, opportunities, or questions.",
+                recipientEmail: portfolio.profile.email || "",
+                fields: {
+                  name: true,
+                  email: true,
+                  subject: true,
+                  message: true,
+                  consent: true,
+                },
+              }
+            }
+            onChange={handleContactConfigChange}
+            defaultEmail={portfolio.profile.email}
+          />
         )}
       </div>
     </aside>

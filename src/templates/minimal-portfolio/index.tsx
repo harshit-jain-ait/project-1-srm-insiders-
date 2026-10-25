@@ -6,6 +6,7 @@ import { SafeExternalLink, EmptySectionHint, SocialPlatformIcon } from "../share
 import Link from "next/link";
 import { Mail, MapPin, Menu, X, ArrowUpRight, FileText, Sparkles } from "lucide-react";
 import { GithubIcon } from "@/components/ui/icons";
+import { PublicContactForm } from "@/components/contact/public-contact-form";
 
 export function MinimalPortfolioTemplate({ portfolio, isLivePreview = false }: TemplateProps) {
   const { profile, projects, experience, skills, education, socialLinks, sections } = portfolio;
@@ -22,7 +23,7 @@ export function MinimalPortfolioTemplate({ portfolio, isLivePreview = false }: T
   const hasExperience = experience.length > 0;
   const hasSkills = skills.length > 0;
   const hasEducation = education.length > 0;
-  const hasContact = Boolean(profile.email || socialLinks.length > 0);
+  const hasContact = Boolean(profile.email || socialLinks.length > 0 || portfolio.contactConfig?.enabled);
 
   // Determine which navigation links to render (only those with content, or all active in preview)
   const navItems = activeSections
@@ -508,6 +509,12 @@ export function MinimalPortfolioTemplate({ portfolio, isLivePreview = false }: T
                   >
                     {sec.label || "Get in Touch"}
                   </h2>
+
+                  <PublicContactForm
+                    portfolioId={portfolio.id}
+                    config={portfolio.contactConfig}
+                    isLivePreview={isLivePreview}
+                  />
 
                   <div className="space-y-3 text-sm text-zinc-700 font-light">
                     {profile.email && (

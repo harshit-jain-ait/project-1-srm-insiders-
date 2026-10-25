@@ -5,9 +5,10 @@ import { TemplateProps } from "../types";
 import { SafeExternalLink, EmptySectionHint, SocialPlatformIcon } from "../shared";
 import Link from "next/link";
 import { Mail, MapPin, Menu, X, ArrowUpRight, Sparkles, FileText } from "lucide-react";
+import { PublicContactForm } from "@/components/contact/public-contact-form";
 
 export function SignatureTemplate({ portfolio, isLivePreview = false }: TemplateProps) {
-  const { profile, projects, experience, skills, education, socialLinks, sections, appearance } = portfolio;
+  const { profile, projects, experience, skills, education, socialLinks, sections, appearance, contactConfig } = portfolio;
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Filter visible projects (hide hidden projects from public view)
@@ -40,7 +41,7 @@ export function SignatureTemplate({ portfolio, isLivePreview = false }: Template
   const hasExperience = experience.length > 0;
   const hasSkills = skills.length > 0;
   const hasEducation = education.length > 0;
-  const hasContact = Boolean(profile.email || socialLinks.length > 0);
+  const hasContact = Boolean(profile.email || socialLinks.length > 0 || contactConfig?.enabled);
 
   const navItems = activeSections
     .filter((sec) => {
@@ -465,6 +466,13 @@ export function SignatureTemplate({ portfolio, isLivePreview = false }: Template
             <p className="text-sm max-w-md mx-auto" style={{ color: mutedTextColor }}>
               Open to new engineering inquiries, collaborations, and discussions.
             </p>
+
+            <PublicContactForm
+              portfolioId={portfolio.id}
+              config={contactConfig}
+              isLivePreview={isLivePreview}
+            />
+
             {profile.email && (
               <div className="pt-2">
                 <a

@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { portfolioRepository } from "@/lib/services/portfolio-repository";
 import { CaseStudyRenderer } from "@/components/case-study/case-study-renderer";
+import { AnalyticsTracker } from "@/components/analytics/analytics-tracker";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
@@ -140,6 +141,7 @@ export default async function PublicProjectDetailPage({ params }: Props) {
 
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100 selection:bg-[#356ae6]/30">
+      <AnalyticsTracker portfolioId={portfolio.id} path={`/projects/${projectId}`} />
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <CaseStudyRenderer
           project={project}

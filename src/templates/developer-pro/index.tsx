@@ -18,9 +18,10 @@ import {
   FileText,
 } from "lucide-react";
 import { GithubIcon } from "@/components/ui/icons";
+import { PublicContactForm } from "@/components/contact/public-contact-form";
 
 export function DeveloperProTemplate({ portfolio, isLivePreview = false }: TemplateProps) {
-  const { profile, projects, experience, skills, education, socialLinks, sections } = portfolio;
+  const { profile, projects, experience, skills, education, socialLinks, sections, contactConfig } = portfolio;
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Filter visible projects (hide hidden projects from public view)
@@ -32,7 +33,7 @@ export function DeveloperProTemplate({ portfolio, isLivePreview = false }: Templ
   const hasExperience = experience.length > 0;
   const hasSkills = skills.length > 0;
   const hasEducation = education.length > 0;
-  const hasContact = Boolean(profile.email || socialLinks.length > 0);
+  const hasContact = Boolean(profile.email || socialLinks.length > 0 || contactConfig?.enabled);
 
   const navItems = activeSections
     .filter((sec) => {
@@ -570,6 +571,12 @@ export function DeveloperProTemplate({ portfolio, isLivePreview = false }: Templ
                   >
                     {"//"} {sec.label || "Communications"}
                   </h2>
+
+                  <PublicContactForm
+                    portfolioId={portfolio.id}
+                    config={contactConfig}
+                    isLivePreview={isLivePreview}
+                  />
 
                   <div className="space-y-2 text-xs font-mono text-zinc-300">
                     {profile.email && (

@@ -5,9 +5,10 @@ import { TemplateProps } from "../types";
 import { SafeExternalLink, EmptySectionHint } from "../shared";
 import Link from "next/link";
 import { Mail, ArrowUpRight, Compass, FileText, Sparkles } from "lucide-react";
+import { PublicContactForm } from "@/components/contact/public-contact-form";
 
 export function ReimaginedTemplate({ portfolio, isLivePreview = false }: TemplateProps) {
-  const { profile, projects, experience, skills, education, socialLinks, sections, appearance } = portfolio;
+  const { profile, projects, experience, skills, education, socialLinks, sections, appearance, contactConfig } = portfolio;
 
   // Filter visible projects (hide hidden projects from public view)
   const visibleProjects = (projects || []).filter((p) => isLivePreview || p.visible !== false);
@@ -412,6 +413,13 @@ export function ReimaginedTemplate({ portfolio, isLivePreview = false }: Templat
             <p className="text-base max-w-lg mx-auto font-sans" style={{ color: mutedTextColor }}>
               Available for ambitious engineering initiatives, architectural reviews, and consulting engagements.
             </p>
+
+            <PublicContactForm
+              portfolioId={portfolio.id}
+              config={contactConfig}
+              isLivePreview={isLivePreview}
+            />
+
             {profile.email && (
               <div className="pt-4">
                 <a

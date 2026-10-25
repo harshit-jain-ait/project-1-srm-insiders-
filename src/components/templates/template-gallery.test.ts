@@ -54,8 +54,9 @@ describe("Template Gallery Business Logic & Search Verification", () => {
       );
     });
 
-    expect(matches).toHaveLength(1);
-    expect(matches[0].metadata.id).toBe("minimal-portfolio");
+    expect(matches.length).toBeGreaterThanOrEqual(1);
+    expect(matches.some((m) => m.metadata.id === "minimal-portfolio")).toBe(true);
+    expect(matches.some((m) => m.metadata.id === "editorial-studio")).toBe(true);
   });
 
   it("returns zero matches for non-existent search and handles gracefully", () => {

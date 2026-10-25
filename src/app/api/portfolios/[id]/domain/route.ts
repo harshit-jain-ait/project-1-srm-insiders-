@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { portfolioRepository } from "@/lib/services/portfolio-repository";
 import { DomainService } from "@/lib/domains/domain-service";
 import { getAuthContext, canModifyPortfolio } from "@/lib/auth/auth-service";
+import { canUseCustomDomain } from "@/lib/billing/entitlements";
 
 export async function POST(
   req: NextRequest,
@@ -38,6 +39,18 @@ export async function POST(
 
     // 1. Configure Domain
     if (action === "configure") {
+      const effectiveUserId = auth.userId || ownership.userId || "anonymous";
+      if (!canUseCustomDomain(effectiveUserId)) {
+        return NextResponse.json(
+          {
+            success: false,
+            error: "Custom domains require a Pro subscription.",
+            upgradeRequired: true,
+          },
+          { status: 403 }
+        );
+      }
+
       const rawDomain = body.domain;
       const validation = DomainService.validateDomain(rawDomain);
       if (!validation.isValid || !validation.normalizedDomain) {

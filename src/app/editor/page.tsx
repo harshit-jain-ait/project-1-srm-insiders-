@@ -10,6 +10,8 @@ import { AiAssistModal } from "@/components/editor/ai-assist-modal";
 import { UrlImportModal } from "@/components/editor/url-import-modal";
 import { ResumeImportModal } from "@/components/editor/resume-import-modal";
 import { PublishModal } from "@/components/publishing/publish-modal";
+import { VersionHistoryPanel } from "@/components/editor/version-history-panel";
+import { AnalyticsModal } from "@/components/analytics/analytics-modal";
 import { usePortfolioEditor } from "@/components/editor/use-portfolio-editor";
 import { DesignDirection } from "@/lib/url-import/types";
 import { ContentTargetField } from "@/lib/ai-assistant/types";
@@ -34,6 +36,8 @@ function EditorContent() {
   const [isUrlModalOpen, setIsUrlModalOpen] = useState(false);
   const [isResumeModalOpen, setIsResumeModalOpen] = useState(false);
   const [isPublishModalOpen, setIsPublishModalOpen] = useState(false);
+  const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
+  const [isAnalyticsModalOpen, setIsAnalyticsModalOpen] = useState(false);
 
   // Canonical Editor State & Persistence Layer
   const {
@@ -213,6 +217,8 @@ function EditorContent() {
         onOpenAiAssistant={() => handleOpenAiAssistant("content")}
         onOpenUrlImport={() => setIsUrlModalOpen(true)}
         onOpenResumeImport={() => setIsResumeModalOpen(true)}
+        onOpenVersionHistory={() => setIsHistoryModalOpen(true)}
+        onOpenAnalytics={() => setIsAnalyticsModalOpen(true)}
       />
 
       {/* Honest Operational Notification Bar */}
@@ -330,6 +336,33 @@ function EditorContent() {
             isPub ? `Portfolio published live at /p/${portfolio.slug}` : "Portfolio unpublished"
           );
           setTimeout(() => setFeedbackMessage(null), 4000);
+        }}
+      />
+
+      {/* Version History & Recovery Panel */}
+      <VersionHistoryPanel
+        isOpen={isHistoryModalOpen}
+        onClose={() => setIsHistoryModalOpen(false)}
+        portfolioId={portfolio.id}
+        onRestore={(restored) => {
+          updatePortfolio(() => restored);
+          setFeedbackMessage("Snapshot successfully restored to editor draft.");
+          setTimeout(() => setFeedbackMessage(null), 5000);
+        }}
+        onUpgradeClick={() => {
+          window.open("/pricing", "_blank");
+        }}
+      />
+
+      {/* Portfolio Analytics & Telemetry Modal */}
+      <AnalyticsModal
+        isOpen={isAnalyticsModalOpen}
+        onClose={() => setIsAnalyticsModalOpen(false)}
+        portfolioId={portfolio.id}
+        isPublished={portfolio.published}
+        slug={portfolio.slug}
+        onUpgradeClick={() => {
+          window.open("/pricing", "_blank");
         }}
       />
     </div>

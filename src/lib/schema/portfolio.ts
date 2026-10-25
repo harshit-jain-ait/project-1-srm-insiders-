@@ -330,6 +330,9 @@ export const TemplateIdSchema = z.enum([
   "developer-pro",
   "signature",
   "reimagined",
+  "editorial-studio",
+  "creative-motion",
+  "product-engineer",
 ]);
 
 export type TemplateId = z.infer<typeof TemplateIdSchema>;
@@ -428,6 +431,17 @@ export const CustomDomainConfigSchema = z.object({
 
 export type CustomDomainConfig = z.infer<typeof CustomDomainConfigSchema>;
 
+export const ContactConfigSchema = z.object({
+  enabled: z.boolean().default(true),
+  title: z.string().default("Get in Touch"),
+  description: z.string().default("Have a question, opportunity, or collaboration in mind? Send a message directly."),
+  recipientEmail: z.string().email().or(z.literal("")).default(""),
+  requireSubject: z.boolean().default(false),
+  showConsent: z.boolean().default(false),
+});
+
+export type ContactConfig = z.infer<typeof ContactConfigSchema>;
+
 export const PortfolioDataSchema = z.object({
   version: z.number().optional().default(1),
   revision: z.number().optional().default(1),
@@ -488,6 +502,14 @@ export const PortfolioDataSchema = z.object({
     configuredAt: null,
     lastCheckedAt: null,
     errorMessage: "",
+  })),
+  contactConfig: ContactConfigSchema.default(() => ({
+    enabled: true,
+    title: "Get in Touch",
+    description: "Have a question, opportunity, or collaboration in mind? Send a message directly.",
+    recipientEmail: "",
+    requireSubject: false,
+    showConsent: false,
   })),
   createdAt: z.string(),
   updatedAt: z.string(),
@@ -614,6 +636,15 @@ export function createEmptyPortfolio(partial?: DeepPartial<PortfolioData>): Port
       lastCheckedAt: null,
       errorMessage: "",
       ...partial?.customDomain,
+    },
+    contactConfig: {
+      enabled: true,
+      title: "Get in Touch",
+      description: "Have a question, opportunity, or collaboration in mind? Send a message directly.",
+      recipientEmail: "",
+      requireSubject: false,
+      showConsent: false,
+      ...partial?.contactConfig,
     },
     createdAt: partial?.createdAt || now,
     updatedAt: partial?.updatedAt || now,

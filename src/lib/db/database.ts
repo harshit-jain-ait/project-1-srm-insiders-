@@ -106,6 +106,90 @@ export const MIGRATIONS = [
       UPDATE portfolios SET published_content_json = content_json WHERE published = 1 AND published_content_json IS NULL;
     `,
   },
+  {
+    version: "003_subscriptions_and_usage",
+    sql: `
+      CREATE TABLE IF NOT EXISTS user_subscriptions (
+        user_id TEXT PRIMARY KEY,
+        plan_id TEXT NOT NULL DEFAULT 'free',
+        status TEXT NOT NULL DEFAULT 'active',
+        current_period_end TEXT,
+        cancel_at_period_end INTEGER NOT NULL DEFAULT 0,
+        stripe_customer_id TEXT,
+        stripe_subscription_id TEXT,
+        created_at TEXT NOT NULL,
+        updated_at TEXT NOT NULL
+      );
+
+      CREATE TABLE IF NOT EXISTS usage_records (
+        id TEXT PRIMARY KEY,
+        user_id TEXT NOT NULL,
+        metric TEXT NOT NULL,
+        count INTEGER NOT NULL DEFAULT 0,
+        period TEXT NOT NULL,
+        created_at TEXT NOT NULL,
+        updated_at TEXT NOT NULL,
+        UNIQUE(user_id, metric, period)
+      );
+
+      CREATE INDEX IF NOT EXISTS idx_usage_user_period ON usage_records(user_id, period);
+    `,
+  },
+  {
+    version: "004_analytics_contact_and_versioning",
+    sql: `
+      CREATE TABLE IF NOT EXISTS portfolio_events (
+        id TEXT PRIMARY KEY,
+        portfolio_id TEXT NOT NULL,
+        event_type TEXT NOT NULL,
+        path TEXT NOT NULL DEFAULT '/',
+        referrer_category TEXT NOT NULL DEFAULT 'direct',
+        device_category TEXT NOT NULL DEFAULT 'desktop',
+        visitor_hash TEXT NOT NULL,
+        created_at TEXT NOT NULL,
+        FOREIGN KEY (portfolio_id) REFERENCES portfolios(id) ON DELETE CASCADE
+      );
+
+      CREATE INDEX IF NOT EXISTS idx_portfolio_events_pid ON portfolio_events(portfolio_id);
+      CREATE INDEX IF NOT EXISTS idx_portfolio_events_created ON portfolio_events(created_at);
+      CREATE INDEX IF NOT EXISTS idx_portfolio_events_pid_created ON portfolio_events(portfolio_id, created_at);
+
+      CREATE TABLE IF NOT EXISTS contact_submissions (
+        id TEXT PRIMARY KEY,
+        portfolio_id TEXT NOT NULL,
+        user_id TEXT NOT NULL,
+        name TEXT NOT NULL,
+        email TEXT NOT NULL,
+        subject TEXT,
+        message TEXT NOT NULL,
+        status TEXT NOT NULL DEFAULT 'unread',
+        ip_hash TEXT NOT NULL,
+        created_at TEXT NOT NULL,
+        FOREIGN KEY (portfolio_id) REFERENCES portfolios(id) ON DELETE CASCADE
+      );
+
+      CREATE INDEX IF NOT EXISTS idx_contact_submissions_pid ON contact_submissions(portfolio_id);
+      CREATE INDEX IF NOT EXISTS idx_contact_submissions_uid ON contact_submissions(user_id);
+      CREATE INDEX IF NOT EXISTS idx_contact_submissions_created ON contact_submissions(created_at);
+
+      CREATE TABLE IF NOT EXISTS portfolio_snapshots (
+        id TEXT PRIMARY KEY,
+        portfolio_id TEXT NOT NULL,
+        user_id TEXT NOT NULL,
+        revision INTEGER NOT NULL,
+        label TEXT NOT NULL DEFAULT 'Manual Snapshot',
+        trigger TEXT NOT NULL DEFAULT 'manual',
+        schema_version INTEGER NOT NULL DEFAULT 1,
+        template_id TEXT NOT NULL,
+        content_json TEXT NOT NULL,
+        created_at TEXT NOT NULL,
+        FOREIGN KEY (portfolio_id) REFERENCES portfolios(id) ON DELETE CASCADE
+      );
+
+      CREATE INDEX IF NOT EXISTS idx_portfolio_snapshots_pid ON portfolio_snapshots(portfolio_id);
+      CREATE INDEX IF NOT EXISTS idx_portfolio_snapshots_pid_created ON portfolio_snapshots(portfolio_id, created_at);
+    `,
+  },
 ];
 
 /**

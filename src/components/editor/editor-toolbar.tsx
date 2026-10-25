@@ -22,6 +22,8 @@ import {
   Pencil,
   CheckCheck,
   FileText,
+  History,
+  BarChart3,
 } from "lucide-react";
 import { TemplateId } from "@/lib/schema/portfolio";
 import { SaveStatus } from "./use-portfolio-editor";
@@ -53,6 +55,8 @@ interface EditorToolbarProps {
   onOpenAiAssistant: () => void;
   onOpenUrlImport?: () => void;
   onOpenResumeImport?: () => void;
+  onOpenVersionHistory?: () => void;
+  onOpenAnalytics?: () => void;
 }
 
 export function EditorToolbar({
@@ -79,6 +83,8 @@ export function EditorToolbar({
   onOpenAiAssistant,
   onOpenUrlImport,
   onOpenResumeImport,
+  onOpenVersionHistory,
+  onOpenAnalytics,
 }: EditorToolbarProps) {
   const [isEditingTitle, setIsEditingTitle] = useState(false);
   const [titleInput, setTitleInput] = useState(portfolioTitle);
@@ -322,6 +328,32 @@ export function EditorToolbar({
           <Sparkles className="w-3.5 h-3.5 text-blue-400" />
           <span className="hidden sm:inline">AI Assist</span>
         </Button>
+
+        {onOpenVersionHistory && (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={onOpenVersionHistory}
+            className="h-8 gap-1.5 border-zinc-700 text-zinc-200 hover:bg-zinc-900"
+            title="Portfolio Version History & Checkpoints"
+          >
+            <History className="w-3.5 h-3.5 text-zinc-400" />
+            <span className="hidden md:inline">History</span>
+          </Button>
+        )}
+
+        {onOpenAnalytics && (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={onOpenAnalytics}
+            className="h-8 gap-1.5 border-zinc-700 text-zinc-200 hover:bg-zinc-900"
+            title="Portfolio Analytics & Telemetry"
+          >
+            <BarChart3 className="w-3.5 h-3.5 text-blue-400" />
+            <span className="hidden md:inline">Analytics</span>
+          </Button>
+        )}
 
         <Button
           variant="secondary"
