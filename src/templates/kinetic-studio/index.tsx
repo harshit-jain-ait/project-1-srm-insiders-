@@ -38,9 +38,33 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
 
   // Local theme toggle (allows visitor to flip day/night view smoothly like reference site)
   const [isDayMode, setIsDayMode] = useState<boolean>(!baseTheme.isDark);
+  const [waveEffect, setWaveEffect] = useState<{ active: boolean; x: number; y: number; toDark: boolean } | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [expandedProjectIndex, setExpandedProjectIndex] = useState<number | null>(null);
   const [liveDemoProject, setLiveDemoProject] = useState<{ url: string; title: string } | null>(null);
+
+  // Animated wave theme switch handler
+  const handleThemeToggle = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const articleRect = articleRef.current?.getBoundingClientRect();
+    const x = articleRect ? rect.left + rect.width / 2 - articleRect.left : rect.left + rect.width / 2;
+    const y = articleRect ? rect.top + rect.height / 2 - articleRect.top : rect.top + rect.height / 2;
+
+    const nextMode = !isDayMode;
+    setWaveEffect({ active: true, x, y, toDark: !nextMode });
+
+    if (typeof document !== "undefined" && "startViewTransition" in document) {
+      (document as unknown as { startViewTransition: (cb: () => void) => void }).startViewTransition(() => {
+        setIsDayMode(nextMode);
+      });
+    } else {
+      setIsDayMode(nextMode);
+    }
+
+    setTimeout(() => {
+      setWaveEffect(null);
+    }, 950);
+  };
 
   // Active theme computed based on local mode or default
   const isDark = !isDayMode;
@@ -125,9 +149,58 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
   return (
     <article
       ref={articleRef}
-      className={`min-h-screen ${fontClass} selection:bg-[#ff5c1a] selection:text-white transition-colors duration-500 kinetic-cursor-area relative`}
+      className={`min-h-screen ${fontClass} selection:bg-[#ff5c1a] selection:text-white transition-colors duration-700 kinetic-cursor-area relative overflow-hidden`}
       style={{ backgroundColor: bgColor, color: textColor }}
     >
+      {/* Animated Wave Theme Transition Overlay */}
+      {waveEffect && (
+        <div
+          className="pointer-events-none absolute inset-0 z-40 overflow-hidden"
+          aria-hidden="true"
+        >
+          {/* Liquid Expanding Color Wave Wash */}
+          <div
+            className="absolute rounded-full kinetic-wave-wash"
+            style={{
+              left: `${waveEffect.x}px`,
+              top: `${waveEffect.y}px`,
+              transform: "translate(-50%, -50%)",
+              background: waveEffect.toDark
+                ? "radial-gradient(circle, rgba(14,14,12,0.96) 0%, rgba(27,27,24,0.85) 55%, rgba(255,92,26,0.3) 100%)"
+                : "radial-gradient(circle, rgba(233,233,228,0.96) 0%, rgba(222,222,218,0.85) 55%, rgba(255,92,26,0.3) 100%)",
+            }}
+          />
+          {/* Concentric Wave Ripples expanding outward */}
+          <div
+            className="absolute rounded-full kinetic-wave-ripple ring-2"
+            style={{
+              left: `${waveEffect.x}px`,
+              top: `${waveEffect.y}px`,
+              transform: "translate(-50%, -50%)",
+              borderColor: accentColor,
+              boxShadow: `0 0 50px ${accentColor}`,
+            }}
+          />
+          <div
+            className="absolute rounded-full kinetic-wave-ripple-2 ring-1"
+            style={{
+              left: `${waveEffect.x}px`,
+              top: `${waveEffect.y}px`,
+              transform: "translate(-50%, -50%)",
+              borderColor: waveEffect.toDark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.3)",
+            }}
+          />
+          <div
+            className="absolute rounded-full kinetic-wave-ripple-3 ring-1"
+            style={{
+              left: `${waveEffect.x}px`,
+              top: `${waveEffect.y}px`,
+              transform: "translate(-50%, -50%)",
+              borderColor: accentColor,
+            }}
+          />
+        </div>
+      )}
       {/* Custom Smoke Particle Trail and Dot Cursor */}
       <KineticSmokeCursor
         containerRef={articleRef}
@@ -222,6 +295,51 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
         }
         .kinetic-pulse-dot {
           animation: kineticDotPulse 2.4s ease-out infinite;
+        }
+        @keyframes kineticWaveExpand {
+          0% {
+            width: 0px;
+            height: 0px;
+            opacity: 0.95;
+            border-width: 6px;
+          }
+          50% {
+            opacity: 0.8;
+            border-width: 4px;
+          }
+          100% {
+            width: 3200px;
+            height: 3200px;
+            opacity: 0;
+            border-width: 1px;
+          }
+        }
+        @keyframes kineticWaveWash {
+          0% {
+            width: 0px;
+            height: 0px;
+            opacity: 0.9;
+          }
+          60% {
+            opacity: 0.5;
+          }
+          100% {
+            width: 3400px;
+            height: 3400px;
+            opacity: 0;
+          }
+        }
+        .kinetic-wave-ripple {
+          animation: kineticWaveExpand 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .kinetic-wave-ripple-2 {
+          animation: kineticWaveExpand 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
+        }
+        .kinetic-wave-ripple-3 {
+          animation: kineticWaveExpand 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
+        }
+        .kinetic-wave-wash {
+          animation: kineticWaveWash 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
         @media (hover: hover) and (pointer: fine) {
           .kinetic-cursor-area,
@@ -346,12 +464,12 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
               <span>K</span>
             </div>
 
-            {/* Day / Night Theme Switcher */}
+            {/* Day / Night Theme Switcher with Animated Wave */}
             <button
               type="button"
-              onClick={() => setIsDayMode(!isDayMode)}
+              onClick={handleThemeToggle}
               aria-label="Toggle theme mode"
-              className="w-9 h-9 rounded-full border flex items-center justify-center transition-all hover:scale-105 cursor-pointer"
+              className="w-9 h-9 rounded-full border flex items-center justify-center transition-all hover:scale-105 cursor-pointer relative"
               style={{ borderColor, color: textColor }}
             >
               {isDayMode ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4 text-amber-400" />}
