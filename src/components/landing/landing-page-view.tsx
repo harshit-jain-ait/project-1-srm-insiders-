@@ -87,7 +87,7 @@ export function LandingPageView() {
         <StudioShowcase />
 
         {/* 3. Simple Process Section ("From idea to live portfolio in minutes.") */}
-        <section id="process" className="py-20 md:py-28 bg-[#fbfaf8] dark:bg-[#07090f] border-b border-slate-200/80 dark:border-slate-800/80 transition-colors duration-300 relative overflow-hidden">
+        <section id="process" className="py-12 md:py-16 bg-[#fbfaf8] dark:bg-[#07090f] border-b border-slate-200/80 dark:border-slate-800/80 transition-colors duration-300 relative overflow-hidden">
           {/* Full-width Responsive Desk Background Image without quality degradation */}
           <div className="absolute inset-0 w-full h-full pointer-events-none select-none z-0">
             <img
@@ -98,9 +98,9 @@ export function LandingPageView() {
           </div>
 
           <div className="max-w-7xl mx-auto px-6 relative z-10">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
               {/* Left Column: Heading, Badge, Subtitle & CTA */}
-              <div className="lg:col-span-5 space-y-6 text-left">
+              <div className="lg:col-span-5 space-y-5 text-left">
                 {/* Badge */}
                 <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-100/90 dark:bg-blue-950/80 border border-blue-200/70 dark:border-blue-800/50 text-[11px] font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 shadow-xs">
                   <span>SIMPLE PROCESS</span>
@@ -134,7 +134,7 @@ export function LandingPageView() {
                   Create a professional portfolio website without coding. Just follow a few simple steps and let AI handle the rest.
                 </p>
 
-                {/* See How It Works Button matching reference */}
+                {/* See How It Works Button with enlarged width and height */}
                 <div className="pt-2">
                   <Link href="/editor">
                     <motion.button
@@ -142,13 +142,13 @@ export function LandingPageView() {
                       whileHover={{ scale: 1.04 }}
                       whileTap={{ scale: 0.96 }}
                       transition={{ type: "spring", stiffness: 400, damping: 25 }}
-                      className="rounded-full bg-[#0f172a] hover:bg-[#1e293b] text-white font-semibold text-xs sm:text-sm px-5 py-2.5 inline-flex items-center gap-3 shadow-md hover:shadow-xl transition-all cursor-pointer group"
+                      className="rounded-full bg-[#0f172a] hover:bg-[#1e293b] text-white font-semibold text-sm sm:text-base px-7 py-3.5 sm:px-8 sm:py-4 inline-flex items-center gap-3.5 shadow-lg hover:shadow-2xl transition-all cursor-pointer group"
                     >
-                      <span className="w-5 h-5 rounded-full bg-white text-slate-900 flex items-center justify-center shrink-0 shadow-xs">
-                        <Play className="w-2.5 h-2.5 fill-current ml-0.5 text-slate-900" />
+                      <span className="w-7 h-7 rounded-full bg-white text-slate-900 flex items-center justify-center shrink-0 shadow-sm">
+                        <Play className="w-3.5 h-3.5 fill-current ml-0.5 text-slate-900" />
                       </span>
-                      <span>See How It Works</span>
-                      <ArrowRight className="w-4 h-4 text-slate-400 group-hover:translate-x-1 group-hover:text-white transition-all" />
+                      <span className="tracking-wide">See How It Works</span>
+                      <ArrowRight className="w-5 h-5 text-slate-400 group-hover:translate-x-1 group-hover:text-white transition-all" />
                     </motion.button>
                   </Link>
                 </div>
