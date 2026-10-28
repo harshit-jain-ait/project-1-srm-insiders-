@@ -54,10 +54,10 @@ export type SocialLinkPlatform = z.infer<typeof SocialLinkPlatformSchema>;
 export const SocialLinkSchema = z.object({
   id: z.string(),
   platform: SocialLinkPlatformSchema,
-  label: z.string().min(1, "Label is required"),
+  label: z.string().default(""),
   url: z.string().refine(
     (val) => {
-      if (!val || val.trim() === "") return false;
+      if (!val || val.trim() === "") return true;
       const trimmed = val.trim();
       if (trimmed.startsWith("mailto:")) return true;
       if (isSafeHttpUrl(trimmed)) return true;
