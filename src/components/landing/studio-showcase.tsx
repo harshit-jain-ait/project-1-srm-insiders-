@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { Logo } from "@/components/ui/logo";
 import { useTheme } from "@/components/theme-provider";
@@ -70,11 +70,8 @@ export function StudioShowcase() {
   const [selectedTemplate, setSelectedTemplate] = useState("bento-studio");
   const [layoutStyle, setLayoutStyle] = useState<LayoutDensity>("default");
   const [accentColor, setAccentColor] = useState(ACCENT_COLORS[0]);
-  const [isDarkMode, setIsDarkMode] = useState(true);
-
-  useEffect(() => {
-    setIsDarkMode(siteIsDark);
-  }, [siteIsDark]);
+  const [userDarkMode, setUserDarkMode] = useState<boolean | null>(null);
+  const isDarkMode = userDarkMode !== null ? userDarkMode : siteIsDark;
   const [deviceView, setDeviceView] = useState<DeviceView>("desktop");
   const [activeNavTab, setActiveNavTab] = useState("template");
   const [editPanelTab, setEditPanelTab] = useState<"content" | "style">("content");
@@ -657,7 +654,7 @@ export function StudioShowcase() {
                     </div>
                     <button
                       type="button"
-                      onClick={() => setIsDarkMode((prev) => !prev)}
+                      onClick={() => setUserDarkMode(!isDarkMode)}
                       className={`w-9 h-5 rounded-full transition-colors cursor-pointer relative p-0.5 shrink-0 ${
                         isDarkMode ? "bg-blue-600" : "bg-slate-300 dark:bg-slate-700"
                       }`}

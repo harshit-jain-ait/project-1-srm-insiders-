@@ -6,13 +6,9 @@ import { Sun, Moon, Menu, X } from "lucide-react";
 import { Logo } from "@/components/ui/logo";
 import { useTheme } from "@/components/theme-provider";
 
-interface LandingNavbarProps {
-  variant?: "dark" | "light";
-}
-
-export function LandingNavbar({ variant }: LandingNavbarProps) {
+export function LandingNavbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { theme, isDark, toggleTheme } = useTheme();
+  const { isDark, toggleTheme } = useTheme();
 
   return (
     <header className="sticky top-0 z-50 w-full select-none pt-4 px-4 sm:px-6 pointer-events-none">

@@ -4,14 +4,12 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { LandingNavbar } from "@/components/landing/navbar";
-import { CrowdCanvas } from "@/components/animations/CrowdCanvas";
 import { TemplatePreviewModal } from "@/components/templates/template-preview-modal";
 import { getAllTemplates } from "@/templates/registry";
 import { RegisteredTemplate } from "@/templates/types";
 import {
   ArrowRight,
   Sparkles,
-  Sliders,
   Globe,
   Link2,
   Palette,

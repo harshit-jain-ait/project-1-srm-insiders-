@@ -1,9 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { TemplateProps } from "../types";
-import { SafeExternalLink, SocialPlatformIcon, EmptySectionHint, resolveTemplateTheme } from "../shared";
+import { SafeExternalLink, SocialPlatformIcon, EmptySectionHint } from "../shared";
+import { Project } from "@/lib/schema/portfolio";
 import { PublicContactForm } from "@/components/contact/public-contact-form";
 import Link from "next/link";
 import {
@@ -15,27 +16,16 @@ import {
   Check,
   Play,
   Pause,
-  Volume2,
-  VolumeX,
   Radio,
   ExternalLink,
-  ChevronDown,
-  ChevronUp,
   X,
-  Heart,
   Smile,
-  Compass,
-  Briefcase,
   GraduationCap,
-  Layers,
   Code2,
 } from "lucide-react";
 
 export function DesignerCraftTemplate({ portfolio, isLivePreview = false }: TemplateProps) {
   const { profile, projects, experience, skills, education, socialLinks, sections, contactConfig } = portfolio;
-
-  // Resolve base theme tokens
-  const baseTheme = resolveTemplateTheme(portfolio.appearance, "designer-craft");
 
   // Local interactive states
   const [copiedEmail, setCopiedEmail] = useState(false);
@@ -43,8 +33,7 @@ export function DesignerCraftTemplate({ portfolio, isLivePreview = false }: Temp
   const [airdropAccepted, setAirdropAccepted] = useState(false);
   const [airdropDismissed, setAirdropDismissed] = useState(false);
   const [activeCraftTab, setActiveCraftTab] = useState<number>(0);
-  const [expandedProjectIndex, setExpandedProjectIndex] = useState<number | null>(null);
-  const [activeModalProject, setActiveModalProject] = useState<any | null>(null);
+  const [activeModalProject, setActiveModalProject] = useState<Project | null>(null);
   const [smilesCount, setSmilesCount] = useState<number>(42);
   const [hasSmiled, setHasSmiled] = useState(false);
 

@@ -14,7 +14,6 @@ import {
   AppearanceSettings,
   SeoSettings,
   CustomDomainConfig,
-  ContactConfig,
   TemplateId,
 } from "@/lib/schema/portfolio";
 import { LeftNavSection } from "./editor-left-nav";
@@ -29,24 +28,17 @@ import {
   AppearanceForm,
   SeoForm,
   CustomDomainForm,
-  ContactConfigForm,
 } from "@/components/forms";
 import {
   HelpCircle,
   Download,
-  Upload,
   ChevronDown,
   ChevronRight,
-  ExternalLink,
-  Sparkles,
-  Layers,
-  Palette,
   FileText,
   Link2,
   Code2,
   Folder,
   Check,
-  LayoutTemplate,
 } from "lucide-react";
 import { ContentTargetField } from "@/lib/ai-assistant/types";
 
@@ -170,14 +162,6 @@ export function EditorInspector({
     });
   };
 
-  const handleContactConfigChange = (updatedContact: ContactConfig) => {
-    onChange({
-      ...portfolio,
-      contactConfig: updatedContact,
-      updatedAt: new Date().toISOString(),
-    });
-  };
-
   const handleAvatarChangePrompt = () => {
     const current = portfolio.profile.avatarUrl || "/images/studio/alex-carter.jpg";
     const newUrl = window.prompt("Enter image URL for profile portrait:", current);
@@ -185,10 +169,6 @@ export function EditorInspector({
       updateProfile({ avatarUrl: newUrl.trim() });
     }
   };
-
-  // Determine what panel content to show based on left nav selection
-  const showDedicatedForm =
-    activeNavSection !== "sections" && activeNavSection !== "style" && activeNavSection !== "colors" && activeNavSection !== "typography" && activeNavSection !== "background";
 
   return (
     <aside

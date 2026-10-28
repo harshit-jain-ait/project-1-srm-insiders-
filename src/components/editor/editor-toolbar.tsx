@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { Logo } from "@/components/ui/logo";
-import { Button } from "@/components/ui/button";
 import {
   Smartphone,
   Tablet,
@@ -21,7 +20,6 @@ import {
   BarChart3,
   ExternalLink,
   Eye,
-  Pencil,
   CheckCheck,
 } from "lucide-react";
 import { TemplateId } from "@/lib/schema/portfolio";
@@ -62,7 +60,6 @@ export function EditorToolbar({
   portfolioTitle,
   onTitleChange,
   saveStatus,
-  lastSavedAt,
   isPublished,
   slug,
   activeTemplate,
@@ -71,7 +68,6 @@ export function EditorToolbar({
   isDistractionFree,
   onToggleDistractionFree,
   onTemplateChange,
-  onSave,
   onTogglePublish,
   onOpenAiAssistant,
   onOpenUrlImport,

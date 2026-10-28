@@ -17,9 +17,7 @@ import {
   Sparkles,
   Layers,
   MessageSquare,
-  HelpCircle,
   Tag,
-  Check,
   LayoutTemplate,
   ChevronDown,
 } from "lucide-react";

@@ -90,7 +90,7 @@ export function SmokeCursor() {
     let raf: number;
 
     // ── Particle Factory ───────────────────────────────────────────────────
-    const createParticle = (x: number, y: number, speedRatio: number) => {
+    const createParticle = (x: number, y: number) => {
       const maxLife = 50 + Math.random() * 35;
       const angle = Math.random() * Math.PI * 2;
       const scatter = 1.2 + Math.random() * 2.5;
@@ -137,7 +137,7 @@ export function SmokeCursor() {
           const t = i / steps;
           const interpX = prevX + (targetX - prevX) * t;
           const interpY = prevY + (targetY - prevY) * t;
-          createParticle(interpX, interpY, dist);
+          createParticle(interpX, interpY);
         }
       }
 

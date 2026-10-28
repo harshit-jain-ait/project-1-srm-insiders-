@@ -11,7 +11,6 @@ import {
   Briefcase,
   GraduationCap,
   Sparkles,
-  ExternalLink,
   Code2,
 } from "lucide-react";
 import { GithubIcon, LinkedinIcon, TwitterIcon } from "@/components/ui/icons";
