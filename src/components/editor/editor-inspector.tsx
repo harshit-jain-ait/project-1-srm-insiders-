@@ -150,9 +150,9 @@ export function EditorInspector({
         </div>
       </div>
 
-      {/* 2. NAVIGATION TABS (Requested exact order: Template -> About -> Experience -> Education -> Projects -> Social Links -> Images) */}
-      <div className="border-b border-slate-800 bg-[#080c14] p-2 shrink-0">
-        <div className="flex items-center gap-1 overflow-x-auto no-scrollbar scroll-smooth">
+      {/* 2. NAVIGATION TABS (Clean 2-row wrap layout without any horizontal sliding or slide bars) */}
+      <div className="border-b border-slate-800 bg-[#080c14] p-3 shrink-0">
+        <div className="flex flex-wrap gap-1.5">
           {NAV_TABS.map((tab) => {
             const Icon = tab.icon;
             const isActive = currentSection === tab.id;
@@ -161,10 +161,10 @@ export function EditorInspector({
                 key={tab.id}
                 type="button"
                 onClick={() => setSection(tab.id)}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
                   isActive
-                    ? "bg-blue-600 text-white shadow-sm shadow-blue-500/20"
-                    : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/60"
+                    ? "bg-blue-600 text-white shadow-sm shadow-blue-500/30 font-semibold ring-1 ring-blue-400/40"
+                    : "bg-[#0c101a] border border-slate-800/80 text-slate-300 hover:text-white hover:bg-slate-800 hover:border-slate-700"
                 }`}
               >
                 <Icon className={`w-3.5 h-3.5 ${isActive ? "text-white" : "text-slate-400"}`} />
@@ -175,8 +175,8 @@ export function EditorInspector({
         </div>
       </div>
 
-      {/* 3. SCROLLABLE CONTENT BODY */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-5 text-left">
+      {/* 3. SCROLLABLE CONTENT BODY (Slide bar completely removed while smooth scrolling is preserved) */}
+      <div className="flex-1 overflow-y-auto p-4 space-y-5 text-left no-scrollbar [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {currentSection === "templates" ? (
           /* TEMPLATES (Only Kinetic Studio) */
           <div className="space-y-4">
@@ -351,24 +351,33 @@ export function EditorInspector({
 
             {/* Profile Image */}
             <div className="space-y-1.5 pt-1">
-              <label className="text-[11px] font-semibold text-slate-400 block">Profile Image</label>
-              <div className="flex items-center gap-3 p-2.5 rounded-xl bg-[#0c101a] border border-slate-800">
-                <div className="w-12 h-14 rounded-lg overflow-hidden border border-slate-700 bg-slate-900 shrink-0">
+              <label className="text-[11px] font-semibold text-slate-400 block">Profile Portrait</label>
+              <div className="flex items-center gap-3 p-3 rounded-xl bg-[#0c101a] border border-slate-800">
+                <div className="w-14 h-16 rounded-xl overflow-hidden border border-slate-700 bg-slate-900 shrink-0">
                   <img
                     src={portfolio.profile.avatarUrl || "/images/studio/alex-carter.jpg"}
                     alt="Profile"
                     className="w-full h-full object-cover object-top"
                   />
                 </div>
-                <div className="flex-1 space-y-1">
-                  <button
-                    type="button"
-                    onClick={handleAvatarChangePrompt}
-                    className="px-3 py-1.5 rounded-lg border border-slate-700 bg-slate-800 hover:bg-slate-750 text-slate-200 text-xs font-semibold transition-colors cursor-pointer shadow-sm"
-                  >
-                    Change Image
-                  </button>
-                  <p className="text-[10px] text-slate-500">Enter image URL or local path</p>
+                <div className="flex-1 space-y-2">
+                  <input
+                    type="text"
+                    value={portfolio.profile.avatarUrl ?? ""}
+                    onChange={(e) => updateProfile({ avatarUrl: e.target.value })}
+                    placeholder="https://example.com/portrait.jpg"
+                    className="w-full px-2.5 py-1.5 rounded-lg bg-[#080b12] border border-slate-800 text-xs text-white focus:outline-none focus:border-blue-500 transition-colors shadow-inner"
+                  />
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] text-slate-500">Image URL or local path</span>
+                    <button
+                      type="button"
+                      onClick={handleAvatarChangePrompt}
+                      className="text-[11px] font-semibold text-blue-400 hover:text-blue-300 transition-colors cursor-pointer"
+                    >
+                      Quick Prompt
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
