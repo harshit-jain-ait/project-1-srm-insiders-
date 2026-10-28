@@ -465,7 +465,7 @@ export function LandingPageView() {
                 Features
               </a>
               <a href="#process" className="hover:text-white transition-colors">
-                Blog
+                Working
               </a>
             </div>
 

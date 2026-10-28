@@ -51,21 +51,13 @@ export function LandingNavbar({ variant = "dark" }: LandingNavbarProps) {
           >
             Features
           </a>
-          <Link
-            href="/pricing"
-            className={`transition-colors font-medium py-6 ${
-              isDark ? "text-slate-400 hover:text-white" : "text-slate-600 hover:text-slate-900"
-            }`}
-          >
-            Pricing
-          </Link>
           <a
             href="#process"
             className={`transition-colors font-medium py-6 ${
               isDark ? "text-slate-400 hover:text-white" : "text-slate-600 hover:text-slate-900"
             }`}
           >
-            Blog
+            Working
           </a>
         </nav>
 
@@ -151,13 +143,13 @@ export function LandingNavbar({ variant = "dark" }: LandingNavbarProps) {
             >
               Features
             </a>
-            <Link
-              href="/pricing"
+            <a
+              href="#process"
               onClick={() => setMobileMenuOpen(false)}
               className="hover:text-blue-400 transition-colors py-1"
             >
-              Pricing
-            </Link>
+              Working
+            </a>
             <Link
               href="/editor"
               onClick={() => setMobileMenuOpen(false)}
