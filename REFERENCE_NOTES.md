@@ -89,3 +89,4 @@ Analyzed directly from live production source and HTTP response on October 28, 2
 
 ### 14. Other Pages / Routes
 - No other pages or routes exist on `3-d-website-alpha.vercel.app`. It is a focused, high-impact single-screen hero showcase.
+

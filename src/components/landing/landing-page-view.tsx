@@ -18,6 +18,9 @@ import {
   Share2,
   Smartphone,
   Play,
+  Mail,
+  MessageSquare,
+  Send,
 } from "lucide-react";
 import { GithubIcon, LinkedinIcon, TwitterIcon, YoutubeIcon } from "@/components/ui/icons";
 import { Logo } from "@/components/ui/logo";
@@ -442,9 +445,88 @@ export function LandingPageView() {
             </div>
           </div>
         </section>
+
+        {/* 7. Contact Section ("Get in Touch") */}
+        <section id="contact" className="py-20 bg-white dark:bg-[#090b11] border-b border-slate-200/80 dark:border-slate-800/80 transition-colors duration-300">
+          <div className="max-w-7xl mx-auto px-6">
+            <div className="max-w-3xl mx-auto text-center space-y-4 mb-12">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-purple-600 bg-purple-50 dark:bg-purple-950/60 dark:text-purple-400 px-2.5 py-1 rounded-md inline-block">
+                CONTACT & SUPPORT
+              </span>
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+                Have questions? We are here to help.
+              </h2>
+              <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 leading-relaxed max-w-xl mx-auto">
+                Need help building your portfolio, have custom template requests, or want to partner? Get in touch with our team.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+              {/* Card 1: Email Support */}
+              <div className="p-6 rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-slate-50/50 dark:bg-[#0c0e16] space-y-4 text-left transition-all hover:border-purple-300 dark:hover:border-purple-600">
+                <div className="w-12 h-12 rounded-xl bg-purple-50 dark:bg-purple-950/60 border border-purple-100 dark:border-purple-800/40 text-purple-600 dark:text-purple-400 flex items-center justify-center">
+                  <Mail className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-base text-slate-900 dark:text-white">Email Us Directly</h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
+                    Drop us a message for general inquiries or dedicated support.
+                  </p>
+                </div>
+                <a
+                  href="mailto:support@portfolify.dev"
+                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-purple-600 dark:text-purple-400 hover:underline pt-1"
+                >
+                  <span>support@portfolify.dev</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </a>
+              </div>
+
+              {/* Card 2: Community Chat */}
+              <div className="p-6 rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-slate-50/50 dark:bg-[#0c0e16] space-y-4 text-left transition-all hover:border-blue-300 dark:hover:border-blue-600">
+                <div className="w-12 h-12 rounded-xl bg-blue-50 dark:bg-blue-950/60 border border-blue-100 dark:border-blue-800/40 text-blue-600 dark:text-blue-400 flex items-center justify-center">
+                  <MessageSquare className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-base text-slate-900 dark:text-white">Community & Discussions</h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
+                    Join our vibrant community of developers, designers, and creators.
+                  </p>
+                </div>
+                <Link
+                  href="/templates"
+                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-600 dark:text-blue-400 hover:underline pt-1"
+                >
+                  <span>Join Community</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
+
+              {/* Card 3: Quick Start */}
+              <div className="p-6 rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-slate-50/50 dark:bg-[#0c0e16] space-y-4 text-left transition-all hover:border-emerald-300 dark:hover:border-emerald-600">
+                <div className="w-12 h-12 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-100 dark:border-emerald-800/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
+                  <Send className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-base text-slate-900 dark:text-white">Interactive Editor</h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
+                    Ready to start right now? Jump directly into the live studio.
+                  </p>
+                </div>
+                <Link
+                  href="/editor"
+                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-600 dark:text-emerald-400 hover:underline pt-1"
+                >
+                  <span>Launch Editor</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
 
-      {/* 7. Footer */}
+      {/* 8. Footer */}
       <footer className="bg-slate-100 dark:bg-[#090b0e] text-slate-600 dark:text-slate-400 py-14 border-t border-slate-200 dark:border-slate-800/80 text-xs select-none transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-6 space-y-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6 border-b border-slate-200 dark:border-slate-800 pb-8">
@@ -466,6 +548,9 @@ export function LandingPageView() {
               </a>
               <a href="#process" className="hover:text-slate-900 dark:hover:text-white transition-colors">
                 Working
+              </a>
+              <a href="#contact" className="hover:text-slate-900 dark:hover:text-white transition-colors">
+                Contact
               </a>
             </div>
 

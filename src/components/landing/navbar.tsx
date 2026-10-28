@@ -13,6 +13,7 @@ const NAV_LINKS = [
   { label: "Templates", href: "/templates" },
   { label: "Features", href: "#features" },
   { label: "Working", href: "#process" },
+  { label: "Contact", href: "#contact" },
 ];
 
 export function LandingNavbar() {
