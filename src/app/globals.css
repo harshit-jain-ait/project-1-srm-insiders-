@@ -5,6 +5,34 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Circular wave theme transition */
+::view-transition-old(root) {
+  animation: none;
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 9999;
+  animation: theme-wave 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes theme-wave {
+  from {
+    clip-path: circle(0px at var(--wave-x, 50%) var(--wave-y, 0px));
+  }
+  to {
+    clip-path: circle(var(--wave-r, 150vmax) at var(--wave-x, 50%) var(--wave-y, 0px));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(root),
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none !important;
+  }
+}
+
 @layer base {
   :root {
     /* Palette & Semantic Tokens (Light) */

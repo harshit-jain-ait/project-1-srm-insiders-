@@ -106,7 +106,7 @@ export function LandingNavbar() {
               {/* Animated Theme Toggle Button */}
               <motion.button
                 type="button"
-                onClick={toggleTheme}
+                onClick={(e) => toggleTheme(e)}
                 whileHover={{ scale: 1.08 }}
                 whileTap={{ scale: 0.92 }}
                 className={`p-2.5 rounded-full transition-colors cursor-pointer ${
@@ -240,7 +240,7 @@ export function LandingNavbar() {
               >
                 <button
                   type="button"
-                  onClick={toggleTheme}
+                  onClick={(e) => toggleTheme(e)}
                   className={`flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold cursor-pointer transition-colors ${
                     isDark
                       ? "bg-white/10 text-slate-200 hover:bg-white/15"

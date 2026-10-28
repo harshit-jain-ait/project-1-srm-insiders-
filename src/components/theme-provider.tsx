@@ -8,7 +8,7 @@ interface ThemeContextType {
   theme: Theme;
   isDark: boolean;
   setTheme: (theme: Theme) => void;
-  toggleTheme: () => void;
+  toggleTheme: (e?: React.MouseEvent) => void;
 }
 
 const ThemeContext = createContext<ThemeContextType>({
@@ -53,9 +53,40 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     applyThemeToDocument(newTheme);
   };
 
-  const toggleTheme = () => {
+  const toggleTheme = (e?: React.MouseEvent) => {
     const next = theme === "dark" ? "light" : "dark";
-    setTheme(next);
+
+    if (
+      typeof document !== "undefined" &&
+      "startViewTransition" in document &&
+      !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      let x = window.innerWidth / 2;
+      let y = 0;
+      if (e?.currentTarget) {
+        const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+        x = rect.left + rect.width / 2;
+        y = rect.top + rect.height / 2;
+      } else if (e?.clientX !== undefined && e?.clientY !== undefined) {
+        x = e.clientX;
+        y = e.clientY;
+      }
+
+      const endRadius = Math.hypot(
+        Math.max(x, window.innerWidth - x),
+        Math.max(y, window.innerHeight - y)
+      );
+
+      document.documentElement.style.setProperty("--wave-x", `${Math.round(x)}px`);
+      document.documentElement.style.setProperty("--wave-y", `${Math.round(y)}px`);
+      document.documentElement.style.setProperty("--wave-r", `${Math.ceil(endRadius)}px`);
+
+      (document as unknown as { startViewTransition: (cb: () => void) => void }).startViewTransition(() => {
+        setTheme(next);
+      });
+    } else {
+      setTheme(next);
+    }
   };
 
   return (

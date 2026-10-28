@@ -115,171 +115,48 @@ export function StudioShowcase() {
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 md:space-y-16">
-        {/* 1. HERO TOP SECTION: Headline + 3 Value Props + Floating 3D Cards */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-          {/* Left Column: Heading, Subtitle, Features */}
-          <div className="lg:col-span-7 space-y-6 text-left">
-            {/* Visual Editor Pill Badge */}
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-purple-50 dark:bg-purple-950/60 border border-purple-200 dark:border-purple-500/30 text-xs font-semibold text-purple-600 dark:text-purple-300 shadow-[0_0_20px_rgba(168,85,247,0.15)] backdrop-blur-md">
-              <Sparkles className="w-3.5 h-3.5 text-purple-500 dark:text-purple-400" />
-              <span>Portfolio Builder</span>
-            </div>
-
-            {/* Main Title */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-[1.12]">
-              The portfolio website builder <br />
-              <span className="bg-gradient-to-r from-violet-400 via-purple-300 to-indigo-300 bg-clip-text text-transparent drop-shadow-sm">
-                your work deserves
-              </span>
-            </h1>
-
-            {/* Subtitle */}
-            <p className="text-slate-600 dark:text-slate-400 text-base sm:text-lg max-w-xl font-normal leading-relaxed">
-              A portfolio website that makes your creative work the center of attention. No learning curve. No downloads. Just the easiest way to go from{" "}
-              <em className="italic font-normal text-slate-800 dark:text-slate-200">I need a site</em>{" "}
-              to{" "}
-              <em className="italic font-normal text-slate-800 dark:text-slate-200">this is exactly what I wanted.</em>
-            </p>
-
-            {/* 5 Value Highlights in a Row */}
-            <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 sm:gap-4 pt-3">
-              {VALUE_HIGHLIGHTS.map((item) => {
-                const Icon = item.icon;
-                return (
-                  <div
-                    key={item.label}
-                    className="flex flex-col items-center text-center gap-2.5 group"
-                  >
-                    <div className="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-white/90 dark:bg-[#12141c] border border-slate-200/90 dark:border-white/10 flex items-center justify-center text-purple-600 dark:text-[#c084fc] shadow-xs dark:shadow-md transition-all duration-200 group-hover:scale-105 group-hover:border-purple-400/50">
-                      <Icon className="w-5 h-5 sm:w-6 sm:h-6 stroke-[1.8]" />
-                    </div>
-                    <span className="text-xs sm:text-[13px] font-medium text-slate-700 dark:text-slate-300 leading-snug">
-                      {item.label}
-                    </span>
-                  </div>
-                );
-              })}
-            </div>
+        {/* 1. HERO TOP SECTION: Centered Headline + Subtitle + 5 Value Highlights */}
+        <div className="max-w-4xl mx-auto text-center space-y-6 sm:space-y-8 pt-4 pb-4">
+          {/* Visual Editor Pill Badge */}
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-50 dark:bg-purple-950/60 border border-purple-200 dark:border-purple-500/30 text-xs font-semibold text-purple-600 dark:text-purple-300 shadow-[0_0_20px_rgba(168,85,247,0.15)] backdrop-blur-md">
+            <Sparkles className="w-3.5 h-3.5 text-purple-500 dark:text-purple-400" />
+            <span>Portfolio Builder</span>
           </div>
 
-          {/* Right Column: Floating 3D/Tilted Cards (Alex Carter + Colors + Typography + Sections) */}
-          <div className="lg:col-span-5 relative flex items-center justify-center min-h-[340px]">
-            {/* Playful script annotation at top right */}
-            <div className="absolute -top-6 sm:-top-8 right-2 sm:right-6 z-30 pointer-events-none select-none text-right">
-              <span className="font-serif italic text-xs sm:text-sm text-slate-500 dark:text-slate-300 block transform rotate-3">
-                Edit. Preview. Publish.
-              </span>
-              <svg
-                className="w-8 h-8 text-slate-400 dark:text-slate-400 inline-block transform translate-x-2 -translate-y-1"
-                viewBox="0 0 40 40"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-              >
-                <path d="M 28 6 C 25 18, 18 26, 8 28" />
-                <path d="M 8 28 L 14 24" />
-                <path d="M 8 28 L 12 33" />
-              </svg>
-            </div>
+          {/* Main Title */}
+          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-[1.12]">
+            The portfolio website builder <br />
+            <span className="bg-gradient-to-r from-violet-400 via-purple-300 to-indigo-300 bg-clip-text text-transparent drop-shadow-sm">
+              your work deserves
+            </span>
+          </h1>
 
-            {/* Main Floating Tilted Portfolio Card */}
-            <div className="relative w-full max-w-[360px] sm:max-w-[400px] bg-white/95 dark:bg-[#0f1422]/90 border border-slate-200/90 dark:border-slate-700/70 rounded-2xl p-5 shadow-[0_20px_50px_rgba(0,0,0,0.08),0_0_30px_rgba(37,99,235,0.12)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.7),0_0_30px_rgba(37,99,235,0.25)] backdrop-blur-md transform -rotate-2 hover:rotate-0 transition-all duration-500">
-              <div className="flex items-start justify-between gap-4">
-                <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-slate-700 dark:text-white">Hello,</h3>
-                  <h2 className="text-base font-extrabold text-slate-900 dark:text-white">I&apos;m Alex Carter</h2>
-                  <p className="text-[11px] text-blue-600 dark:text-blue-400 font-medium">Product Designer • Developer</p>
-                  <p className="text-[10px] text-slate-500 dark:text-slate-400 flex items-center gap-1 pt-0.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400 inline-block" />
-                    Based in New York
-                  </p>
-                </div>
-                {/* Avatar */}
-                <div className="relative w-16 h-20 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 shadow-md shrink-0">
-                  <img
-                    src="/images/studio/alex-carter.jpg"
-                    alt="Alex Carter"
-                    className="w-full h-full object-cover object-top"
-                  />
-                </div>
-              </div>
+          {/* Subtitle */}
+          <p className="text-slate-600 dark:text-slate-400 text-base sm:text-lg lg:text-xl max-w-2xl mx-auto font-normal leading-relaxed">
+            A portfolio website that makes your creative work the center of attention. No learning curve. No downloads. Just the easiest way to go from{" "}
+            <em className="italic font-normal text-slate-800 dark:text-slate-200">I need a site</em>{" "}
+            to{" "}
+            <em className="italic font-normal text-slate-800 dark:text-slate-200">this is exactly what I wanted.</em>
+          </p>
 
-              {/* Stats Bar */}
-              <div className="grid grid-cols-3 gap-2 py-3 my-3 border-y border-slate-200 dark:border-slate-800 text-center">
-                <div>
-                  <div className="text-xs font-bold text-slate-900 dark:text-white">5+</div>
-                  <div className="text-[9px] text-slate-500 dark:text-slate-400">Years Exp.</div>
-                </div>
-                <div>
-                  <div className="text-xs font-bold text-slate-900 dark:text-white">12+</div>
-                  <div className="text-[9px] text-slate-500 dark:text-slate-400">Projects</div>
-                </div>
-                <div>
-                  <div className="text-xs font-bold text-slate-900 dark:text-white">8+</div>
-                  <div className="text-[9px] text-slate-500 dark:text-slate-400">Tech Stack</div>
-                </div>
-              </div>
-
-              {/* Action Button & Socials */}
-              <div className="flex items-center justify-between gap-3 pt-1">
-                <button
-                  type="button"
-                  className="bg-blue-600 hover:bg-blue-500 text-white text-[11px] font-semibold px-3 py-1.5 rounded-lg flex items-center gap-1.5 shadow-sm transition-all"
+          {/* 5 Value Highlights in a Row */}
+          <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-8 pt-2">
+            {VALUE_HIGHLIGHTS.map((item) => {
+              const Icon = item.icon;
+              return (
+                <div
+                  key={item.label}
+                  className="flex flex-col items-center text-center gap-2.5 group w-20 sm:w-24"
                 >
-                  <span>View My Work</span>
-                  <ArrowRight className="w-3 h-3" />
-                </button>
-                <div className="flex items-center gap-2 text-slate-400 dark:text-slate-400">
-                  <GithubIcon className="w-3.5 h-3.5 hover:text-slate-900 dark:hover:text-white transition-colors" />
-                  <LinkedinIcon className="w-3.5 h-3.5 hover:text-slate-900 dark:hover:text-white transition-colors" />
-                  <TwitterIcon className="w-3.5 h-3.5 hover:text-slate-900 dark:hover:text-white transition-colors" />
-                </div>
-              </div>
-            </div>
-
-            {/* Floating Mini Card 1: Colors (Top Left) */}
-            <div className="absolute -top-4 -left-4 sm:-left-8 bg-white/95 dark:bg-[#0b0f1a]/95 border border-slate-200/90 dark:border-slate-700/80 rounded-xl px-3 py-2 shadow-xl backdrop-blur-md z-20 pointer-events-none transform -rotate-6">
-              <span className="text-[10px] font-semibold text-slate-500 dark:text-slate-400 block mb-1">Colors</span>
-              <div className="flex items-center gap-1.5">
-                <span className="w-3 h-3 rounded-full bg-cyan-400 shadow-sm" />
-                <span className="w-3 h-3 rounded-full bg-blue-500 shadow-sm" />
-                <span className="w-3 h-3 rounded-full bg-indigo-500 shadow-sm" />
-                <span className="w-3 h-3 rounded-full bg-purple-500 shadow-sm" />
-                <span className="w-3 h-3 rounded-full bg-pink-500 shadow-sm" />
-              </div>
-            </div>
-
-            {/* Floating Mini Card 2: Typography (Left Center) */}
-            <div className="absolute bottom-6 -left-6 sm:-left-10 bg-white/95 dark:bg-[#0b0f1a]/95 border border-slate-200/90 dark:border-slate-700/80 rounded-xl p-3 shadow-xl backdrop-blur-md z-20 pointer-events-none transform rotate-3">
-              <div className="flex items-center justify-between gap-3">
-                <span className="text-[10px] font-semibold text-slate-500 dark:text-slate-400">Typography</span>
-                <span className="text-[10px] font-bold text-slate-900 dark:text-white font-mono">Aa</span>
-              </div>
-              <div className="text-xs font-bold text-slate-900 dark:text-white mt-0.5">Inter</div>
-              <div className="flex items-center gap-1 mt-1 text-[9px] text-slate-500 dark:text-slate-400">
-                <span>Regular</span>
-                <span>•</span>
-                <span>Medium</span>
-                <span>•</span>
-                <span>Semibold</span>
-              </div>
-            </div>
-
-            {/* Floating Mini Card 3: Sections Toggle List (Right Bottom) */}
-            <div className="absolute -bottom-6 -right-2 sm:-right-8 bg-white/95 dark:bg-[#0b0f1a]/95 border border-slate-200/90 dark:border-slate-700/80 rounded-xl p-3 shadow-xl backdrop-blur-md z-20 pointer-events-none transform rotate-6 w-36 hidden sm:block">
-              <span className="text-[10px] font-semibold text-slate-500 dark:text-slate-400 block mb-1.5">Sections</span>
-              <div className="space-y-1 text-[10px]">
-                {["Hero", "About", "Skills", "Projects", "Experience", "Contact"].map((sec) => (
-                  <div key={sec} className="flex items-center justify-between text-slate-700 dark:text-slate-300">
-                    <span>{sec}</span>
-                    <span className="w-4 h-2.5 rounded-full bg-blue-600 inline-flex items-center justify-end px-0.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-white" />
-                    </span>
+                  <div className="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-white/90 dark:bg-[#12141c] border border-slate-200/90 dark:border-white/10 flex items-center justify-center text-purple-600 dark:text-[#c084fc] shadow-xs dark:shadow-md transition-all duration-200 group-hover:scale-105 group-hover:border-purple-400/50">
+                    <Icon className="w-5 h-5 sm:w-6 sm:h-6 stroke-[1.8]" />
                   </div>
-                ))}
-              </div>
-            </div>
+                  <span className="text-xs sm:text-[13px] font-medium text-slate-700 dark:text-slate-300 leading-snug">
+                    {item.label}
+                  </span>
+                </div>
+              );
+            })}
           </div>
         </div>
 
