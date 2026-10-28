@@ -87,7 +87,16 @@ export function LandingPageView() {
         <StudioShowcase />
 
         {/* 3. Simple Process Section ("From idea to live portfolio in minutes.") */}
-        <section id="process" className="py-20 bg-slate-50/70 dark:bg-[#07090f] border-b border-slate-200/80 dark:border-slate-800/80 transition-colors duration-300 relative overflow-hidden">
+        <section id="process" className="py-20 md:py-28 bg-slate-50/70 dark:bg-[#07090f] border-b border-slate-200/80 dark:border-slate-800/80 transition-colors duration-300 relative overflow-hidden">
+          {/* Desk Workspace Background Scene matching reference image */}
+          <div className="absolute bottom-0 left-0 right-0 w-full h-[180px] sm:h-[220px] md:h-[260px] pointer-events-none select-none z-0">
+            <img
+              src="/images/landing/process-desk-banner.png"
+              alt="Desk workspace with laptop, books and coffee"
+              className="w-full h-full object-cover object-bottom opacity-90 dark:opacity-35 transition-opacity"
+            />
+          </div>
+
           {/* Subtle decorative background blobs */}
           <div className="absolute -bottom-10 left-10 w-72 h-72 bg-blue-500/5 dark:bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
           <div className="absolute top-10 right-20 w-80 h-80 bg-purple-500/5 dark:bg-purple-500/10 rounded-full blur-3xl pointer-events-none" />
@@ -182,12 +191,12 @@ export function LandingPageView() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                   {/* Step 1 */}
                   <motion.div
-                    whileHover={{ y: -8, scale: 1.02 }}
-                    transition={{ type: "spring", stiffness: 350, damping: 22 }}
-                    className="group relative p-5 sm:p-6 rounded-3xl bg-white dark:bg-[#0c0f18] border border-slate-200/90 dark:border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.3)] hover:shadow-[0_20px_40px_rgba(59,130,246,0.12)] dark:hover:shadow-[0_20px_40px_rgba(59,130,246,0.18)] hover:border-blue-400/60 dark:hover:border-blue-500/40 transition-colors text-left flex flex-col justify-between min-h-[200px]"
+                    whileHover={{ y: -10, scale: 1.025 }}
+                    transition={{ type: "spring", stiffness: 380, damping: 20 }}
+                    className="group relative p-5 sm:p-6 rounded-3xl bg-white/95 dark:bg-[#0c0f18]/95 backdrop-blur-md border border-slate-200/90 dark:border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.06)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.35)] hover:shadow-[0_22px_45px_rgba(59,130,246,0.16)] dark:hover:shadow-[0_22px_45px_rgba(59,130,246,0.22)] hover:border-blue-400 dark:hover:border-blue-500/60 transition-colors text-left flex flex-col justify-between min-h-[210px] cursor-pointer"
                   >
                     <div className="flex items-center justify-between">
-                      <div className="w-11 h-11 rounded-2xl bg-blue-100/90 dark:bg-blue-950/80 text-blue-600 dark:text-blue-400 flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300 shadow-xs">
+                      <div className="w-11 h-11 rounded-2xl bg-blue-100/90 dark:bg-blue-950/80 text-blue-600 dark:text-blue-400 flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300 shadow-xs">
                         <Link2 className="w-5 h-5 stroke-[2]" />
                       </div>
                       <span className="w-6 h-6 rounded-full bg-slate-100 dark:bg-white/10 text-slate-400 dark:text-slate-400 text-xs font-semibold flex items-center justify-center">
@@ -206,12 +215,12 @@ export function LandingPageView() {
 
                   {/* Step 2 */}
                   <motion.div
-                    whileHover={{ y: -8, scale: 1.02 }}
-                    transition={{ type: "spring", stiffness: 350, damping: 22 }}
-                    className="group relative p-5 sm:p-6 rounded-3xl bg-white dark:bg-[#0c0f18] border border-slate-200/90 dark:border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.3)] hover:shadow-[0_20px_40px_rgba(16,185,129,0.12)] dark:hover:shadow-[0_20px_40px_rgba(16,185,129,0.18)] hover:border-emerald-400/60 dark:hover:border-emerald-500/40 transition-colors text-left flex flex-col justify-between min-h-[200px]"
+                    whileHover={{ y: -10, scale: 1.025 }}
+                    transition={{ type: "spring", stiffness: 380, damping: 20 }}
+                    className="group relative p-5 sm:p-6 rounded-3xl bg-white/95 dark:bg-[#0c0f18]/95 backdrop-blur-md border border-slate-200/90 dark:border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.06)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.35)] hover:shadow-[0_22px_45px_rgba(16,185,129,0.16)] dark:hover:shadow-[0_22px_45px_rgba(16,185,129,0.22)] hover:border-emerald-400 dark:hover:border-emerald-500/60 transition-colors text-left flex flex-col justify-between min-h-[210px] cursor-pointer"
                   >
                     <div className="flex items-center justify-between">
-                      <div className="w-11 h-11 rounded-2xl bg-emerald-100/90 dark:bg-emerald-950/80 text-emerald-600 dark:text-emerald-400 flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300 shadow-xs">
+                      <div className="w-11 h-11 rounded-2xl bg-emerald-100/90 dark:bg-emerald-950/80 text-emerald-600 dark:text-emerald-400 flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300 shadow-xs">
                         <Sparkles className="w-5 h-5 stroke-[2]" />
                       </div>
                       <span className="w-6 h-6 rounded-full bg-slate-100 dark:bg-white/10 text-slate-400 dark:text-slate-400 text-xs font-semibold flex items-center justify-center">
@@ -230,12 +239,12 @@ export function LandingPageView() {
 
                   {/* Step 3 */}
                   <motion.div
-                    whileHover={{ y: -8, scale: 1.02 }}
-                    transition={{ type: "spring", stiffness: 350, damping: 22 }}
-                    className="group relative p-5 sm:p-6 rounded-3xl bg-white dark:bg-[#0c0f18] border border-slate-200/90 dark:border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.3)] hover:shadow-[0_20px_40px_rgba(168,85,247,0.12)] dark:hover:shadow-[0_20px_40px_rgba(168,85,247,0.18)] hover:border-purple-400/60 dark:hover:border-purple-500/40 transition-colors text-left flex flex-col justify-between min-h-[200px]"
+                    whileHover={{ y: -10, scale: 1.025 }}
+                    transition={{ type: "spring", stiffness: 380, damping: 20 }}
+                    className="group relative p-5 sm:p-6 rounded-3xl bg-white/95 dark:bg-[#0c0f18]/95 backdrop-blur-md border border-slate-200/90 dark:border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.06)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.35)] hover:shadow-[0_22px_45px_rgba(168,85,247,0.16)] dark:hover:shadow-[0_22px_45px_rgba(168,85,247,0.22)] hover:border-purple-400 dark:hover:border-purple-500/60 transition-colors text-left flex flex-col justify-between min-h-[210px] cursor-pointer"
                   >
                     <div className="flex items-center justify-between">
-                      <div className="w-11 h-11 rounded-2xl bg-purple-100/90 dark:bg-purple-950/80 text-purple-600 dark:text-purple-400 flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300 shadow-xs">
+                      <div className="w-11 h-11 rounded-2xl bg-purple-100/90 dark:bg-purple-950/80 text-purple-600 dark:text-purple-400 flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300 shadow-xs">
                         <Palette className="w-5 h-5 stroke-[2]" />
                       </div>
                       <span className="w-6 h-6 rounded-full bg-slate-100 dark:bg-white/10 text-slate-400 dark:text-slate-400 text-xs font-semibold flex items-center justify-center">
@@ -254,12 +263,12 @@ export function LandingPageView() {
 
                   {/* Step 4 */}
                   <motion.div
-                    whileHover={{ y: -8, scale: 1.02 }}
-                    transition={{ type: "spring", stiffness: 350, damping: 22 }}
-                    className="group relative p-5 sm:p-6 rounded-3xl bg-white dark:bg-[#0c0f18] border border-slate-200/90 dark:border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.3)] hover:shadow-[0_20px_40px_rgba(245,158,11,0.12)] dark:hover:shadow-[0_20px_40px_rgba(245,158,11,0.18)] hover:border-amber-400/60 dark:hover:border-amber-500/40 transition-colors text-left flex flex-col justify-between min-h-[200px]"
+                    whileHover={{ y: -10, scale: 1.025 }}
+                    transition={{ type: "spring", stiffness: 380, damping: 20 }}
+                    className="group relative p-5 sm:p-6 rounded-3xl bg-white/95 dark:bg-[#0c0f18]/95 backdrop-blur-md border border-slate-200/90 dark:border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.06)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.35)] hover:shadow-[0_22px_45px_rgba(245,158,11,0.16)] dark:hover:shadow-[0_22px_45px_rgba(245,158,11,0.22)] hover:border-amber-400 dark:hover:border-amber-500/60 transition-colors text-left flex flex-col justify-between min-h-[210px] cursor-pointer"
                   >
                     <div className="flex items-center justify-between">
-                      <div className="w-11 h-11 rounded-2xl bg-amber-100/90 dark:bg-amber-950/80 text-amber-600 dark:text-amber-400 flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300 shadow-xs">
+                      <div className="w-11 h-11 rounded-2xl bg-amber-100/90 dark:bg-amber-950/80 text-amber-600 dark:text-amber-400 flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300 shadow-xs">
                         <Globe className="w-5 h-5 stroke-[2]" />
                       </div>
                       <span className="w-6 h-6 rounded-full bg-slate-100 dark:bg-white/10 text-slate-400 dark:text-slate-400 text-xs font-semibold flex items-center justify-center">
