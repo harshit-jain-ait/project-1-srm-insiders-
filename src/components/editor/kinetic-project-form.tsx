@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Project } from "@/lib/schema/portfolio";
-import { Plus, Trash2, Globe, ExternalLink, ChevronDown, ChevronUp, Monitor } from "lucide-react";
+import { Plus, Trash2, Globe, ExternalLink, ChevronDown, ChevronUp, Monitor, RefreshCw, ImageIcon } from "lucide-react";
 
 interface KineticProjectFormProps {
   projects: Project[];
@@ -15,6 +15,67 @@ export function KineticProjectForm({ projects, onProjectsChange }: KineticProjec
   );
   const [previewProjectId, setPreviewProjectId] = useState<string | null>(null);
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
+  // Track which projects are currently fetching a preview image
+  const [fetchingPreviewFor, setFetchingPreviewFor] = useState<Record<string, boolean>>({});
+  // Debounce timers for auto-fetch on URL change
+  const urlDebounceRef = useRef<Record<string, NodeJS.Timeout>>({});
+
+  // Auto-fetch homepage screenshot when user enters/pastes a live URL
+  const handleLiveUrlChange = (id: string, url: string) => {
+    handleUpdate(id, { liveUrl: url });
+
+    // Clear previous debounce
+    if (urlDebounceRef.current[id]) {
+      clearTimeout(urlDebounceRef.current[id]);
+    }
+
+    if (!url || url.length < 8) return;
+
+    // Debounce: wait 900ms after user stops typing before fetching
+    urlDebounceRef.current[id] = setTimeout(async () => {
+      try {
+        setFetchingPreviewFor((prev) => ({ ...prev, [id]: true }));
+        const res = await fetch(
+          `/api/link-preview?url=${encodeURIComponent(url)}`
+        );
+        if (res.ok) {
+          const data = await res.json();
+          if (data.imageUrl) {
+            onProjectsChange(
+              projects.map((p) =>
+                p.id === id ? { ...p, liveUrl: url, coverImageUrl: data.imageUrl } : p
+              )
+            );
+          }
+        }
+      } catch {
+        // Silently ignore — user can still enter image URL manually
+      } finally {
+        setFetchingPreviewFor((prev) => ({ ...prev, [id]: false }));
+      }
+    }, 900);
+  };
+
+  // Manually re-fetch homepage screenshot for a project
+  const handleRefetchScreenshot = async (project: Project) => {
+    if (!project.liveUrl) return;
+    try {
+      setFetchingPreviewFor((prev) => ({ ...prev, [project.id]: true }));
+      const res = await fetch(
+        `/api/link-preview?url=${encodeURIComponent(project.liveUrl)}`
+      );
+      if (res.ok) {
+        const data = await res.json();
+        if (data.imageUrl) {
+          handleUpdate(project.id, { coverImageUrl: data.imageUrl });
+        }
+      }
+    } catch {
+      // Silently ignore
+    } finally {
+      setFetchingPreviewFor((prev) => ({ ...prev, [project.id]: false }));
+    }
+  };
 
   const handleAddProject = () => {
     const newId = `proj_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`;
@@ -180,7 +241,7 @@ export function KineticProjectForm({ projects, onProjectsChange }: KineticProjec
                       <input
                         type="url"
                         value={project.liveUrl}
-                        onChange={(e) => handleUpdate(project.id, { liveUrl: e.target.value })}
+                        onChange={(e) => handleLiveUrlChange(project.id, e.target.value)}
                         placeholder="https://your-website.com"
                         className="w-full pl-2.5 pr-8 py-1.5 rounded-lg bg-[#080b12] border border-[#ff5c1a]/30 text-xs text-white focus:outline-none focus:border-[#ff5c1a] transition-colors"
                       />
@@ -195,11 +256,45 @@ export function KineticProjectForm({ projects, onProjectsChange }: KineticProjec
                         </a>
                       )}
                     </div>
-                    <p className="text-[10px] text-slate-500">Enter the URL of your live project website</p>
+                    <p className="text-[10px] text-slate-500">Enter the URL — a screenshot will be fetched automatically</p>
                   </div>
 
+                  {/* Cover Image — auto-filled from URL, with refresh button */}
                   <div className="space-y-1">
-                    <label className="text-[11px] font-semibold text-slate-400 block">Cover Image URL</label>
+                    <div className="flex items-center justify-between">
+                      <label className="text-[11px] font-semibold text-slate-400 flex items-center gap-1 block">
+                        <ImageIcon className="w-3 h-3" />
+                        Cover Image (auto-fetched)
+                      </label>
+                      {project.liveUrl && (
+                        <button
+                          type="button"
+                          onClick={() => handleRefetchScreenshot(project)}
+                          disabled={!!fetchingPreviewFor[project.id]}
+                          className="flex items-center gap-1 text-[10px] text-[#ff5c1a] hover:text-white transition-colors cursor-pointer disabled:opacity-50"
+                        >
+                          <RefreshCw className={`w-2.5 h-2.5 ${fetchingPreviewFor[project.id] ? "animate-spin" : ""}`} />
+                          {fetchingPreviewFor[project.id] ? "Fetching…" : "Re-fetch"}
+                        </button>
+                      )}
+                    </div>
+                    {/* Preview thumbnail */}
+                    {project.coverImageUrl && (
+                      <div className="w-full aspect-video rounded-lg overflow-hidden border border-slate-800 bg-slate-900">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={project.coverImageUrl}
+                          alt="Cover preview"
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    )}
+                    {fetchingPreviewFor[project.id] && !project.coverImageUrl && (
+                      <div className="w-full aspect-video rounded-lg border border-slate-800 bg-slate-900 flex items-center justify-center text-[10px] text-slate-500 gap-1.5">
+                        <RefreshCw className="w-3 h-3 animate-spin text-[#ff5c1a]" />
+                        Fetching screenshot…
+                      </div>
+                    )}
                     <input
                       type="url"
                       value={project.coverImageUrl}
@@ -243,10 +338,9 @@ export function KineticProjectForm({ projects, onProjectsChange }: KineticProjec
                   </div>
                   <div className="relative bg-slate-950" style={{ height: "220px" }}>
                     <iframe
-                      src={project.liveUrl}
+                      src={`/api/proxy-embed?url=${encodeURIComponent(project.liveUrl)}`}
                       title={`Live demo: ${project.title}`}
                       className="w-full h-full border-0"
-                      sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
                       loading="lazy"
                     />
                   </div>

@@ -233,10 +233,9 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
             </div>
             <div className="flex-1 w-full bg-slate-950 relative">
               <iframe
-                src={liveDemoProject.url}
+                src={`/api/proxy-embed?url=${encodeURIComponent(liveDemoProject.url)}`}
                 title={`Live demo: ${liveDemoProject.title}`}
                 className="w-full h-full border-0"
-                sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
                 loading="lazy"
               />
             </div>
@@ -335,7 +334,7 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
           borderColor,
         }}
       >
-        <div className="max-w-7xl mx-auto px-6 h-18 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-14 sm:h-18 flex items-center justify-between">
           {/* Logo with registered symbol in accent */}
           <a
             href="#hero"
@@ -536,7 +535,7 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
       </header>
 
       {/* 2. HERO SECTION */}
-      <section id="hero" className="relative min-h-[85vh] flex flex-col justify-between pt-16 pb-12 overflow-hidden">
+      <section id="hero" className="relative min-h-[85vh] flex flex-col justify-between pt-14 sm:pt-16 pb-8 sm:pb-12 overflow-hidden">
         {/* Subtle Ambient Radial Glow */}
         <div
           className="absolute top-1/4 right-0 w-[550px] h-[550px] rounded-full blur-[140px] pointer-events-none opacity-20"
@@ -545,12 +544,12 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
           }}
         />
 
-        <div className="max-w-7xl mx-auto px-6 w-full flex-1 flex flex-col justify-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 w-full flex-1 flex flex-col justify-center">
           {/* Top Status Pill */}
           {profile.statusBadge && (
-            <div className="mb-8">
+            <div className="mb-6 sm:mb-8">
               <div
-                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border text-xs font-mono tracking-wider uppercase backdrop-blur-sm"
+                className="inline-flex items-center gap-2 px-3 sm:px-3.5 py-1.5 rounded-full border text-[10px] sm:text-xs font-mono tracking-wider uppercase backdrop-blur-sm"
                 style={{
                   borderColor,
                   backgroundColor: isDark ? "rgba(255,92,26,0.06)" : "rgba(255,92,26,0.08)",
@@ -564,9 +563,9 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
           )}
 
           {/* Kinetic Statement Title */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-end">
             <div className="lg:col-span-8">
-              <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black uppercase tracking-tight leading-[0.98]">
+              <h1 className="text-[11vw] sm:text-6xl md:text-7xl lg:text-8xl font-black uppercase tracking-tight leading-[0.95] sm:leading-[0.98]">
                 {displayName ? (
                   <span className="block">I&apos;m {displayName} —</span>
                 ) : null}
@@ -583,14 +582,14 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
             </div>
 
             {/* Aside Tagline */}
-            <div className="lg:col-span-4 lg:text-right space-y-3">
+            <div className="lg:col-span-4 lg:text-right space-y-2 sm:space-y-3">
               {displayHeadline && (
-                <p className="font-mono uppercase text-xs sm:text-sm tracking-wider leading-relaxed" style={{ color: mutedTextColor }}>
+                <p className="font-mono uppercase text-[10px] sm:text-sm tracking-wider leading-relaxed" style={{ color: mutedTextColor }}>
                   Crafting {displayHeadline}
                 </p>
               )}
               {displayName && (
-                <p className="font-mono text-xs uppercase tracking-widest font-semibold" style={{ color: accentColor }}>
+                <p className="font-mono text-[10px] sm:text-xs uppercase tracking-widest font-semibold" style={{ color: accentColor }}>
                   &amp; High-Performance Systems
                 </p>
               )}
@@ -598,14 +597,14 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
                 <button
                   type="button"
                   onClick={() => setIsCvModalOpen(true)}
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full border font-mono text-xs uppercase tracking-wider font-semibold transition-all hover:scale-105 cursor-pointer shadow-md"
+                  className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border font-mono text-[10px] sm:text-xs uppercase tracking-wider font-semibold transition-all hover:scale-105 cursor-pointer shadow-md"
                   style={{
                     borderColor: accentColor,
                     backgroundColor: accentColor,
                     color: "#ffffff",
                   }}
                 >
-                  <FileText className="w-3.5 h-3.5" />
+                  <FileText className="w-3 sm:w-3.5 h-3 sm:h-3.5" />
                   <span>Generate CV</span>
                 </button>
               </div>
@@ -614,7 +613,7 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
         </div>
 
         {/* Bottom Scroll Indicator */}
-        <div className="max-w-7xl mx-auto px-6 w-full pt-10 flex items-center gap-4 text-xs font-mono uppercase tracking-[0.15em]" style={{ color: mutedTextColor }}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 w-full pt-8 sm:pt-10 flex items-center gap-4 text-xs font-mono uppercase tracking-[0.15em]" style={{ color: mutedTextColor }}>
           <span>Scroll</span>
           <div className="w-16 h-[1px] relative overflow-hidden" style={{ backgroundColor: borderColor }}>
             <div className="absolute inset-0 kinetic-scroll-anim" style={{ backgroundColor: accentColor }} />
@@ -639,59 +638,59 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
       )}
 
       {/* 4. SECTION 01 — ABOUT */}
-      <section id="about" className="py-24 border-b" style={{ borderColor }}>
-        <div className="max-w-7xl mx-auto px-6">
+      <section id="about" className="py-14 sm:py-24 border-b" style={{ borderColor }}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
           {/* Header with Numbered Index & Rule */}
-          <div className="flex items-center gap-6 mb-16">
-            <h2 className="font-mono text-sm sm:text-base font-bold tracking-widest uppercase shrink-0" style={{ color: accentColor }}>
+          <div className="flex items-center gap-4 sm:gap-6 mb-10 sm:mb-16">
+            <h2 className="font-mono text-xs sm:text-sm sm:text-base font-bold tracking-widest uppercase shrink-0" style={{ color: accentColor }}>
               01 — About
             </h2>
             <div className="flex-1 h-[1px]" style={{ backgroundColor: borderColor }} />
           </div>
 
-          <div className="max-w-4xl ml-auto space-y-8">
+          <div className="max-w-4xl ml-auto space-y-6 sm:space-y-8">
             {displayBio && (
-              <p className="text-2xl sm:text-3xl md:text-4xl font-medium tracking-tight leading-snug">
+              <p className="text-xl sm:text-2xl sm:text-3xl md:text-4xl font-medium tracking-tight leading-snug">
                 {displayBio}
               </p>
             )}
 
             {displayLongBio && (
-              <p className="text-base sm:text-lg leading-relaxed font-light" style={{ color: mutedTextColor }}>
+              <p className="text-sm sm:text-base sm:text-lg leading-relaxed font-light" style={{ color: mutedTextColor }}>
                 {displayLongBio}
               </p>
             )}
 
             {(displayHeadline || profile.location) && (
-              <p className="font-mono text-xs uppercase tracking-widest font-semibold" style={{ color: mutedTextColor }}>
+              <p className="font-mono text-[10px] sm:text-xs uppercase tracking-widest font-semibold" style={{ color: mutedTextColor }}>
                 {displayHeadline} {displayHeadline && profile.location ? "•" : ""} {profile.location}
               </p>
             )}
 
             {/* Focus Competencies */}
             {hasSkills && (
-              <ul className="pt-6 border-t space-y-3" style={{ borderColor }}>
-                <li className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 py-3 border-b" style={{ borderColor }}>
-                  <span className="font-mono text-xs font-bold uppercase tracking-wider" style={{ color: accentColor }}>
+              <ul className="pt-4 sm:pt-6 border-t space-y-2 sm:space-y-3" style={{ borderColor }}>
+                <li className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-2 py-2 sm:py-3 border-b" style={{ borderColor }}>
+                  <span className="font-mono text-[10px] sm:text-xs font-bold uppercase tracking-wider" style={{ color: accentColor }}>
                     01 &bull; Autonomous AI &amp; Agents
                   </span>
-                  <span className="text-sm" style={{ color: mutedTextColor }}>
+                  <span className="text-xs sm:text-sm" style={{ color: mutedTextColor }}>
                     LangGraph &bull; RAG Architectures &bull; Tool Calling &bull; Context Routing
                   </span>
                 </li>
-                <li className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 py-3 border-b" style={{ borderColor }}>
-                  <span className="font-mono text-xs font-bold uppercase tracking-wider" style={{ color: accentColor }}>
+                <li className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-2 py-2 sm:py-3 border-b" style={{ borderColor }}>
+                  <span className="font-mono text-[10px] sm:text-xs font-bold uppercase tracking-wider" style={{ color: accentColor }}>
                     02 &bull; Interactive Web Applications
                   </span>
-                  <span className="text-sm" style={{ color: mutedTextColor }}>
+                  <span className="text-xs sm:text-sm" style={{ color: mutedTextColor }}>
                     React 19 &bull; Next.js App Router &bull; Three.js / WebGL &bull; High-FPS UI
                   </span>
                 </li>
-                <li className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 py-3 border-b" style={{ borderColor }}>
-                  <span className="font-mono text-xs font-bold uppercase tracking-wider" style={{ color: accentColor }}>
+                <li className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-2 py-2 sm:py-3 border-b" style={{ borderColor }}>
+                  <span className="font-mono text-[10px] sm:text-xs font-bold uppercase tracking-wider" style={{ color: accentColor }}>
                     03 &bull; Scalable Cloud &amp; Deployments
                   </span>
-                  <span className="text-sm" style={{ color: mutedTextColor }}>
+                  <span className="text-xs sm:text-sm" style={{ color: mutedTextColor }}>
                     AWS &bull; FastAPI &bull; PostgreSQL &bull; Docker &bull; Edge Delivery
                   </span>
                 </li>
@@ -700,39 +699,39 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
           </div>
 
           {/* 4-Column Stats Grid */}
-          <div className="mt-20 grid grid-cols-2 lg:grid-cols-4 border-t" style={{ borderColor }}>
-            <div className="p-6 sm:p-8 border-r border-b lg:border-b-0" style={{ borderColor }}>
-              <span className="block text-4xl sm:text-5xl font-black font-sans tracking-tight">
-                1<span className="text-xl align-super" style={{ color: accentColor }}>st</span>
+          <div className="mt-12 sm:mt-20 grid grid-cols-2 lg:grid-cols-4 border-t" style={{ borderColor }}>
+            <div className="p-5 sm:p-6 sm:p-8 border-r border-b lg:border-b-0" style={{ borderColor }}>
+              <span className="block text-3xl sm:text-4xl sm:text-5xl font-black font-sans tracking-tight">
+                1<span className="text-base sm:text-xl align-super" style={{ color: accentColor }}>st</span>
               </span>
-              <span className="block mt-2 font-mono text-[10px] sm:text-xs uppercase tracking-widest" style={{ color: mutedTextColor }}>
+              <span className="block mt-1 sm:mt-2 font-mono text-[9px] sm:text-[10px] sm:text-xs uppercase tracking-widest" style={{ color: mutedTextColor }}>
                 Top Hackathon Placements
               </span>
             </div>
 
-            <div className="p-6 sm:p-8 border-b lg:border-b-0 lg:border-r" style={{ borderColor }}>
-              <span className="block text-4xl sm:text-5xl font-black font-sans tracking-tight">
+            <div className="p-5 sm:p-6 sm:p-8 border-b lg:border-b-0 lg:border-r" style={{ borderColor }}>
+              <span className="block text-3xl sm:text-4xl sm:text-5xl font-black font-sans tracking-tight">
                 {String(visibleProjects.length).padStart(2, "0")}
               </span>
-              <span className="block mt-2 font-mono text-[10px] sm:text-xs uppercase tracking-widest" style={{ color: mutedTextColor }}>
+              <span className="block mt-1 sm:mt-2 font-mono text-[9px] sm:text-[10px] sm:text-xs uppercase tracking-widest" style={{ color: mutedTextColor }}>
                 Projects Shipped
               </span>
             </div>
 
-            <div className="p-6 sm:p-8 border-r border-b sm:border-b-0" style={{ borderColor }}>
-              <span className="block text-4xl sm:text-5xl font-black font-sans tracking-tight">
+            <div className="p-5 sm:p-6 sm:p-8 border-r border-b sm:border-b-0" style={{ borderColor }}>
+              <span className="block text-3xl sm:text-4xl sm:text-5xl font-black font-sans tracking-tight">
                 {String(experience.length).padStart(2, "0")}
               </span>
-              <span className="block mt-2 font-mono text-[10px] sm:text-xs uppercase tracking-widest" style={{ color: mutedTextColor }}>
+              <span className="block mt-1 sm:mt-2 font-mono text-[9px] sm:text-[10px] sm:text-xs uppercase tracking-widest" style={{ color: mutedTextColor }}>
                 Professional Tenures
               </span>
             </div>
 
-            <div className="p-6 sm:p-8">
-              <span className="block text-4xl sm:text-5xl font-black font-sans tracking-tight">
+            <div className="p-5 sm:p-6 sm:p-8">
+              <span className="block text-3xl sm:text-4xl sm:text-5xl font-black font-sans tracking-tight">
                 {String(skills.length).padStart(2, "0")}
               </span>
-              <span className="block mt-2 font-mono text-[10px] sm:text-xs uppercase tracking-widest" style={{ color: mutedTextColor }}>
+              <span className="block mt-1 sm:mt-2 font-mono text-[9px] sm:text-[10px] sm:text-xs uppercase tracking-widest" style={{ color: mutedTextColor }}>
                 Verified Technologies
               </span>
             </div>
@@ -742,10 +741,10 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
 
       {/* 5. SECTION 02 — WORK */}
       {isSectionVisible("projects") && (
-        <section id="work" className="py-24 border-b" style={{ borderColor }}>
-          <div className="max-w-7xl mx-auto px-6">
-            <div className="flex items-center gap-6 mb-16">
-              <h2 className="font-mono text-sm sm:text-base font-bold tracking-widest uppercase shrink-0" style={{ color: accentColor }}>
+        <section id="work" className="py-14 sm:py-24 border-b" style={{ borderColor }}>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6">
+            <div className="flex items-center gap-4 sm:gap-6 mb-10 sm:mb-16">
+              <h2 className="font-mono text-xs sm:text-sm sm:text-base font-bold tracking-widest uppercase shrink-0" style={{ color: accentColor }}>
                 02 — Work
               </h2>
               <div className="flex-1 h-[1px]" style={{ backgroundColor: borderColor }} />
@@ -768,37 +767,40 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
                   return (
                     <div
                       key={project.id || idx}
-                      className="py-12 group transition-colors duration-200"
+                      className="py-8 sm:py-12 group transition-colors duration-200"
                     >
-                      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-start">
                         {/* Index Indicator */}
-                        <div className="lg:col-span-1 font-mono text-base font-bold" style={{ color: accentColor }}>
+                        <div className="hidden sm:block lg:col-span-1 font-mono text-base font-bold" style={{ color: accentColor }}>
                           {projectIndex}
                         </div>
 
                         {/* Title & Core Details */}
-                        <div className="lg:col-span-6 space-y-4">
-                          <h3 className="text-2xl sm:text-4xl font-bold uppercase tracking-tight group-hover:translate-x-1.5 transition-transform duration-300">
+                        <div className="lg:col-span-6 space-y-3 sm:space-y-4">
+                          <div className="flex items-center gap-2 sm:hidden">
+                            <span className="font-mono text-xs font-bold" style={{ color: accentColor }}>{projectIndex}</span>
+                          </div>
+                          <h3 className="text-xl sm:text-2xl sm:text-4xl font-bold uppercase tracking-tight group-hover:translate-x-1.5 transition-transform duration-300">
                             {project.title}
                           </h3>
 
                           {project.tagline && (
-                            <p className="text-base font-medium" style={{ color: textColor }}>
+                            <p className="text-sm sm:text-base font-medium" style={{ color: textColor }}>
                               {project.tagline}
                             </p>
                           )}
 
-                          <p className="text-sm leading-relaxed max-w-xl" style={{ color: mutedTextColor }}>
+                          <p className="text-xs sm:text-sm leading-relaxed max-w-xl" style={{ color: mutedTextColor }}>
                             {project.description}
                           </p>
 
                           {/* Tech Pills */}
                           {techList.length > 0 && (
-                            <div className="flex flex-wrap gap-2 pt-2">
+                            <div className="flex flex-wrap gap-1.5 sm:gap-2 pt-1 sm:pt-2">
                               {techList.map((tag) => (
                                 <span
                                   key={tag}
-                                  className="px-2.5 py-1 rounded-full text-[10px] font-mono uppercase tracking-wider border"
+                                  className="px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full text-[9px] sm:text-[10px] font-mono uppercase tracking-wider border"
                                   style={{ borderColor, color: mutedTextColor }}
                                 >
                                   {tag}
@@ -808,7 +810,7 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
                           )}
 
                           {/* Action Links */}
-                          <div className="flex flex-wrap items-center gap-6 pt-3 text-xs font-mono uppercase tracking-wider">
+                          <div className="flex flex-wrap items-center gap-3 sm:gap-6 pt-2 sm:pt-3 text-[10px] sm:text-xs font-mono uppercase tracking-wider">
                             {project.caseStudy?.overview && (
                               <Link
                                 href={`/p/case-study/${project.id}`}
@@ -816,7 +818,7 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
                                 style={{ color: accentColor }}
                               >
                                 <span>Read Case Study</span>
-                                <ArrowUpRight className="w-3.5 h-3.5" />
+                                <ArrowUpRight className="w-3 sm:w-3.5 h-3 sm:h-3.5" />
                               </Link>
                             )}
                             {project.liveUrl && (
@@ -828,7 +830,7 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
                                     title: project.title,
                                   })
                                 }
-                                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-semibold transition-all hover:scale-105 cursor-pointer shadow-sm border"
+                                className="inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-mono font-semibold transition-all hover:scale-105 cursor-pointer shadow-sm border"
                                 style={{
                                   backgroundColor: isDark
                                     ? "rgba(255, 92, 26, 0.15)"
@@ -857,7 +859,7 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
                               <button
                                 type="button"
                                 onClick={() => setExpandedProjectIndex(isExpanded ? null : idx)}
-                                className="inline-flex items-center gap-1 text-[11px] underline underline-offset-4 cursor-pointer hover:text-[#ff5c1a] transition-colors"
+                                className="inline-flex items-center gap-1 text-[10px] sm:text-[11px] underline underline-offset-4 cursor-pointer hover:text-[#ff5c1a] transition-colors"
                                 style={{ color: mutedTextColor }}
                               >
                                 <span>{isExpanded ? "Hide Details" : "Key Highlights"}</span>
@@ -868,7 +870,7 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
 
                           {/* Accordion Content */}
                           {isExpanded && (
-                            <div className="mt-4 p-4 rounded-xl border text-xs space-y-2 font-mono" style={{ backgroundColor: surfaceColor, borderColor }}>
+                            <div className="mt-3 sm:mt-4 p-3 sm:p-4 rounded-xl border text-xs space-y-2 font-mono" style={{ backgroundColor: surfaceColor, borderColor }}>
                               {project.caseStudy?.problem && (
                                 <p style={{ color: mutedTextColor }}>
                                   <strong className="text-white">Challenge:</strong> {project.caseStudy.problem}
@@ -884,12 +886,13 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
                         </div>
 
                         {/* Media Preview Frame */}
-                        <div className="lg:col-span-5">
+                        <div className="lg:col-span-5 mt-2 sm:mt-0">
                           {project.coverImageUrl ? (
                             <div
-                              className="relative aspect-[4/3] rounded-2xl overflow-hidden border group-hover:border-zinc-500 transition-colors"
+                              className="relative aspect-[4/3] rounded-xl sm:rounded-2xl overflow-hidden border group-hover:border-zinc-500 transition-colors"
                               style={{ borderColor, backgroundColor: surfaceColor }}
                             >
+                              {/* eslint-disable-next-line @next/next/no-img-element */}
                               <img
                                 src={project.coverImageUrl}
                                 alt={project.title}
@@ -898,12 +901,12 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
                             </div>
                           ) : (
                             <div
-                              className="aspect-[4/3] rounded-2xl border flex flex-col items-center justify-center p-6 text-center font-mono"
+                              className="aspect-[4/3] rounded-xl sm:rounded-2xl border flex flex-col items-center justify-center p-4 sm:p-6 text-center font-mono"
                               style={{ borderColor, backgroundColor: surfaceColor }}
                             >
-                              <Terminal className="w-8 h-8 mb-2 opacity-50" style={{ color: accentColor }} />
-                              <span className="text-xs uppercase tracking-wider font-semibold">{project.title}</span>
-                              <span className="text-[10px] mt-1" style={{ color: mutedTextColor }}>
+                              <Terminal className="w-6 sm:w-8 h-6 sm:h-8 mb-2 opacity-50" style={{ color: accentColor }} />
+                              <span className="text-[10px] sm:text-xs uppercase tracking-wider font-semibold">{project.title}</span>
+                              <span className="text-[9px] sm:text-[10px] mt-1" style={{ color: mutedTextColor }}>
                                 Verified Production Artifact
                               </span>
                             </div>
@@ -921,10 +924,10 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
 
       {/* 6. SECTION 03 — STACK (Only rendered when user has added skills) */}
       {isSectionVisible("skills") && hasSkills && (
-        <section id="stack" className="py-24 border-b" style={{ borderColor }}>
-          <div className="max-w-7xl mx-auto px-6">
-            <div className="flex items-center gap-6 mb-16">
-              <h2 className="font-mono text-sm sm:text-base font-bold tracking-widest uppercase shrink-0" style={{ color: accentColor }}>
+        <section id="stack" className="py-14 sm:py-24 border-b" style={{ borderColor }}>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6">
+            <div className="flex items-center gap-4 sm:gap-6 mb-10 sm:mb-16">
+              <h2 className="font-mono text-xs sm:text-sm sm:text-base font-bold tracking-widest uppercase shrink-0" style={{ color: accentColor }}>
                 03 — Stack
               </h2>
               <div className="flex-1 h-[1px]" style={{ backgroundColor: borderColor }} />
@@ -1009,10 +1012,10 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
 
       {/* 7. SECTION 04 — JOURNEY */}
       {(hasExperience || hasEducation) && (
-        <section id="journey" className="py-24 border-b" style={{ borderColor }}>
-          <div className="max-w-7xl mx-auto px-6">
-            <div className="flex items-center gap-6 mb-16">
-              <h2 className="font-mono text-sm sm:text-base font-bold tracking-widest uppercase shrink-0" style={{ color: accentColor }}>
+        <section id="journey" className="py-14 sm:py-24 border-b" style={{ borderColor }}>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6">
+            <div className="flex items-center gap-4 sm:gap-6 mb-10 sm:mb-16">
+              <h2 className="font-mono text-xs sm:text-sm sm:text-base font-bold tracking-widest uppercase shrink-0" style={{ color: accentColor }}>
                 04 — Journey
               </h2>
               <div className="flex-1 h-[1px]" style={{ backgroundColor: borderColor }} />
@@ -1118,16 +1121,16 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
       )}
 
       {/* 8. SECTION 05 — FREELANCE / SERVICES */}
-      <section id="freelance" className="py-24 border-b" style={{ borderColor }}>
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="flex items-center gap-6 mb-16">
-            <h2 className="font-mono text-sm sm:text-base font-bold tracking-widest uppercase shrink-0" style={{ color: accentColor }}>
+      <section id="freelance" className="py-14 sm:py-24 border-b" style={{ borderColor }}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="flex items-center gap-4 sm:gap-6 mb-10 sm:mb-16">
+            <h2 className="font-mono text-xs sm:text-sm sm:text-base font-bold tracking-widest uppercase shrink-0" style={{ color: accentColor }}>
               05 — Freelance &amp; Consulting
             </h2>
             <div className="flex-1 h-[1px]" style={{ backgroundColor: borderColor }} />
           </div>
 
-          <p className="text-2xl sm:text-3xl font-medium max-w-3xl leading-snug mb-16">
+          <p className="text-xl sm:text-2xl sm:text-3xl font-medium max-w-3xl leading-snug mb-10 sm:mb-16">
             Open for freelance engineering — from a bespoke landing page to a full AI product, designed, built and deployed. Or agentic systems that actually ship.
           </p>
 
@@ -1223,19 +1226,19 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
 
       {/* 9. SECTION 06 — CONTACT */}
       {hasContact && (
-        <section id="contact" className="py-24 border-b" style={{ borderColor }}>
-          <div className="max-w-7xl mx-auto px-6">
-            <div className="flex items-center gap-6 mb-16">
-              <h2 className="font-mono text-sm sm:text-base font-bold tracking-widest uppercase shrink-0" style={{ color: accentColor }}>
+        <section id="contact" className="py-14 sm:py-24 border-b" style={{ borderColor }}>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6">
+            <div className="flex items-center gap-4 sm:gap-6 mb-10 sm:mb-16">
+              <h2 className="font-mono text-xs sm:text-sm sm:text-base font-bold tracking-widest uppercase shrink-0" style={{ color: accentColor }}>
                 06 — Contact
               </h2>
               <div className="flex-1 h-[1px]" style={{ backgroundColor: borderColor }} />
             </div>
 
             {/* Availability Pill */}
-            <div className="mb-6">
+            <div className="mb-4 sm:mb-6">
               <div
-                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border text-xs font-mono tracking-wider uppercase"
+                className="inline-flex items-center gap-2 px-3 sm:px-3.5 py-1.5 rounded-full border text-[10px] sm:text-xs font-mono tracking-wider uppercase"
                 style={{ borderColor, color: mutedTextColor }}
               >
                 <span className="w-2 h-2 rounded-full kinetic-pulse-dot" style={{ backgroundColor: accentColor }} />
@@ -1244,11 +1247,11 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
             </div>
 
             {/* Massive Heading */}
-            <h3 className="text-4xl sm:text-6xl md:text-7xl font-black uppercase tracking-tight leading-[0.95]">
+            <h3 className="text-3xl sm:text-4xl sm:text-6xl md:text-7xl font-black uppercase tracking-tight leading-[0.95]">
               Let&apos;s build something.
             </h3>
 
-            <p className="mt-6 text-base sm:text-lg max-w-xl leading-relaxed" style={{ color: mutedTextColor }}>
+            <p className="mt-4 sm:mt-6 text-sm sm:text-base sm:text-lg max-w-xl leading-relaxed" style={{ color: mutedTextColor }}>
               A website, an AI agent, or something in between — if it&apos;s ambitious, I want to hear about it. One email is all it takes.
             </p>
 

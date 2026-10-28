@@ -12,6 +12,17 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
+        // API proxy-embed route: must NOT send X-Frame-Options so the
+        // proxied HTML can be embedded in our own iframe on the same origin.
+        source: "/api/proxy-embed",
+        headers: [
+          {
+            key: "Access-Control-Allow-Origin",
+            value: "*",
+          },
+        ],
+      },
+      {
         source: "/:path*",
         headers: [
           {
