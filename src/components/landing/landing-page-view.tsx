@@ -288,7 +288,7 @@ export function LandingPageView() {
         </section>
 
         {/* 4. Template Gallery Section ("Beautiful templates for every style.") */}
-        <section id="templates" className="mt-12 sm:mt-16 md:mt-24 py-20 md:py-28 bg-[#f4f7fc] dark:bg-[#07090f] border-y border-slate-200/80 dark:border-slate-800/80 transition-colors duration-300 relative overflow-hidden">
+        <section id="templates" className="mt-6 sm:mt-8 md:mt-10 py-10 md:py-14 bg-[#f4f7fc] dark:bg-[#07090f] border-y border-slate-200/80 dark:border-slate-800/80 transition-colors duration-300 relative overflow-hidden">
           {/* Full-width Responsive Background Image with enhanced high-resolution rendering */}
           <div className="absolute inset-0 w-full h-full pointer-events-none select-none z-0">
             <img
@@ -299,7 +299,7 @@ export function LandingPageView() {
             />
           </div>
 
-          <div className="max-w-7xl mx-auto px-6 relative z-10 space-y-12">
+          <div className="max-w-7xl mx-auto px-6 relative z-10 space-y-8 md:space-y-10">
             {/* Header Row */}
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 text-left">
               <div className="space-y-3 max-w-xl">
