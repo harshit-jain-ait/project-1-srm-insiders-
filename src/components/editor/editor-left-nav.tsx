@@ -57,10 +57,6 @@ export function EditorLeftNav({
   const mainNavItems: { id: LeftNavSection; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
     { id: "templates", label: "Templates", icon: LayoutTemplate },
     { id: "sections", label: "Sections", icon: LayoutGrid },
-    { id: "style", label: "Style", icon: MessageSquare },
-    { id: "typography", label: "Typography", icon: Type },
-    { id: "colors", label: "Colors", icon: Palette },
-    { id: "background", label: "Background", icon: Layers },
     { id: "projects", label: "Projects", icon: Folder },
     { id: "about", label: "About", icon: User },
     { id: "experience", label: "Experience", icon: Briefcase },
@@ -71,8 +67,6 @@ export function EditorLeftNav({
 
   const assetItems: { id: LeftNavSection; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
     { id: "assets_images", label: "Images", icon: ImageIcon },
-    { id: "assets_icons", label: "Icons", icon: Sparkles },
-    { id: "assets_logos", label: "Logos", icon: Tag },
   ];
 
   return (

@@ -382,6 +382,88 @@ export function EditorInspector({
               />
             </div>
           </div>
+        ) : activeNavSection === "assets_images" ? (
+          <div className="space-y-4">
+            <div className="flex items-center justify-between pb-2 border-b border-slate-800/80">
+              <h3 className="text-xs font-bold text-white uppercase tracking-wider text-slate-400">
+                Image Assets
+              </h3>
+              <span className="text-[10px] text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded-full border border-blue-500/20">
+                Media
+              </span>
+            </div>
+
+            {/* Profile Avatar Image */}
+            <div className="space-y-2 p-3 rounded-xl bg-[#0c101a] border border-slate-800">
+              <label className="text-[11px] font-semibold text-slate-300 block">Profile Portrait</label>
+              <div className="flex items-center gap-3">
+                <div className="w-14 h-14 rounded-xl overflow-hidden border border-slate-700 bg-slate-900 shrink-0">
+                  <img
+                    src={portfolio.profile.avatarUrl || "/images/studio/alex-carter.jpg"}
+                    alt="Profile Avatar"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="flex-1 space-y-1.5">
+                  <input
+                    type="text"
+                    value={portfolio.profile.avatarUrl || ""}
+                    onChange={(e) => updateProfile({ avatarUrl: e.target.value })}
+                    placeholder="https://example.com/photo.jpg"
+                    className="w-full px-2.5 py-1.5 rounded-lg bg-[#080b12] border border-slate-800 text-xs text-white focus:outline-none focus:border-blue-500"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleAvatarChangePrompt}
+                    className="text-[11px] font-semibold text-blue-400 hover:text-blue-300 transition-colors cursor-pointer"
+                  >
+                    Change Image URL
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Project Images Gallery */}
+            <div className="space-y-2">
+              <h4 className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
+                Project Images ({portfolio.projects?.length || 0})
+              </h4>
+              <div className="space-y-2.5">
+                {(portfolio.projects || []).map((project, idx) => (
+                  <div
+                    key={project.id || idx}
+                    className="p-2.5 rounded-xl bg-[#0c101a] border border-slate-800 space-y-2"
+                  >
+                    <div className="aspect-video w-full rounded-lg overflow-hidden bg-slate-900 border border-slate-800">
+                      {project.coverImageUrl ? (
+                        <img
+                          src={project.coverImageUrl}
+                          alt={project.title}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-[10px] text-slate-500">
+                          No Image Uploaded
+                        </div>
+                      )}
+                    </div>
+                    <p className="text-[11px] font-medium text-slate-300 truncate">{project.title}</p>
+                    <input
+                      type="text"
+                      value={project.coverImageUrl || ""}
+                      onChange={(e) => {
+                        const updated = [...(portfolio.projects || [])];
+                        updated[idx] = { ...updated[idx], coverImageUrl: e.target.value };
+                        handleProjectsChange(updated);
+                      }}
+                      placeholder="Image URL"
+                      className="w-full px-2.5 py-1.5 rounded-lg bg-[#080b12] border border-slate-800 text-xs text-white focus:outline-none focus:border-blue-500"
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         ) : activeNavSection === "style" || activeNavSection === "colors" || activeNavSection === "typography" || activeNavSection === "background" ? (
           <AppearanceForm
             appearance={portfolio.appearance}

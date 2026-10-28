@@ -23,10 +23,15 @@ import {
   Moon,
   Menu,
   X,
+  FileText,
 } from "lucide-react";
+import { KineticSmokeCursor } from "./kinetic-smoke-cursor";
+import { KineticCvModal } from "./kinetic-cv-modal";
 
 export function KineticStudioTemplate({ portfolio, isLivePreview = false }: TemplateProps) {
   const { profile, projects, experience, skills, education, socialLinks, sections, contactConfig } = portfolio;
+  const articleRef = React.useRef<HTMLElement>(null);
+  const [isCvModalOpen, setIsCvModalOpen] = useState(false);
 
   // Resolve base theme tokens
   const baseTheme = resolveTemplateTheme(portfolio.appearance, "kinetic-studio");
@@ -104,14 +109,39 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
     if (typeof window !== "undefined") {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
+    if (articleRef.current) {
+      articleRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+      let parent: HTMLElement | null = articleRef.current.parentElement;
+      while (parent) {
+        if (parent.scrollHeight > parent.clientHeight) {
+          parent.scrollTo({ top: 0, behavior: "smooth" });
+        }
+        parent = parent.parentElement;
+      }
+    }
   };
 
   return (
     <article
-      className={`min-h-screen ${fontClass} selection:bg-[#ff5c1a] selection:text-white transition-colors duration-500`}
+      ref={articleRef}
+      className={`min-h-screen ${fontClass} selection:bg-[#ff5c1a] selection:text-white transition-colors duration-500 kinetic-cursor-area relative`}
       style={{ backgroundColor: bgColor, color: textColor }}
     >
-      {/* Dynamic Keyframes for Marquee & Kinetic Pulse */}
+      {/* Custom Smoke Particle Trail and Dot Cursor */}
+      <KineticSmokeCursor
+        containerRef={articleRef}
+        accentColor={accentColor}
+        isDark={isDark}
+      />
+
+      {/* Generated CV Modal */}
+      <KineticCvModal
+        portfolio={portfolio}
+        isOpen={isCvModalOpen}
+        onClose={() => setIsCvModalOpen(false)}
+      />
+
+      {/* Dynamic Keyframes for Marquee, Kinetic Pulse & Custom Cursor */}
       <style dangerouslySetInnerHTML={{ __html: `
         @keyframes kineticMarquee {
           0% { transform: translateX(0%); }
@@ -140,6 +170,12 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
         }
         .kinetic-pulse-dot {
           animation: kineticDotPulse 2.4s ease-out infinite;
+        }
+        @media (hover: hover) and (pointer: fine) {
+          .kinetic-cursor-area,
+          .kinetic-cursor-area *:not([role="dialog"]):not([role="dialog"] *) {
+            cursor: none !important;
+          }
         }
       `}} />
 
@@ -230,8 +266,25 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
             )}
           </nav>
 
-          {/* Action buttons (Command Key, Theme Toggle, Mobile Burger) */}
-          <div className="flex items-center gap-3">
+          {/* Action buttons (Generate CV, Command Key, Theme Toggle, Mobile Burger) */}
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            {/* Generate CV Option Button */}
+            <button
+              type="button"
+              onClick={() => setIsCvModalOpen(true)}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-mono font-medium transition-all hover:scale-105 cursor-pointer shadow-sm"
+              style={{
+                borderColor: accentColor,
+                backgroundColor: isDark ? "rgba(255, 92, 26, 0.12)" : "rgba(255, 92, 26, 0.15)",
+                color: textColor,
+              }}
+              title="Generate CV from uploaded information"
+            >
+              <FileText className="w-3.5 h-3.5" style={{ color: accentColor }} />
+              <span className="hidden sm:inline">Generate CV</span>
+              <span className="sm:hidden font-bold">CV</span>
+            </button>
+
             {/* Command Menu Pill Indicator */}
             <div
               className="hidden sm:inline-flex items-center gap-1 px-3 py-1.5 rounded-full border text-[11px] font-mono"
@@ -314,6 +367,22 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
                 Contact
               </a>
             )}
+            <button
+              type="button"
+              onClick={() => {
+                setIsCvModalOpen(true);
+                setMobileMenuOpen(false);
+              }}
+              className="w-full flex items-center justify-center gap-2 py-2.5 mt-2 rounded-xl border font-mono text-xs uppercase tracking-wider font-semibold cursor-pointer"
+              style={{
+                borderColor: accentColor,
+                backgroundColor: isDark ? "rgba(255, 92, 26, 0.15)" : "rgba(255, 92, 26, 0.18)",
+                color: textColor,
+              }}
+            >
+              <FileText className="w-4 h-4" style={{ color: accentColor }} />
+              <span>Generate CV</span>
+            </button>
           </div>
         )}
       </header>
@@ -362,13 +431,28 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
             </div>
 
             {/* Aside Tagline */}
-            <div className="lg:col-span-4 lg:text-right space-y-2">
+            <div className="lg:col-span-4 lg:text-right space-y-3">
               <p className="font-mono uppercase text-xs sm:text-sm tracking-wider leading-relaxed" style={{ color: mutedTextColor }}>
                 Crafting {displayHeadline}
               </p>
               <p className="font-mono text-xs uppercase tracking-widest font-semibold" style={{ color: accentColor }}>
                 &amp; High-Performance Systems
               </p>
+              <div className="pt-1">
+                <button
+                  type="button"
+                  onClick={() => setIsCvModalOpen(true)}
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full border font-mono text-xs uppercase tracking-wider font-semibold transition-all hover:scale-105 cursor-pointer shadow-md"
+                  style={{
+                    borderColor: accentColor,
+                    backgroundColor: accentColor,
+                    color: "#ffffff",
+                  }}
+                >
+                  <FileText className="w-3.5 h-3.5" />
+                  <span>Generate CV</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
