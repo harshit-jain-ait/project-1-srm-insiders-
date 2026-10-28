@@ -85,7 +85,7 @@ export function LandingNavbar({ variant = "dark" }: LandingNavbarProps) {
             <Sun className="w-4 h-4" />
           </button>
 
-          {/* Sign In Button */}
+          {/* Launch Editor Studio Button */}
           <Link
             href="/editor"
             className={`hidden sm:inline-flex text-sm font-semibold px-3 py-1.5 rounded-lg transition-colors ${
@@ -94,7 +94,7 @@ export function LandingNavbar({ variant = "dark" }: LandingNavbarProps) {
                 : "text-slate-700 hover:text-slate-900 hover:bg-slate-100"
             }`}
           >
-            Sign In
+            Launch Editor Studio
           </Link>
 
           {/* Get Started Button */}
@@ -163,7 +163,7 @@ export function LandingNavbar({ variant = "dark" }: LandingNavbarProps) {
               onClick={() => setMobileMenuOpen(false)}
               className="hover:text-blue-400 transition-colors py-1"
             >
-              Studio Editor / Sign In
+              Launch Editor Studio
             </Link>
           </nav>
           <div className={`pt-2 border-t ${isDark ? "border-slate-800" : "border-slate-200"}`}>
