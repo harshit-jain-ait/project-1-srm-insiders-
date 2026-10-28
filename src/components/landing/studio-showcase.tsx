@@ -3,6 +3,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { Logo } from "@/components/ui/logo";
 import {
   Sparkles,
   Zap,
@@ -292,13 +293,8 @@ export function StudioShowcase() {
             <div className="h-14 border-b border-slate-800 bg-[#0d111c] px-4 sm:px-6 flex items-center justify-between gap-3 text-xs select-none">
               {/* Left: Portfolify brand & active template with live indicator */}
               <div className="flex items-center gap-3 sm:gap-4 min-w-0">
-                <Link href="/" className="flex items-center gap-2">
-                  <div className="h-6 w-6 rounded-md bg-[#2563eb] flex items-center justify-center text-white font-mono text-xs font-bold shadow-sm">
-                    P
-                  </div>
-                  <span className="font-extrabold text-sm tracking-tight text-white hidden sm:inline">
-                    Portfolify
-                  </span>
+                <Link href="/" className="group">
+                  <Logo size="sm" isDark={true} />
                 </Link>
 
                 <button

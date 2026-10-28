@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { Sun, Menu, X } from "lucide-react";
+import { Logo } from "@/components/ui/logo";
 
 interface LandingNavbarProps {
   variant?: "dark" | "light";
@@ -22,17 +23,8 @@ export function LandingNavbar({ variant = "dark" }: LandingNavbarProps) {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between">
         {/* Brand Wordmark */}
-        <Link href="/" className="flex items-center gap-2.5 group">
-          <div className="h-8 w-8 rounded-lg bg-[#2563eb] flex items-center justify-center text-white font-mono text-base font-bold shadow-sm transition-transform group-hover:scale-105">
-            P
-          </div>
-          <span
-            className={`font-extrabold text-xl tracking-tight transition-colors ${
-              isDark ? "text-white" : "text-slate-900"
-            }`}
-          >
-            Portfolify
-          </span>
+        <Link href="/" className="group">
+          <Logo size="md" isDark={isDark} />
         </Link>
 
         {/* Center Desktop Navigation */}
