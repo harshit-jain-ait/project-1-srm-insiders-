@@ -288,13 +288,14 @@ export function LandingPageView() {
         </section>
 
         {/* 4. Template Gallery Section ("Beautiful templates for every style.") */}
-        <section id="templates" className="py-20 md:py-28 bg-[#f4f7fc] dark:bg-[#07090f] border-b border-slate-200/80 dark:border-slate-800/80 transition-colors duration-300 relative overflow-hidden">
-          {/* Full-width Responsive Background Image without quality degradation */}
+        <section id="templates" className="mt-12 sm:mt-16 md:mt-24 py-20 md:py-28 bg-[#f4f7fc] dark:bg-[#07090f] border-y border-slate-200/80 dark:border-slate-800/80 transition-colors duration-300 relative overflow-hidden">
+          {/* Full-width Responsive Background Image with enhanced high-resolution rendering */}
           <div className="absolute inset-0 w-full h-full pointer-events-none select-none z-0">
             <img
               src="/images/landing/template-gallery-bg.png"
               alt="Template gallery background with notes, books and desk lamp"
               className="w-full h-full object-cover object-bottom opacity-100 dark:opacity-30 transition-opacity"
+              style={{ imageRendering: "auto" }}
             />
           </div>
 
