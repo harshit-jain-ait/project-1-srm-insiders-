@@ -19,6 +19,7 @@ import {
   Share2,
   Smartphone,
   Play,
+  Eye,
   Mail,
   MessageSquare,
   Send,
@@ -34,39 +35,39 @@ export function LandingPageView() {
   const [previewTemplate, setPreviewTemplate] = useState<RegisteredTemplate | null>(null);
   const { isDark } = useTheme();
 
-  // The 4 spotlight templates matching Section 3 in the reference design
+  // The 4 spotlight templates matching Section 4 in the reference design
   const featuredTemplates = [
     {
       id: "minimal-portfolio",
       name: "Minimal Portfolio",
       description: "Clean, elegant and focused on your content.",
-      badge: "Popular",
+      badge: "POPULAR",
       badgeType: "popular" as const,
-      imageSrc: "/images/templates/minimal-portfolio.svg",
+      imageSrc: "/images/templates/preview-minimal.png",
     },
     {
       id: "developer-pro",
       name: "Developer Pro",
       description: "A modern template for developers and tech professionals.",
-      badge: "Trending",
+      badge: "TRENDING",
       badgeType: "trending" as const,
-      imageSrc: "/images/templates/developer-pro.svg",
+      imageSrc: "/images/templates/preview-developer.png",
     },
     {
       id: "bento-studio",
       name: "Bento Studio",
       description: "A bold, modern portfolio with a dark theme and interactive showcases.",
-      badge: "New",
+      badge: "NEW",
       badgeType: "new" as const,
-      imageSrc: "/images/templates/bento-studio.svg",
+      imageSrc: "/images/templates/preview-bento.png",
     },
     {
       id: "creative-motion",
       name: "Creative Flow",
       description: "A modern and artistic template for creatives, designers and storytellers.",
-      badge: null,
-      badgeType: null,
-      imageSrc: "/images/templates/creative-motion.svg",
+      badge: "FEATURED",
+      badgeType: "featured" as const,
+      imageSrc: "/images/templates/preview-creative.png",
     },
   ];
 
@@ -287,41 +288,100 @@ export function LandingPageView() {
         </section>
 
         {/* 4. Template Gallery Section ("Beautiful templates for every style.") */}
-        <section id="templates" className="py-20 bg-slate-50 dark:bg-[#07090e] border-b border-slate-200/80 dark:border-slate-800/80 transition-colors duration-300">
-          <div className="max-w-7xl mx-auto px-6 space-y-10">
+        <section id="templates" className="py-20 md:py-28 bg-[#f4f7fc] dark:bg-[#07090f] border-b border-slate-200/80 dark:border-slate-800/80 transition-colors duration-300 relative overflow-hidden">
+          {/* Full-width Responsive Background Image without quality degradation */}
+          <div className="absolute inset-0 w-full h-full pointer-events-none select-none z-0">
+            <img
+              src="/images/landing/template-gallery-bg.png"
+              alt="Template gallery background with notes, books and desk lamp"
+              className="w-full h-full object-cover object-bottom opacity-100 dark:opacity-30 transition-opacity"
+            />
+          </div>
+
+          <div className="max-w-7xl mx-auto px-6 relative z-10 space-y-12">
             {/* Header Row */}
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 text-left">
-              <div className="space-y-2">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-[#2563eb] bg-blue-50 dark:bg-blue-950/60 dark:text-blue-400 px-2.5 py-1 rounded-md inline-block">
-                  TEMPLATE GALLERY
-                </span>
-                <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-                  Beautiful templates for every style.
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 text-left">
+              <div className="space-y-3 max-w-xl">
+                {/* Badge */}
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-100/90 dark:bg-blue-950/80 border border-blue-200/70 dark:border-blue-800/50 text-[11px] font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 shadow-xs">
+                  <span>TEMPLATE GALLERY</span>
+                </div>
+
+                {/* Main Heading with hand-drawn blue underline accent on "style." */}
+                <h2 className="text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-[1.12]">
+                  Beautiful templates for <br />
+                  every{" "}
+                  <span className="relative inline-block text-blue-600 dark:text-blue-400">
+                    style.
+                    {/* Hand-drawn blue underline accent */}
+                    <svg
+                      className="absolute -bottom-2 sm:-bottom-2.5 left-0 w-full h-3 sm:h-4 text-blue-500 overflow-visible"
+                      viewBox="0 0 100 14"
+                      fill="none"
+                      preserveAspectRatio="none"
+                    >
+                      <path
+                        d="M2 10 C 30 2, 70 2, 98 10"
+                        stroke="currentColor"
+                        strokeWidth="3.5"
+                        strokeLinecap="round"
+                      />
+                    </svg>
+                  </span>
                 </h2>
-                <p className="text-sm text-slate-600 dark:text-slate-400">
+
+                <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 leading-relaxed font-normal">
                   Choose from professionally designed templates and make it yours with our visual editor.
                 </p>
               </div>
 
-              <Link
-                href="/templates"
-                className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#2563eb] hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 transition-colors"
-              >
-                <span>View all templates</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
+              {/* Right: Handwritten annotation + View all templates Button */}
+              <div className="flex flex-col items-start md:items-end gap-2 shrink-0">
+                {/* Handwritten "Your idea. Our templates." annotation */}
+                <div className="hidden md:flex items-center gap-2 select-none pointer-events-none text-blue-600 dark:text-blue-400 pr-4">
+                  <div className="text-right">
+                    <p className="font-serif italic text-xs sm:text-[13px] leading-tight">Your idea.</p>
+                    <p className="font-serif italic text-xs sm:text-[13px] leading-tight">Our templates.</p>
+                  </div>
+                  {/* Curved arrow pointing down */}
+                  <svg className="w-7 h-7 stroke-current -rotate-12 transform" fill="none" viewBox="0 0 24 24">
+                    <path
+                      d="M6 4c3 8 8 12 14 12m0 0l-4-4m4 4l-4 4"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </div>
+
+                {/* View All Templates Capsule Button */}
+                <Link href="/templates">
+                  <motion.button
+                    type="button"
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                    className="rounded-full bg-white dark:bg-[#0c0f18] hover:bg-slate-50 dark:hover:bg-slate-900 border border-slate-200/90 dark:border-white/10 text-slate-800 dark:text-slate-200 font-semibold text-xs sm:text-sm px-6 py-2.5 shadow-sm hover:shadow-md transition-all cursor-pointer inline-flex items-center gap-2 group"
+                  >
+                    <span>View all templates</span>
+                    <ArrowRight className="w-4 h-4 text-slate-500 dark:text-slate-400 group-hover:translate-x-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-all" />
+                  </motion.button>
+                </Link>
+              </div>
             </div>
 
-            {/* 4-Card Template Grid */}
+            {/* 4-Card Template Grid with Smooth Spring Hover Animations */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {featuredTemplates.map((item) => (
-                <div
+                <motion.div
                   key={item.id}
-                  className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0f121d] overflow-hidden shadow-sm hover:shadow-md hover:border-slate-300 dark:hover:border-slate-700 transition-all flex flex-col justify-between group"
+                  whileHover={{ y: -8, scale: 1.02 }}
+                  transition={{ type: "spring", stiffness: 350, damping: 22 }}
+                  className="rounded-3xl border border-slate-200/90 dark:border-white/10 bg-white/95 dark:bg-[#0c0f18]/95 backdrop-blur-md overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.35)] hover:shadow-[0_22px_45px_rgba(59,130,246,0.14)] dark:hover:shadow-[0_22px_45px_rgba(59,130,246,0.2)] hover:border-blue-400/70 dark:hover:border-blue-500/50 transition-colors flex flex-col justify-between p-3.5 sm:p-4 group cursor-pointer"
                 >
                   <div>
-                    {/* Thumbnail Preview Container */}
-                    <div className="relative aspect-[16/10] bg-slate-100 dark:bg-slate-900 overflow-hidden border-b border-slate-100 dark:border-slate-800">
+                    {/* Inner Thumbnail Preview Frame */}
+                    <div className="relative aspect-[16/11] rounded-2xl bg-slate-100 dark:bg-slate-900 overflow-hidden border border-slate-100/80 dark:border-white/5">
                       <img
                         src={item.imageSrc}
                         alt={`${item.name} template preview`}
@@ -332,12 +392,14 @@ export function LandingPageView() {
                       {/* Badge in top corner */}
                       {item.badge && (
                         <span
-                          className={`absolute top-3 left-3 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full shadow-sm ${
+                          className={`absolute top-2.5 left-2.5 text-[10px] font-bold tracking-wider px-2.5 py-0.5 rounded-full shadow-xs ${
                             item.badgeType === "popular"
-                              ? "bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-300"
+                              ? "bg-blue-100/95 text-blue-700 dark:bg-blue-950/90 dark:text-blue-300"
                               : item.badgeType === "trending"
-                              ? "bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-300"
-                              : "bg-blue-600 text-white"
+                              ? "bg-emerald-100/95 text-emerald-800 dark:bg-emerald-950/90 dark:text-emerald-300"
+                              : item.badgeType === "new"
+                              ? "bg-purple-100/95 text-purple-800 dark:bg-purple-950/90 dark:text-purple-300"
+                              : "bg-amber-100/95 text-amber-800 dark:bg-amber-950/90 dark:text-amber-300"
                           }`}
                         >
                           {item.badge}
@@ -346,17 +408,17 @@ export function LandingPageView() {
                     </div>
 
                     {/* Card Content */}
-                    <div className="p-5 text-left space-y-2">
-                      <h3 className="font-bold text-base text-slate-900 dark:text-white group-hover:text-[#2563eb] dark:group-hover:text-blue-400 transition-colors">
+                    <div className="px-1.5 pt-4 pb-2 text-left space-y-1.5">
+                      <h3 className="font-bold text-base text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors tracking-tight">
                         {item.name}
                       </h3>
-                      <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed line-clamp-2">
+                      <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed line-clamp-2">
                         {item.description}
                       </p>
 
-                      {/* Dot indicators */}
+                      {/* 4 Dot indicators */}
                       <div className="flex items-center gap-1.5 pt-2">
-                        <span className="w-2 h-2 rounded-full bg-slate-800 dark:bg-slate-200" />
+                        <span className="w-2 h-2 rounded-full bg-slate-900 dark:bg-white" />
                         <span className="w-2 h-2 rounded-full bg-slate-300 dark:bg-slate-700" />
                         <span className="w-2 h-2 rounded-full bg-slate-300 dark:bg-slate-700" />
                         <span className="w-2 h-2 rounded-full bg-slate-300 dark:bg-slate-700" />
@@ -365,25 +427,26 @@ export function LandingPageView() {
                   </div>
 
                   {/* Actions Row */}
-                  <div className="p-4 bg-slate-50/80 dark:bg-slate-900/60 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-2.5">
+                  <div className="pt-3 px-1 flex items-center justify-between gap-2.5">
                     <button
                       type="button"
                       onClick={() => handlePreview(item.id)}
-                      className="flex-1 py-1.5 px-3 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-200 transition-colors cursor-pointer shadow-sm"
+                      className="flex-1 py-2 px-3 rounded-xl border border-slate-200/90 dark:border-white/15 bg-white dark:bg-white/5 hover:bg-slate-50 dark:hover:bg-white/10 text-xs font-semibold text-slate-700 dark:text-slate-200 transition-all cursor-pointer flex items-center justify-center gap-1.5 shadow-2xs hover:shadow-xs"
                     >
-                      Preview
+                      <Eye className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400" />
+                      <span>Preview</span>
                     </button>
 
                     <Link href={`/editor?template=${item.id}`} className="flex-1">
                       <button
                         type="button"
-                        className="w-full py-1.5 px-3 rounded-lg bg-slate-900 hover:bg-black dark:bg-blue-600 dark:hover:bg-blue-500 text-white text-xs font-semibold transition-colors cursor-pointer shadow-sm"
+                        className="w-full py-2 px-3 rounded-xl bg-[#0f172a] hover:bg-[#1e293b] text-white text-xs font-semibold transition-all cursor-pointer shadow-xs hover:shadow-md text-center"
                       >
                         Select
                       </button>
                     </Link>
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>
