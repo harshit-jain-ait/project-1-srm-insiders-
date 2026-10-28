@@ -452,8 +452,6 @@ export function LandingPageView() {
             </div>
           </div>
         </section>
-          </div>
-        </section>
 
         {/* 5. Powerful Features Section ("Everything you need to create an amazing portfolio.") */}
         <section id="features" className="py-20 bg-white dark:bg-[#090b11] border-b border-slate-200/80 dark:border-slate-800/80 transition-colors duration-300">
