@@ -1,9 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Logo } from "@/components/ui/logo";
+import { useTheme } from "@/components/theme-provider";
 import {
   Sparkles,
   Zap,
@@ -54,6 +55,8 @@ const TEMPLATES = [
 ];
 
 export function StudioShowcase() {
+  const { isDark: siteIsDark } = useTheme();
+
   // Live editable fields matching the right panel
   const [heading, setHeading] = useState("Hello, I'm Alex Carter");
   const [subheading, setSubheading] = useState("Product Designer • Developer");
@@ -68,6 +71,10 @@ export function StudioShowcase() {
   const [layoutStyle, setLayoutStyle] = useState<LayoutDensity>("default");
   const [accentColor, setAccentColor] = useState(ACCENT_COLORS[0]);
   const [isDarkMode, setIsDarkMode] = useState(true);
+
+  useEffect(() => {
+    setIsDarkMode(siteIsDark);
+  }, [siteIsDark]);
   const [deviceView, setDeviceView] = useState<DeviceView>("desktop");
   const [activeNavTab, setActiveNavTab] = useState("template");
   const [editPanelTab, setEditPanelTab] = useState<"content" | "style">("content");
@@ -85,7 +92,7 @@ export function StudioShowcase() {
   };
 
   return (
-    <section className="relative w-full bg-[#07090e] text-slate-100 overflow-hidden pt-12 pb-24 md:pt-16 md:pb-32 selection:bg-blue-500/30 selection:text-blue-200">
+    <section className="relative w-full bg-slate-50 dark:bg-[#07090e] text-slate-900 dark:text-slate-100 overflow-hidden pt-12 pb-24 md:pt-16 md:pb-32 selection:bg-blue-500/30 selection:text-blue-200 transition-colors duration-300">
       {/* Ambient background glow & grid lines */}
       <div className="absolute inset-0 pointer-events-none select-none overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1100px] h-[550px] bg-gradient-to-b from-blue-600/15 via-indigo-600/10 to-transparent blur-3xl opacity-80" />
@@ -93,9 +100,9 @@ export function StudioShowcase() {
         <div className="absolute top-[40%] right-1/4 w-[500px] h-[400px] bg-blue-600/10 blur-[140px] rounded-full" />
         {/* Subtle dot matrix grid overlay */}
         <div
-          className="absolute inset-0 opacity-[0.14]"
+          className="absolute inset-0 opacity-[0.12] dark:opacity-[0.14]"
           style={{
-            backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.2) 1px, transparent 0)`,
+            backgroundImage: `radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0)`,
             backgroundSize: "32px 32px",
           }}
         />
@@ -107,55 +114,55 @@ export function StudioShowcase() {
           {/* Left Column: Heading, Subtitle, Features */}
           <div className="lg:col-span-7 space-y-6 text-left">
             {/* Visual Editor Pill Badge */}
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-950/70 border border-blue-500/30 text-xs font-semibold text-blue-400 shadow-[0_0_20px_rgba(37,99,235,0.2)] backdrop-blur-md">
-              <Sparkles className="w-3.5 h-3.5 text-blue-400" />
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 dark:bg-blue-950/70 border border-blue-200 dark:border-blue-500/30 text-xs font-semibold text-blue-600 dark:text-blue-400 shadow-[0_0_20px_rgba(37,99,235,0.15)] backdrop-blur-md">
+              <Sparkles className="w-3.5 h-3.5 text-blue-500 dark:text-blue-400" />
               <span>Visual Editor</span>
             </div>
 
             {/* Main Title */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.1]">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-[1.1]">
               Your portfolio, <br />
               your{" "}
-              <span className="bg-gradient-to-r from-blue-400 via-sky-300 to-indigo-300 bg-clip-text text-transparent drop-shadow-sm">
+              <span className="bg-gradient-to-r from-blue-600 via-sky-500 to-indigo-600 dark:from-blue-400 dark:via-sky-300 dark:to-indigo-300 bg-clip-text text-transparent drop-shadow-sm">
                 creative studio.
               </span>
             </h1>
 
             {/* Subtitle */}
-            <p className="text-slate-400 text-base sm:text-lg max-w-xl font-normal leading-relaxed">
+            <p className="text-slate-600 dark:text-slate-400 text-base sm:text-lg max-w-xl font-normal leading-relaxed">
               Edit, customize and bring your portfolio to life with our powerful visual editor. No code. No limits. Just
               your vision.
             </p>
 
             {/* 3 Value Props in a Row */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4">
-              <div className="flex items-center gap-3 p-2.5 rounded-xl bg-slate-900/40 border border-slate-800/80 backdrop-blur-sm">
-                <div className="w-9 h-9 rounded-lg bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-blue-400 shrink-0 shadow-sm">
+              <div className="flex items-center gap-3 p-2.5 rounded-xl bg-white/80 dark:bg-slate-900/40 border border-slate-200/90 dark:border-slate-800/80 shadow-xs backdrop-blur-sm">
+                <div className="w-9 h-9 rounded-lg bg-blue-50 dark:bg-blue-600/20 border border-blue-200 dark:border-blue-500/30 flex items-center justify-center text-blue-600 dark:text-blue-400 shrink-0 shadow-sm">
                   <Zap className="w-4 h-4" />
                 </div>
                 <div>
-                  <h4 className="text-xs font-bold text-white leading-tight">Real-time Preview</h4>
-                  <p className="text-[11px] text-slate-400 mt-0.5">See changes instantly</p>
+                  <h4 className="text-xs font-bold text-slate-900 dark:text-white leading-tight">Real-time Preview</h4>
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">See changes instantly</p>
                 </div>
               </div>
 
-              <div className="flex items-center gap-3 p-2.5 rounded-xl bg-slate-900/40 border border-slate-800/80 backdrop-blur-sm">
-                <div className="w-9 h-9 rounded-lg bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-blue-400 shrink-0 shadow-sm">
+              <div className="flex items-center gap-3 p-2.5 rounded-xl bg-white/80 dark:bg-slate-900/40 border border-slate-200/90 dark:border-slate-800/80 shadow-xs backdrop-blur-sm">
+                <div className="w-9 h-9 rounded-lg bg-blue-50 dark:bg-blue-600/20 border border-blue-200 dark:border-blue-500/30 flex items-center justify-center text-blue-600 dark:text-blue-400 shrink-0 shadow-sm">
                   <LayoutGrid className="w-4 h-4" />
                 </div>
                 <div>
-                  <h4 className="text-xs font-bold text-white leading-tight">Drag &amp; Drop</h4>
-                  <p className="text-[11px] text-slate-400 mt-0.5">Build with ease</p>
+                  <h4 className="text-xs font-bold text-slate-900 dark:text-white leading-tight">Drag &amp; Drop</h4>
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Build with ease</p>
                 </div>
               </div>
 
-              <div className="flex items-center gap-3 p-2.5 rounded-xl bg-slate-900/40 border border-slate-800/80 backdrop-blur-sm">
-                <div className="w-9 h-9 rounded-lg bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-blue-400 shrink-0 shadow-sm">
+              <div className="flex items-center gap-3 p-2.5 rounded-xl bg-white/80 dark:bg-slate-900/40 border border-slate-200/90 dark:border-slate-800/80 shadow-xs backdrop-blur-sm">
+                <div className="w-9 h-9 rounded-lg bg-blue-50 dark:bg-blue-600/20 border border-blue-200 dark:border-blue-500/30 flex items-center justify-center text-blue-600 dark:text-blue-400 shrink-0 shadow-sm">
                   <SlidersHorizontal className="w-4 h-4" />
                 </div>
                 <div>
-                  <h4 className="text-xs font-bold text-white leading-tight">Fully Customizable</h4>
-                  <p className="text-[11px] text-slate-400 mt-0.5">Make it yours</p>
+                  <h4 className="text-xs font-bold text-slate-900 dark:text-white leading-tight">Fully Customizable</h4>
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Make it yours</p>
                 </div>
               </div>
             </div>
@@ -165,11 +172,11 @@ export function StudioShowcase() {
           <div className="lg:col-span-5 relative flex items-center justify-center min-h-[340px]">
             {/* Playful script annotation at top right */}
             <div className="absolute -top-6 sm:-top-8 right-2 sm:right-6 z-30 pointer-events-none select-none text-right">
-              <span className="font-serif italic text-xs sm:text-sm text-slate-300 block transform rotate-3">
+              <span className="font-serif italic text-xs sm:text-sm text-slate-500 dark:text-slate-300 block transform rotate-3">
                 Edit. Preview. Publish.
               </span>
               <svg
-                className="w-8 h-8 text-slate-400 inline-block transform translate-x-2 -translate-y-1"
+                className="w-8 h-8 text-slate-400 dark:text-slate-400 inline-block transform translate-x-2 -translate-y-1"
                 viewBox="0 0 40 40"
                 fill="none"
                 stroke="currentColor"
@@ -183,19 +190,19 @@ export function StudioShowcase() {
             </div>
 
             {/* Main Floating Tilted Portfolio Card */}
-            <div className="relative w-full max-w-[360px] sm:max-w-[400px] bg-[#0f1422]/90 border border-slate-700/70 rounded-2xl p-5 shadow-[0_20px_50px_rgba(0,0,0,0.7),0_0_30px_rgba(37,99,235,0.25)] backdrop-blur-md transform -rotate-2 hover:rotate-0 transition-transform duration-500">
+            <div className="relative w-full max-w-[360px] sm:max-w-[400px] bg-white/95 dark:bg-[#0f1422]/90 border border-slate-200/90 dark:border-slate-700/70 rounded-2xl p-5 shadow-[0_20px_50px_rgba(0,0,0,0.08),0_0_30px_rgba(37,99,235,0.12)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.7),0_0_30px_rgba(37,99,235,0.25)] backdrop-blur-md transform -rotate-2 hover:rotate-0 transition-all duration-500">
               <div className="flex items-start justify-between gap-4">
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white">Hello,</h3>
-                  <h2 className="text-base font-extrabold text-white">I&apos;m Alex Carter</h2>
-                  <p className="text-[11px] text-blue-400 font-medium">Product Designer • Developer</p>
-                  <p className="text-[10px] text-slate-400 flex items-center gap-1 pt-0.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block" />
+                  <h3 className="text-sm font-bold text-slate-700 dark:text-white">Hello,</h3>
+                  <h2 className="text-base font-extrabold text-slate-900 dark:text-white">I&apos;m Alex Carter</h2>
+                  <p className="text-[11px] text-blue-600 dark:text-blue-400 font-medium">Product Designer • Developer</p>
+                  <p className="text-[10px] text-slate-500 dark:text-slate-400 flex items-center gap-1 pt-0.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400 inline-block" />
                     Based in New York
                   </p>
                 </div>
                 {/* Avatar */}
-                <div className="relative w-16 h-20 rounded-xl overflow-hidden border border-slate-700 shadow-md shrink-0">
+                <div className="relative w-16 h-20 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 shadow-md shrink-0">
                   <img
                     src="/images/studio/alex-carter.jpg"
                     alt="Alex Carter"
@@ -205,18 +212,18 @@ export function StudioShowcase() {
               </div>
 
               {/* Stats Bar */}
-              <div className="grid grid-cols-3 gap-2 py-3 my-3 border-y border-slate-800 text-center">
+              <div className="grid grid-cols-3 gap-2 py-3 my-3 border-y border-slate-200 dark:border-slate-800 text-center">
                 <div>
-                  <div className="text-xs font-bold text-white">5+</div>
-                  <div className="text-[9px] text-slate-400">Years Exp.</div>
+                  <div className="text-xs font-bold text-slate-900 dark:text-white">5+</div>
+                  <div className="text-[9px] text-slate-500 dark:text-slate-400">Years Exp.</div>
                 </div>
                 <div>
-                  <div className="text-xs font-bold text-white">12+</div>
-                  <div className="text-[9px] text-slate-400">Projects</div>
+                  <div className="text-xs font-bold text-slate-900 dark:text-white">12+</div>
+                  <div className="text-[9px] text-slate-500 dark:text-slate-400">Projects</div>
                 </div>
                 <div>
-                  <div className="text-xs font-bold text-white">8+</div>
-                  <div className="text-[9px] text-slate-400">Tech Stack</div>
+                  <div className="text-xs font-bold text-slate-900 dark:text-white">8+</div>
+                  <div className="text-[9px] text-slate-500 dark:text-slate-400">Tech Stack</div>
                 </div>
               </div>
 
@@ -229,17 +236,17 @@ export function StudioShowcase() {
                   <span>View My Work</span>
                   <ArrowRight className="w-3 h-3" />
                 </button>
-                <div className="flex items-center gap-2 text-slate-400">
-                  <GithubIcon className="w-3.5 h-3.5 hover:text-white transition-colors" />
-                  <LinkedinIcon className="w-3.5 h-3.5 hover:text-white transition-colors" />
-                  <TwitterIcon className="w-3.5 h-3.5 hover:text-white transition-colors" />
+                <div className="flex items-center gap-2 text-slate-400 dark:text-slate-400">
+                  <GithubIcon className="w-3.5 h-3.5 hover:text-slate-900 dark:hover:text-white transition-colors" />
+                  <LinkedinIcon className="w-3.5 h-3.5 hover:text-slate-900 dark:hover:text-white transition-colors" />
+                  <TwitterIcon className="w-3.5 h-3.5 hover:text-slate-900 dark:hover:text-white transition-colors" />
                 </div>
               </div>
             </div>
 
             {/* Floating Mini Card 1: Colors (Top Left) */}
-            <div className="absolute -top-4 -left-4 sm:-left-8 bg-[#0b0f1a]/95 border border-slate-700/80 rounded-xl px-3 py-2 shadow-xl backdrop-blur-md z-20 pointer-events-none transform -rotate-6">
-              <span className="text-[10px] font-semibold text-slate-400 block mb-1">Colors</span>
+            <div className="absolute -top-4 -left-4 sm:-left-8 bg-white/95 dark:bg-[#0b0f1a]/95 border border-slate-200/90 dark:border-slate-700/80 rounded-xl px-3 py-2 shadow-xl backdrop-blur-md z-20 pointer-events-none transform -rotate-6">
+              <span className="text-[10px] font-semibold text-slate-500 dark:text-slate-400 block mb-1">Colors</span>
               <div className="flex items-center gap-1.5">
                 <span className="w-3 h-3 rounded-full bg-cyan-400 shadow-sm" />
                 <span className="w-3 h-3 rounded-full bg-blue-500 shadow-sm" />
@@ -250,13 +257,13 @@ export function StudioShowcase() {
             </div>
 
             {/* Floating Mini Card 2: Typography (Left Center) */}
-            <div className="absolute bottom-6 -left-6 sm:-left-10 bg-[#0b0f1a]/95 border border-slate-700/80 rounded-xl p-3 shadow-xl backdrop-blur-md z-20 pointer-events-none transform rotate-3">
+            <div className="absolute bottom-6 -left-6 sm:-left-10 bg-white/95 dark:bg-[#0b0f1a]/95 border border-slate-200/90 dark:border-slate-700/80 rounded-xl p-3 shadow-xl backdrop-blur-md z-20 pointer-events-none transform rotate-3">
               <div className="flex items-center justify-between gap-3">
-                <span className="text-[10px] font-semibold text-slate-400">Typography</span>
-                <span className="text-[10px] font-bold text-white font-mono">Aa</span>
+                <span className="text-[10px] font-semibold text-slate-500 dark:text-slate-400">Typography</span>
+                <span className="text-[10px] font-bold text-slate-900 dark:text-white font-mono">Aa</span>
               </div>
-              <div className="text-xs font-bold text-white mt-0.5">Inter</div>
-              <div className="flex items-center gap-1 mt-1 text-[9px] text-slate-400">
+              <div className="text-xs font-bold text-slate-900 dark:text-white mt-0.5">Inter</div>
+              <div className="flex items-center gap-1 mt-1 text-[9px] text-slate-500 dark:text-slate-400">
                 <span>Regular</span>
                 <span>•</span>
                 <span>Medium</span>
@@ -266,11 +273,11 @@ export function StudioShowcase() {
             </div>
 
             {/* Floating Mini Card 3: Sections Toggle List (Right Bottom) */}
-            <div className="absolute -bottom-6 -right-2 sm:-right-8 bg-[#0b0f1a]/95 border border-slate-700/80 rounded-xl p-3 shadow-xl backdrop-blur-md z-20 pointer-events-none transform rotate-6 w-36 hidden sm:block">
-              <span className="text-[10px] font-semibold text-slate-400 block mb-1.5">Sections</span>
+            <div className="absolute -bottom-6 -right-2 sm:-right-8 bg-white/95 dark:bg-[#0b0f1a]/95 border border-slate-200/90 dark:border-slate-700/80 rounded-xl p-3 shadow-xl backdrop-blur-md z-20 pointer-events-none transform rotate-6 w-36 hidden sm:block">
+              <span className="text-[10px] font-semibold text-slate-500 dark:text-slate-400 block mb-1.5">Sections</span>
               <div className="space-y-1 text-[10px]">
                 {["Hero", "About", "Skills", "Projects", "Experience", "Contact"].map((sec) => (
-                  <div key={sec} className="flex items-center justify-between text-slate-300">
+                  <div key={sec} className="flex items-center justify-between text-slate-700 dark:text-slate-300">
                     <span>{sec}</span>
                     <span className="w-4 h-2.5 rounded-full bg-blue-600 inline-flex items-center justify-end px-0.5">
                       <span className="w-1.5 h-1.5 rounded-full bg-white" />
@@ -288,31 +295,31 @@ export function StudioShowcase() {
           <div className="absolute inset-0 -m-3 sm:-m-6 bg-gradient-to-r from-blue-600/25 via-cyan-500/20 to-indigo-600/25 rounded-3xl blur-2xl opacity-70 pointer-events-none" />
 
           {/* Studio Window Shell */}
-          <div className="relative rounded-2xl md:rounded-3xl border border-slate-800/90 bg-[#0b0e17] shadow-[0_25px_80px_rgba(0,0,0,0.9),0_0_50px_rgba(37,99,235,0.18)] overflow-hidden text-left flex flex-col">
+          <div className="relative rounded-2xl md:rounded-3xl border border-slate-200 dark:border-slate-800/90 bg-white dark:bg-[#0b0e17] shadow-[0_25px_80px_rgba(0,0,0,0.08),0_0_50px_rgba(37,99,235,0.08)] dark:shadow-[0_25px_80px_rgba(0,0,0,0.9),0_0_50px_rgba(37,99,235,0.18)] overflow-hidden text-left flex flex-col transition-colors duration-300">
             {/* STUDIO TOP BAR */}
-            <div className="h-14 border-b border-slate-800 bg-[#0d111c] px-4 sm:px-6 flex items-center justify-between gap-3 text-xs select-none">
+            <div className="h-14 border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-[#0d111c] px-4 sm:px-6 flex items-center justify-between gap-3 text-xs select-none transition-colors">
               {/* Left: Portfolify brand & active template with live indicator */}
               <div className="flex items-center gap-3 sm:gap-4 min-w-0">
                 <Link href="/" className="group">
-                  <Logo size="sm" isDark={true} />
+                  <Logo size="sm" isDark={siteIsDark} />
                 </Link>
 
                 <button
                   type="button"
-                  className="p-1 rounded-md text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+                  className="p-1 rounded-md text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors"
                   title="Back"
                 >
                   <ArrowRight className="w-3.5 h-3.5 rotate-180" />
                 </button>
 
-                <div className="h-4 w-px bg-slate-800" />
+                <div className="h-4 w-px bg-slate-200 dark:bg-slate-800" />
 
                 <div className="flex items-center gap-2">
-                  <span className="font-semibold text-white text-xs truncate">
+                  <span className="font-semibold text-slate-900 dark:text-white text-xs truncate">
                     {TEMPLATES.find((t) => t.id === selectedTemplate)?.name || "Bento Studio"}
                   </span>
-                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-[10px] font-medium text-emerald-400">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-[10px] font-medium text-emerald-600 dark:text-emerald-400">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-pulse" />
                     <span className="hidden sm:inline">Live Preview</span>
                   </span>
                 </div>
@@ -321,12 +328,12 @@ export function StudioShowcase() {
               {/* Center/Right: Viewport Devices + Save + Publish */}
               <div className="flex items-center gap-2 sm:gap-4 shrink-0">
                 {/* Device Selector */}
-                <div className="flex items-center bg-[#07090e] p-1 rounded-lg border border-slate-800">
+                <div className="flex items-center bg-slate-100 dark:bg-[#07090e] p-1 rounded-lg border border-slate-200 dark:border-slate-800">
                   <button
                     type="button"
                     onClick={() => setDeviceView("mobile")}
                     className={`p-1.5 rounded text-xs transition-colors cursor-pointer ${
-                      deviceView === "mobile" ? "bg-slate-800 text-white shadow-sm" : "text-slate-400 hover:text-slate-200"
+                      deviceView === "mobile" ? "bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm" : "text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
                     }`}
                     title="Mobile View"
                   >
@@ -336,7 +343,7 @@ export function StudioShowcase() {
                     type="button"
                     onClick={() => setDeviceView("tablet")}
                     className={`p-1.5 rounded text-xs transition-colors cursor-pointer ${
-                      deviceView === "tablet" ? "bg-slate-800 text-white shadow-sm" : "text-slate-400 hover:text-slate-200"
+                      deviceView === "tablet" ? "bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm" : "text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
                     }`}
                     title="Tablet View"
                   >
@@ -346,7 +353,7 @@ export function StudioShowcase() {
                     type="button"
                     onClick={() => setDeviceView("desktop")}
                     className={`px-2 py-1 rounded text-xs transition-colors flex items-center gap-1 cursor-pointer ${
-                      deviceView === "desktop" ? "bg-slate-800 text-white shadow-sm font-medium" : "text-slate-400 hover:text-slate-200"
+                      deviceView === "desktop" ? "bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm font-medium" : "text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
                     }`}
                     title="Desktop View"
                   >
@@ -360,12 +367,12 @@ export function StudioShowcase() {
                 <button
                   type="button"
                   onClick={handleManualSave}
-                  className="px-3 py-1.5 rounded-lg border border-slate-700/80 bg-slate-800/60 hover:bg-slate-800 text-slate-200 text-xs font-semibold transition-all cursor-pointer flex items-center gap-1.5"
+                  className="px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700/80 bg-slate-100 dark:bg-slate-800/60 hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 text-xs font-semibold transition-all cursor-pointer flex items-center gap-1.5"
                 >
                   {isSavedFeedback ? (
                     <>
-                      <Check className="w-3.5 h-3.5 text-emerald-400" />
-                      <span className="text-emerald-300">Saved</span>
+                      <Check className="w-3.5 h-3.5 text-emerald-500 dark:text-emerald-400" />
+                      <span className="text-emerald-600 dark:text-emerald-300">Saved</span>
                     </>
                   ) : (
                     <span>Save</span>
@@ -404,14 +411,14 @@ export function StudioShowcase() {
             )}
 
             {/* STUDIO WORKSPACE 4-COLUMN BODY */}
-            <div className="flex flex-col lg:flex-row min-h-[640px] lg:min-h-[720px] divide-y lg:divide-y-0 lg:divide-x divide-slate-800/80 overflow-hidden">
+            <div className="flex flex-col lg:flex-row min-h-[640px] lg:min-h-[720px] divide-y lg:divide-y-0 lg:divide-x divide-slate-200 dark:divide-slate-800/80 overflow-hidden">
               {/* COLUMN 1: Left Navigation Sidebar */}
-              <div className="w-full lg:w-48 xl:w-52 bg-[#090c14] p-3.5 flex flex-col justify-between shrink-0 select-none">
+              <div className="w-full lg:w-48 xl:w-52 bg-slate-50 dark:bg-[#090c14] p-3.5 flex flex-col justify-between shrink-0 select-none transition-colors">
                 <div className="space-y-4">
                   {/* Home */}
                   <Link
                     href="/"
-                    className="flex items-center gap-2.5 px-3 py-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/50 text-xs font-medium transition-colors"
+                    className="flex items-center gap-2.5 px-3 py-1.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/60 dark:hover:bg-slate-800/50 text-xs font-medium transition-colors"
                   >
                     <ArrowRight className="w-3.5 h-3.5 rotate-180" />
                     <span>Home</span>
@@ -419,7 +426,7 @@ export function StudioShowcase() {
 
                   {/* Section Group: Content */}
                   <div className="space-y-1">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 px-3 block">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-400 px-3 block">
                       Content
                     </span>
                     {[
@@ -440,11 +447,11 @@ export function StudioShowcase() {
                           onClick={() => setActiveNavTab(item.id)}
                           className={`w-full flex items-center gap-2.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors text-left cursor-pointer ${
                             isActive
-                              ? "bg-slate-800 text-white font-semibold"
-                              : "text-slate-400 hover:text-slate-200 hover:bg-slate-850/50"
+                              ? "bg-slate-200 dark:bg-slate-800 text-slate-900 dark:text-white font-semibold shadow-xs"
+                              : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-200/50 dark:hover:bg-slate-850/50"
                           }`}
                         >
-                          <Icon className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                          <Icon className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 shrink-0" />
                           <span>{item.label}</span>
                         </button>
                       );
@@ -453,7 +460,7 @@ export function StudioShowcase() {
 
                   {/* Section Group: Design */}
                   <div className="space-y-1 pt-1">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 px-3 block">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-400 px-3 block">
                       Design
                     </span>
                     <button
@@ -462,7 +469,7 @@ export function StudioShowcase() {
                       className={`w-full flex items-center gap-2.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors text-left cursor-pointer ${
                         activeNavTab === "template"
                           ? "bg-blue-600 text-white font-semibold shadow-sm"
-                          : "text-slate-400 hover:text-slate-200 hover:bg-slate-850/50"
+                          : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-200/50 dark:hover:bg-slate-850/50"
                       }`}
                     >
                       <LayoutGrid className="w-3.5 h-3.5 shrink-0" />
@@ -473,11 +480,11 @@ export function StudioShowcase() {
                       onClick={() => setActiveNavTab("appearance")}
                       className={`w-full flex items-center gap-2.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors text-left cursor-pointer ${
                         activeNavTab === "appearance"
-                          ? "bg-slate-800 text-white font-semibold"
-                          : "text-slate-400 hover:text-slate-200 hover:bg-slate-850/50"
+                          ? "bg-slate-200 dark:bg-slate-800 text-slate-900 dark:text-white font-semibold"
+                          : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-200/50 dark:hover:bg-slate-850/50"
                       }`}
                     >
-                      <Palette className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                      <Palette className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 shrink-0" />
                       <span>Appearance</span>
                     </button>
                     <button
@@ -485,18 +492,18 @@ export function StudioShowcase() {
                       onClick={() => setActiveNavTab("typography")}
                       className={`w-full flex items-center gap-2.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors text-left cursor-pointer ${
                         activeNavTab === "typography"
-                          ? "bg-slate-800 text-white font-semibold"
-                          : "text-slate-400 hover:text-slate-200 hover:bg-slate-850/50"
+                          ? "bg-slate-200 dark:bg-slate-800 text-slate-900 dark:text-white font-semibold"
+                          : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-200/50 dark:hover:bg-slate-850/50"
                       }`}
                     >
-                      <Type className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                      <Type className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 shrink-0" />
                       <span>Typography</span>
                     </button>
                   </div>
 
                   {/* Section Group: Settings */}
                   <div className="space-y-1 pt-1">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 px-3 block">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-400 px-3 block">
                       Settings
                     </span>
                     <button
@@ -504,11 +511,11 @@ export function StudioShowcase() {
                       onClick={() => setActiveNavTab("seo")}
                       className={`w-full flex items-center gap-2.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors text-left cursor-pointer ${
                         activeNavTab === "seo"
-                          ? "bg-slate-800 text-white font-semibold"
-                          : "text-slate-400 hover:text-slate-200 hover:bg-slate-850/50"
+                          ? "bg-slate-200 dark:bg-slate-800 text-slate-900 dark:text-white font-semibold"
+                          : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-200/50 dark:hover:bg-slate-850/50"
                       }`}
                     >
-                      <Globe className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                      <Globe className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 shrink-0" />
                       <span>SEO &amp; Domain</span>
                     </button>
                     <button
@@ -516,45 +523,45 @@ export function StudioShowcase() {
                       onClick={() => setActiveNavTab("publish")}
                       className={`w-full flex items-center gap-2.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors text-left cursor-pointer ${
                         activeNavTab === "publish"
-                          ? "bg-slate-800 text-white font-semibold"
-                          : "text-slate-400 hover:text-slate-200 hover:bg-slate-850/50"
+                          ? "bg-slate-200 dark:bg-slate-800 text-slate-900 dark:text-white font-semibold"
+                          : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-200/50 dark:hover:bg-slate-850/50"
                       }`}
                     >
-                      <Rocket className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                      <Rocket className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 shrink-0" />
                       <span>Publish</span>
                     </button>
                   </div>
                 </div>
 
                 {/* Bottom: Save Changes Button */}
-                <div className="pt-4 border-t border-slate-850">
+                <div className="pt-4 border-t border-slate-200 dark:border-slate-800">
                   <button
                     type="button"
                     onClick={handleManualSave}
-                    className="w-full py-2 px-3 rounded-lg bg-slate-800/80 hover:bg-slate-800 text-slate-200 text-xs font-semibold flex items-center justify-center gap-2 transition-all cursor-pointer shadow-sm border border-slate-700/50"
+                    className="w-full py-2 px-3 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800/80 dark:hover:bg-slate-800 text-slate-800 dark:text-slate-200 text-xs font-semibold flex items-center justify-center gap-2 transition-all cursor-pointer shadow-xs border border-slate-300 dark:border-slate-700/50"
                   >
-                    <Save className="w-3.5 h-3.5 text-emerald-400" />
+                    <Save className="w-3.5 h-3.5 text-emerald-500 dark:text-emerald-400" />
                     <span>Save Changes</span>
                   </button>
                 </div>
               </div>
 
               {/* COLUMN 2: Template Settings & Customizer Panel */}
-              <div className="w-full lg:w-64 xl:w-72 bg-[#0c0f1a] p-4 space-y-5 shrink-0 overflow-y-auto">
+              <div className="w-full lg:w-64 xl:w-72 bg-white dark:bg-[#0c0f1a] p-4 space-y-5 shrink-0 overflow-y-auto transition-colors">
                 {/* Template Title & Change Button */}
-                <div className="flex items-center justify-between gap-2 border-b border-slate-800/80 pb-3">
+                <div className="flex items-center justify-between gap-2 border-b border-slate-200 dark:border-slate-800/80 pb-3">
                   <div>
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 block">
                       Template
                     </span>
-                    <h3 className="text-sm font-bold text-white mt-0.5">
+                    <h3 className="text-sm font-bold text-slate-900 dark:text-white mt-0.5">
                       {TEMPLATES.find((t) => t.id === selectedTemplate)?.name || "Bento Studio"}
                     </h3>
                   </div>
                   <Link href="/templates">
                     <button
                       type="button"
-                      className="px-2.5 py-1 rounded-md bg-slate-800/70 hover:bg-slate-750 text-[11px] font-semibold text-slate-300 hover:text-white transition-colors border border-slate-700/60"
+                      className="px-2.5 py-1 rounded-md bg-slate-100 hover:bg-slate-200 dark:bg-slate-800/70 dark:hover:bg-slate-750 text-[11px] font-semibold text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors border border-slate-300 dark:border-slate-700/60"
                     >
                       Change Template
                     </button>
@@ -563,7 +570,7 @@ export function StudioShowcase() {
 
                 {/* 4 Template Thumbnails Row */}
                 <div className="space-y-1.5">
-                  <span className="text-[11px] font-semibold text-slate-300">Choose Template</span>
+                  <span className="text-[11px] font-semibold text-slate-700 dark:text-slate-300">Choose Template</span>
                   <div className="grid grid-cols-4 gap-2">
                     {TEMPLATES.map((tmpl) => {
                       const isSelected = selectedTemplate === tmpl.id;
@@ -572,10 +579,10 @@ export function StudioShowcase() {
                           key={tmpl.id}
                           type="button"
                           onClick={() => setSelectedTemplate(tmpl.id)}
-                          className={`relative aspect-[3/4] rounded-lg overflow-hidden border transition-all cursor-pointer bg-slate-900 group ${
+                          className={`relative aspect-[3/4] rounded-lg overflow-hidden border transition-all cursor-pointer bg-slate-100 dark:bg-slate-900 group ${
                             isSelected
                               ? "border-cyan-400 ring-2 ring-cyan-400/40 shadow-md"
-                              : "border-slate-800 hover:border-slate-600 opacity-75 hover:opacity-100"
+                              : "border-slate-200 dark:border-slate-800 hover:border-slate-400 dark:hover:border-slate-600 opacity-80 hover:opacity-100"
                           }`}
                           title={tmpl.name}
                         >
@@ -596,9 +603,9 @@ export function StudioShowcase() {
                 </div>
 
                 {/* Template Settings: Layout Style */}
-                <div className="space-y-2 pt-2 border-t border-slate-800/80">
-                  <span className="text-[11px] font-semibold text-slate-300 block">Layout Style</span>
-                  <div className="grid grid-cols-3 gap-1.5 bg-[#080b12] p-1 rounded-lg border border-slate-800">
+                <div className="space-y-2 pt-2 border-t border-slate-200 dark:border-slate-800/80">
+                  <span className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block">Layout Style</span>
+                  <div className="grid grid-cols-3 gap-1.5 bg-slate-100 dark:bg-[#080b12] p-1 rounded-lg border border-slate-200 dark:border-slate-800">
                     {(["default", "compact", "spacious"] as LayoutDensity[]).map((style) => (
                       <button
                         key={style}
@@ -606,8 +613,8 @@ export function StudioShowcase() {
                         onClick={() => setLayoutStyle(style)}
                         className={`py-1 rounded text-[11px] font-medium capitalize transition-all cursor-pointer ${
                           layoutStyle === style
-                            ? "bg-slate-800 text-white shadow-sm font-semibold"
-                            : "text-slate-400 hover:text-slate-200"
+                            ? "bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-xs font-semibold"
+                            : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200"
                         }`}
                       >
                         {style}
@@ -617,10 +624,10 @@ export function StudioShowcase() {
                 </div>
 
                 {/* Accent Color Swatches */}
-                <div className="space-y-2 pt-2 border-t border-slate-800/80">
+                <div className="space-y-2 pt-2 border-t border-slate-200 dark:border-slate-800/80">
                   <div className="flex items-center justify-between">
-                    <span className="text-[11px] font-semibold text-slate-300">Accent Color</span>
-                    <span className="text-[10px] text-slate-400 font-mono">{accentColor.label}</span>
+                    <span className="text-[11px] font-semibold text-slate-700 dark:text-slate-300">Accent Color</span>
+                    <span className="text-[10px] text-slate-500 dark:text-slate-400 font-mono">{accentColor.label}</span>
                   </div>
                   <div className="flex items-center justify-between gap-1">
                     {ACCENT_COLORS.map((col) => {
@@ -632,7 +639,7 @@ export function StudioShowcase() {
                           onClick={() => setAccentColor(col)}
                           style={{ backgroundColor: col.hex }}
                           className={`w-6 h-6 rounded-full transition-transform cursor-pointer relative ${
-                            isSelected ? "scale-110 ring-2 ring-white ring-offset-2 ring-offset-[#0c0f1a]" : "hover:scale-105 opacity-90 hover:opacity-100"
+                            isSelected ? "scale-110 ring-2 ring-blue-500 dark:ring-white ring-offset-2 ring-offset-white dark:ring-offset-[#0c0f1a]" : "hover:scale-105 opacity-90 hover:opacity-100"
                           }`}
                           title={col.label}
                         />
@@ -642,22 +649,22 @@ export function StudioShowcase() {
                 </div>
 
                 {/* Dark Mode Toggle */}
-                <div className="space-y-1 pt-2 border-t border-slate-800/80">
+                <div className="space-y-1 pt-2 border-t border-slate-200 dark:border-slate-800/80">
                   <div className="flex items-center justify-between">
                     <div>
-                      <span className="text-[11px] font-semibold text-slate-300 block">Dark Mode</span>
-                      <span className="text-[10px] text-slate-400">Enable dark mode for your portfolio</span>
+                      <span className="text-[11px] font-semibold text-slate-800 dark:text-slate-300 block">Dark Mode</span>
+                      <span className="text-[10px] text-slate-500 dark:text-slate-400">Enable dark mode for your portfolio</span>
                     </div>
                     <button
                       type="button"
                       onClick={() => setIsDarkMode((prev) => !prev)}
                       className={`w-9 h-5 rounded-full transition-colors cursor-pointer relative p-0.5 shrink-0 ${
-                        isDarkMode ? "bg-blue-600" : "bg-slate-700"
+                        isDarkMode ? "bg-blue-600" : "bg-slate-300 dark:bg-slate-700"
                       }`}
                       aria-label="Toggle dark mode"
                     >
                       <span
-                        className={`block w-4 h-4 rounded-full bg-white transition-transform ${
+                        className={`block w-4 h-4 rounded-full bg-white shadow-sm transition-transform ${
                           isDarkMode ? "translate-x-4" : "translate-x-0"
                         }`}
                       />
@@ -666,13 +673,13 @@ export function StudioShowcase() {
                 </div>
 
                 {/* Bottom Status Card */}
-                <div className="p-3 rounded-xl bg-slate-900/80 border border-slate-800/90 text-xs text-slate-300 flex items-start gap-2.5 shadow-sm">
-                  <div className="w-5 h-5 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center shrink-0 mt-0.5">
-                    <Sparkles className="w-3 h-3 text-cyan-400" />
+                <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800/90 text-xs text-slate-700 dark:text-slate-300 flex items-start gap-2.5 shadow-xs">
+                  <div className="w-5 h-5 rounded-full bg-blue-500/15 text-blue-500 dark:text-blue-400 flex items-center justify-center shrink-0 mt-0.5">
+                    <Sparkles className="w-3 h-3 text-cyan-500 dark:text-cyan-400" />
                   </div>
                   <div className="space-y-0.5 text-left">
-                    <span className="font-semibold text-white block">Looks great!</span>
-                    <p className="text-[11px] text-slate-400 leading-tight">
+                    <span className="font-semibold text-slate-900 dark:text-white block">Looks great!</span>
+                    <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-tight">
                       Your changes are saved automatically.
                     </p>
                   </div>
@@ -944,30 +951,30 @@ export function StudioShowcase() {
               </div>
 
               {/* COLUMN 4: Right Edit Section Panel */}
-              <div className="w-full lg:w-64 xl:w-72 bg-[#0c0f1a] p-4 space-y-4 shrink-0 overflow-y-auto">
+              <div className="w-full lg:w-64 xl:w-72 bg-white dark:bg-[#0c0f1a] p-4 space-y-4 shrink-0 overflow-y-auto transition-colors">
                 {/* Header with Close Button */}
-                <div className="flex items-center justify-between border-b border-slate-800/80 pb-2.5">
+                <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800/80 pb-2.5">
                   <div className="flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-blue-500" />
-                    <h3 className="text-xs font-bold text-white">Edit Section</h3>
+                    <h3 className="text-xs font-bold text-slate-900 dark:text-white">Edit Section</h3>
                   </div>
                   <button
                     type="button"
-                    className="p-1 text-slate-400 hover:text-white hover:bg-slate-800 rounded transition-colors"
+                    className="p-1 text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 rounded transition-colors"
                   >
                     <X className="w-3.5 h-3.5" />
                   </button>
                 </div>
 
                 {/* Content / Style Tabs */}
-                <div className="grid grid-cols-2 gap-1 bg-[#080b12] p-1 rounded-lg border border-slate-800">
+                <div className="grid grid-cols-2 gap-1 bg-slate-100 dark:bg-[#080b12] p-1 rounded-lg border border-slate-200 dark:border-slate-800">
                   <button
                     type="button"
                     onClick={() => setEditPanelTab("content")}
                     className={`py-1 rounded text-xs font-semibold transition-all cursor-pointer ${
                       editPanelTab === "content"
-                        ? "bg-slate-800 text-white shadow-sm"
-                        : "text-slate-400 hover:text-slate-200"
+                        ? "bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-xs"
+                        : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200"
                     }`}
                   >
                     Content
@@ -977,8 +984,8 @@ export function StudioShowcase() {
                     onClick={() => setEditPanelTab("style")}
                     className={`py-1 rounded text-xs font-semibold transition-all cursor-pointer ${
                       editPanelTab === "style"
-                        ? "bg-slate-800 text-white shadow-sm"
-                        : "text-slate-400 hover:text-slate-200"
+                        ? "bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-xs"
+                        : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200"
                     }`}
                   >
                     Style
@@ -989,61 +996,61 @@ export function StudioShowcase() {
                   <div className="space-y-3.5 text-left">
                     {/* Heading Input */}
                     <div className="space-y-1">
-                      <label className="text-[10px] font-semibold text-slate-400 block uppercase tracking-wider">
+                      <label className="text-[10px] font-semibold text-slate-500 dark:text-slate-400 block uppercase tracking-wider">
                         Heading
                       </label>
                       <input
                         type="text"
                         value={heading}
                         onChange={(e) => setHeading(e.target.value)}
-                        className="w-full px-2.5 py-1.5 rounded-lg bg-[#07090f] border border-slate-700/80 text-xs text-white focus:outline-none focus:border-blue-500 transition-colors shadow-inner"
+                        className="w-full px-2.5 py-1.5 rounded-lg bg-slate-50 dark:bg-[#07090f] border border-slate-200 dark:border-slate-700/80 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-blue-500 transition-colors shadow-inner"
                       />
                     </div>
 
                     {/* Subheading Input */}
                     <div className="space-y-1">
-                      <label className="text-[10px] font-semibold text-slate-400 block uppercase tracking-wider">
+                      <label className="text-[10px] font-semibold text-slate-500 dark:text-slate-400 block uppercase tracking-wider">
                         Subheading
                       </label>
                       <input
                         type="text"
                         value={subheading}
                         onChange={(e) => setSubheading(e.target.value)}
-                        className="w-full px-2.5 py-1.5 rounded-lg bg-[#07090f] border border-slate-700/80 text-xs text-white focus:outline-none focus:border-blue-500 transition-colors shadow-inner"
+                        className="w-full px-2.5 py-1.5 rounded-lg bg-slate-50 dark:bg-[#07090f] border border-slate-200 dark:border-slate-700/80 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-blue-500 transition-colors shadow-inner"
                       />
                     </div>
 
                     {/* Description Textarea */}
                     <div className="space-y-1">
-                      <label className="text-[10px] font-semibold text-slate-400 block uppercase tracking-wider">
+                      <label className="text-[10px] font-semibold text-slate-500 dark:text-slate-400 block uppercase tracking-wider">
                         Description
                       </label>
                       <textarea
                         rows={3}
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
-                        className="w-full px-2.5 py-1.5 rounded-lg bg-[#07090f] border border-slate-700/80 text-xs text-white focus:outline-none focus:border-blue-500 transition-colors leading-relaxed shadow-inner"
+                        className="w-full px-2.5 py-1.5 rounded-lg bg-slate-50 dark:bg-[#07090f] border border-slate-200 dark:border-slate-700/80 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-blue-500 transition-colors leading-relaxed shadow-inner"
                       />
                     </div>
 
                     {/* Buttons Section with Toggles */}
-                    <div className="space-y-2 pt-2 border-t border-slate-800/80">
-                      <label className="text-[10px] font-semibold text-slate-400 block uppercase tracking-wider">
+                    <div className="space-y-2 pt-2 border-t border-slate-200 dark:border-slate-800/80">
+                      <label className="text-[10px] font-semibold text-slate-500 dark:text-slate-400 block uppercase tracking-wider">
                         Buttons
                       </label>
 
                       {/* Toggle 1: View My Work */}
-                      <div className="flex items-center justify-between p-2 rounded-lg bg-[#07090f] border border-slate-800">
-                        <span className="text-xs text-slate-300 font-medium">View My Work</span>
+                      <div className="flex items-center justify-between p-2 rounded-lg bg-slate-50 dark:bg-[#07090f] border border-slate-200 dark:border-slate-800">
+                        <span className="text-xs text-slate-700 dark:text-slate-300 font-medium">View My Work</span>
                         <button
                           type="button"
                           onClick={() => setShowViewWorkBtn((prev) => !prev)}
                           className={`w-8 h-4 rounded-full transition-colors cursor-pointer relative p-0.5 ${
-                            showViewWorkBtn ? "bg-blue-600" : "bg-slate-700"
+                            showViewWorkBtn ? "bg-blue-600" : "bg-slate-300 dark:bg-slate-700"
                           }`}
                         >
                           <span
-                            className={`block w-3 h-3 rounded-full bg-white transition-transform ${
+                            className={`block w-3 h-3 rounded-full bg-white shadow-xs transition-transform ${
                               showViewWorkBtn ? "translate-x-4" : "translate-x-0"
                             }`}
                           />
@@ -1051,17 +1058,17 @@ export function StudioShowcase() {
                       </div>
 
                       {/* Toggle 2: Download Resume */}
-                      <div className="flex items-center justify-between p-2 rounded-lg bg-[#07090f] border border-slate-800">
-                        <span className="text-xs text-slate-300 font-medium">Download Resume</span>
+                      <div className="flex items-center justify-between p-2 rounded-lg bg-slate-50 dark:bg-[#07090f] border border-slate-200 dark:border-slate-800">
+                        <span className="text-xs text-slate-700 dark:text-slate-300 font-medium">Download Resume</span>
                         <button
                           type="button"
                           onClick={() => setShowResumeBtn((prev) => !prev)}
                           className={`w-8 h-4 rounded-full transition-colors cursor-pointer relative p-0.5 ${
-                            showResumeBtn ? "bg-blue-600" : "bg-slate-700"
+                            showResumeBtn ? "bg-blue-600" : "bg-slate-300 dark:bg-slate-700"
                           }`}
                         >
                           <span
-                            className={`block w-3 h-3 rounded-full bg-white transition-transform ${
+                            className={`block w-3 h-3 rounded-full bg-white shadow-xs transition-transform ${
                               showResumeBtn ? "translate-x-4" : "translate-x-0"
                             }`}
                           />
@@ -1073,16 +1080,16 @@ export function StudioShowcase() {
                   /* Style Tab */
                   <div className="space-y-3.5 text-left text-xs">
                     <div className="space-y-1">
-                      <label className="text-[10px] font-semibold text-slate-400 block uppercase tracking-wider">
+                      <label className="text-[10px] font-semibold text-slate-500 dark:text-slate-400 block uppercase tracking-wider">
                         Card Corner Radius
                       </label>
-                      <div className="grid grid-cols-3 gap-1 bg-[#07090f] p-1 rounded-lg border border-slate-800">
+                      <div className="grid grid-cols-3 gap-1 bg-slate-100 dark:bg-[#07090f] p-1 rounded-lg border border-slate-200 dark:border-slate-800">
                         {["Small", "Medium", "Large"].map((r, i) => (
                           <button
                             key={r}
                             type="button"
                             className={`py-1 text-[11px] font-medium rounded ${
-                              i === 1 ? "bg-slate-800 text-white font-semibold" : "text-slate-400"
+                              i === 1 ? "bg-white dark:bg-slate-800 text-slate-900 dark:text-white font-semibold shadow-xs" : "text-slate-500 dark:text-slate-400"
                             }`}
                           >
                             {r}
@@ -1092,17 +1099,17 @@ export function StudioShowcase() {
                     </div>
 
                     <div className="space-y-1">
-                      <label className="text-[10px] font-semibold text-slate-400 block uppercase tracking-wider">
+                      <label className="text-[10px] font-semibold text-slate-500 dark:text-slate-400 block uppercase tracking-wider">
                         Header Alignment
                       </label>
-                      <div className="grid grid-cols-2 gap-1 bg-[#07090f] p-1 rounded-lg border border-slate-800">
+                      <div className="grid grid-cols-2 gap-1 bg-slate-100 dark:bg-[#07090f] p-1 rounded-lg border border-slate-200 dark:border-slate-800">
                         <button
                           type="button"
-                          className="py-1 text-[11px] font-semibold bg-slate-800 text-white rounded"
+                          className="py-1 text-[11px] font-semibold bg-white dark:bg-slate-800 text-slate-900 dark:text-white rounded shadow-xs"
                         >
                           Left Aligned
                         </button>
-                        <button type="button" className="py-1 text-[11px] text-slate-400 rounded">
+                        <button type="button" className="py-1 text-[11px] text-slate-500 dark:text-slate-400 rounded">
                           Centered
                         </button>
                       </div>
@@ -1111,13 +1118,13 @@ export function StudioShowcase() {
                 )}
 
                 {/* Advanced Settings Link */}
-                <div className="pt-3 border-t border-slate-800/80">
+                <div className="pt-3 border-t border-slate-200 dark:border-slate-800/80">
                   <Link
                     href="/editor"
-                    className="w-full flex items-center justify-between text-xs text-slate-400 hover:text-white py-1 transition-colors group cursor-pointer"
+                    className="w-full flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white py-1 transition-colors group cursor-pointer"
                   >
                     <span className="flex items-center gap-1.5">
-                      <Settings className="w-3.5 h-3.5 text-slate-400 group-hover:text-blue-400 transition-colors" />
+                      <Settings className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 group-hover:text-blue-500 dark:group-hover:text-blue-400 transition-colors" />
                       <span>Advanced Settings</span>
                     </span>
                     <ArrowRight className="w-3.5 h-3.5 transform group-hover:translate-x-0.5 transition-transform" />

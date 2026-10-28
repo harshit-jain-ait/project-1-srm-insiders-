@@ -287,9 +287,9 @@ export function SmokeCursor() {
           width: 12,
           height: 12,
           borderRadius: "50%",
-          backgroundColor: "#BAE6FD",
+          backgroundColor: "#38BDF8",
           boxShadow:
-            "0 0 10px 3px rgba(125, 211, 252, 0.7), 0 0 4px 1px rgba(186, 230, 253, 0.9)",
+            "0 0 10px 3px rgba(56, 189, 248, 0.75), 0 0 4px 1px rgba(14, 165, 233, 0.85), 0 0 1px 1px rgba(2, 132, 199, 0.5)",
           pointerEvents: "none",
           zIndex: 9999,
           opacity: 0,
