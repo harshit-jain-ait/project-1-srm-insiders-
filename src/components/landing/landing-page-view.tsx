@@ -87,19 +87,15 @@ export function LandingPageView() {
         <StudioShowcase />
 
         {/* 3. Simple Process Section ("From idea to live portfolio in minutes.") */}
-        <section id="process" className="py-20 md:py-28 bg-slate-50/70 dark:bg-[#07090f] border-b border-slate-200/80 dark:border-slate-800/80 transition-colors duration-300 relative overflow-hidden">
-          {/* Desk Workspace Background Scene matching reference image */}
-          <div className="absolute bottom-0 left-0 right-0 w-full h-[180px] sm:h-[220px] md:h-[260px] pointer-events-none select-none z-0">
+        <section id="process" className="py-20 md:py-28 bg-[#fbfaf8] dark:bg-[#07090f] border-b border-slate-200/80 dark:border-slate-800/80 transition-colors duration-300 relative overflow-hidden">
+          {/* Full-width Responsive Desk Background Image without quality degradation */}
+          <div className="absolute inset-0 w-full h-full pointer-events-none select-none z-0">
             <img
               src="/images/landing/process-desk-banner.png"
-              alt="Desk workspace with laptop, books and coffee"
-              className="w-full h-full object-cover object-bottom opacity-90 dark:opacity-35 transition-opacity"
+              alt="Desk workspace with laptop, books, coffee and plant"
+              className="w-full h-full object-cover object-bottom opacity-100 dark:opacity-30 transition-opacity"
             />
           </div>
-
-          {/* Subtle decorative background blobs */}
-          <div className="absolute -bottom-10 left-10 w-72 h-72 bg-blue-500/5 dark:bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute top-10 right-20 w-80 h-80 bg-purple-500/5 dark:bg-purple-500/10 rounded-full blur-3xl pointer-events-none" />
 
           <div className="max-w-7xl mx-auto px-6 relative z-10">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
