@@ -31,6 +31,7 @@ import {
   Image as ImageIcon,
   Check,
   Sparkles,
+  Trash2,
 } from "lucide-react";
 import { ContentTargetField } from "@/lib/ai-assistant/types";
 import { KineticProjectForm } from "./kinetic-project-form";
@@ -131,22 +132,66 @@ export function EditorInspector({
     }
   };
 
+  const handleClearAllInfo = () => {
+    if (
+      window.confirm(
+        "Clear all pre-written info? All personal details, projects, skills, and experience will be emptied so only what you type will be visible."
+      )
+    ) {
+      onChange({
+        ...portfolio,
+        title: "",
+        profile: {
+          fullName: "",
+          headline: "",
+          bio: "",
+          longBio: "",
+          statusBadge: "",
+          avatarUrl: "",
+          location: "",
+          email: "",
+          phone: "",
+        },
+        projects: [],
+        skills: [],
+        experience: [],
+        education: [],
+        socialLinks: [],
+        updatedAt: new Date().toISOString(),
+      });
+    }
+  };
+
   return (
     <aside
       className={`w-full md:w-96 lg:w-[420px] bg-[#090d16] border-r border-slate-800 flex flex-col h-full shrink-0 overflow-hidden text-xs text-slate-200 ${className}`}
     >
-      {/* 1. UNIFIED HEADER: Back to Templates + Live Badge */}
-      <div className="h-13 border-b border-slate-800 px-4 flex items-center justify-between shrink-0 bg-[#070a12]">
+      {/* 1. UNIFIED HEADER: Back to Templates + Clear All Info Button + Live Badge */}
+      <div className="h-13 border-b border-slate-800 px-3 sm:px-4 flex items-center justify-between shrink-0 bg-[#070a12] gap-2">
         <Link
           href="/templates"
-          className="flex items-center gap-1.5 text-xs text-slate-400 hover:text-white transition-colors cursor-pointer group"
+          className="flex items-center gap-1.5 text-xs text-slate-400 hover:text-white transition-colors cursor-pointer group shrink-0"
         >
           <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
-          <span className="font-medium">Back to Templates</span>
+          <span className="font-medium hidden sm:inline">Templates</span>
         </Link>
-        <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-[10px] font-semibold text-emerald-400">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-          <span>Kinetic Studio • Live</span>
+
+        <div className="flex items-center gap-2">
+          {/* Clear All Info Button */}
+          <button
+            type="button"
+            onClick={handleClearAllInfo}
+            className="flex items-center gap-1 px-2.5 py-1 rounded-lg border border-red-500/30 bg-red-500/10 hover:bg-red-500/20 text-red-400 hover:text-red-300 text-[11px] font-semibold transition-colors cursor-pointer shadow-sm"
+            title="Clear all pre-written information"
+          >
+            <Trash2 className="w-3 h-3" />
+            <span>Clear All Info</span>
+          </button>
+
+          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-[10px] font-semibold text-emerald-400 shrink-0">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            <span>Live</span>
+          </div>
         </div>
       </div>
 

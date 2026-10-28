@@ -17,9 +17,9 @@ export function KineticCvModal({ portfolio, isOpen, onClose }: KineticCvModalPro
 
   if (!isOpen) return null;
 
-  const displayName = profile.fullName?.trim() || "CHRISTINE SMITH";
-  const displayPhone = profile.phone?.trim() || "+1 (555) 012-3456";
-  const displayEmail = profile.email?.trim() || "christine.smith@portfolio.com";
+  const displayName = profile.fullName?.trim() || "";
+  const displayPhone = profile.phone?.trim() || "";
+  const displayEmail = profile.email?.trim() || "";
   const websiteSocial = portfolio.socialLinks?.find(
     (s) => s.platform === "website" || s.platform === "other"
   );
@@ -27,14 +27,14 @@ export function KineticCvModal({ portfolio, isOpen, onClose }: KineticCvModalPro
     websiteSocial?.url ||
     (portfolio.customDomain?.domain
       ? `https://${portfolio.customDomain.domain}`
-      : portfolio.seo?.canonicalUrl || "https://www.portfolio.com");
+      : portfolio.seo?.canonicalUrl || "");
 
   const displayBio =
     profile.bio?.trim() ||
     profile.longBio?.trim() ||
-    `My name is ${displayName}, an expert engineer and designer. I have years of experience within the industry. My specialty is in high-performance responsive web products, user-centric interfaces, and scalable modern software architecture.`;
+    "";
 
-  // Tech skills with progress percentages
+  // Tech skills with progress percentages (Only shown when skills exist)
   const techSkillsList = (skills && skills.length > 0)
     ? skills.slice(0, 6).map((s, idx) => ({
         name: s.name,
@@ -47,65 +47,22 @@ export function KineticCvModal({ portfolio, isOpen, onClose }: KineticCvModalPro
             ? 70
             : 60 + ((idx * 7) % 30),
       }))
-    : [
-        { name: "Adobe Photoshop", percentage: 88 },
-        { name: "Adobe InDesign", percentage: 82 },
-        { name: "Adobe Illustrator", percentage: 78 },
-        { name: "Adobe Premiere", percentage: 70 },
-        { name: "React / Next.js", percentage: 90 },
-      ];
+    : [];
 
-  // Core competency bullet points
+  // Core competency bullet points (Only from user skills)
   const skillsBullets = (skills && skills.length > 0)
-    ? skills.map((s) => `Proficiency in ${s.name} and related modern ecosystem tools.`).slice(0, 5)
-    : [
-        "Ability to produce and deliver artwork quickly and at short notice.",
-        "Exceptional eye for detail and keen focus on pixel perfection.",
-        "Ability to take direction and work independently on complex features.",
-        "Deep knowledge of modern UI architecture, CSS animations, and HTML templating.",
-        "Working knowledge of TypeScript, React, Next.js, WebGL, and responsive layout systems.",
-        "Experienced in Figma, Photoshop, Illustrator, and Motion Design.",
-      ];
+    ? skills.map((s) => `Proficiency in ${s.name} and related modern ecosystem tools.`).slice(0, 6)
+    : [];
 
-  // Work experience entries
+  // Work experience entries (Only from user experience)
   const experienceList = (experience && experience.length > 0)
     ? experience
-    : [
-        {
-          id: "exp-1",
-          company: "KINETIC DIGITAL STUDIO",
-          role: "SENIOR FULL-STACK DESIGNER",
-          startDate: "10/2021",
-          endDate: "PRESENT",
-          location: "LOS ANGELES, CA",
-          description:
-            "Design & develop online brand creative assets including landing pages, web apps, and design systems.\nDeliver complex digital projects for new and updated web apps.\nMaintain brand consistency across typography, layouts, and interactive experiences.",
-        },
-        {
-          id: "exp-2",
-          company: "CREATIVE TECH LABS",
-          role: "WEB / UI DEVELOPER",
-          startDate: "06/2018",
-          endDate: "09/2021",
-          location: "SAN FRANCISCO, CA",
-          description:
-            "Created responsive interfaces with cutting-edge CSS and React architectures.\nStayed abreast of industry-wide changes in design philosophy and emerging web frameworks.",
-        },
-      ];
+    : [];
 
-  // Education entries
+  // Education entries (Only from user education)
   const educationList = (education && education.length > 0)
     ? education
-    : [
-        {
-          id: "edu-1",
-          institution: "CALIFORNIA STATE UNIVERSITY / LOS ANGELES",
-          degree: "Bachelor's Degree in Graphic Design & Computer Science",
-          fieldOfStudy: "Design & Technology",
-          startDate: "2014",
-          endDate: "2018",
-        },
-      ];
+    : [];
 
   const handlePrint = () => {
     if (typeof window !== "undefined") {

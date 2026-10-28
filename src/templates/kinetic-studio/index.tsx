@@ -95,40 +95,18 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
   const hasEducation = (education || []).length > 0;
   const hasContact = isSectionVisible("contact");
 
-  const displayName = profile.fullName?.trim() || "Shreyas";
-  const displayHeadline = profile.headline?.trim() || "AI & Full-Stack Engineer";
-  const displayBio = profile.bio?.trim() || "I build AI systems that live in the real world — agentic AI, RAG systems, and full-stack engineering.";
-  const displayLongBio = profile.longBio?.trim() || "I build autonomous agentic workflows and robust RAG pipelines, then integrate them into high-performance web products. Whether architecting cloud-deployed civic-tech platforms or engineering WebGL experiences, the focus is the same: clean, scalable software that ships.";
+  const displayName = profile.fullName?.trim() || "";
+  const displayHeadline = profile.headline?.trim() || "";
+  const displayBio = profile.bio?.trim() || "";
+  const displayLongBio = profile.longBio?.trim() || "";
 
-  // Technology Marquee items
-  const marqueeItems = hasSkills
-    ? skills.map((s) => s.name)
-    : [
-        "React",
-        "Next.js",
-        "Three.js",
-        "FastAPI",
-        "LangGraph",
-        "MCP",
-        "RAG",
-        "Python",
-        "PostgreSQL",
-        "AWS",
-        "Groq",
-        "WebGL",
-        "Node.js",
-        "Tailwind CSS",
-        "Vercel",
-      ];
+  // Technology Marquee items (Only shown when user adds skills)
+  const marqueeItems = hasSkills ? skills.map((s) => s.name) : [];
 
   // Group skills into 3 engineering pillars
   const pillar1Skills = (skills || []).slice(0, Math.ceil(skills.length / 3));
   const pillar2Skills = (skills || []).slice(Math.ceil(skills.length / 3), Math.ceil((skills.length * 2) / 3));
   const pillar3Skills = (skills || []).slice(Math.ceil((skills.length * 2) / 3));
-
-  const fallbackPillar1 = ["Agentic AI", "LangGraph", "RAG Systems", "MCP Protocols", "LLM Fine-Tuning", "Vector Search"];
-  const fallbackPillar2 = ["React 19", "Next.js", "TypeScript", "Three.js / WebGL", "Tailwind CSS", "Motion Graphics"];
-  const fallbackPillar3 = ["FastAPI", "Python", "PostgreSQL", "AWS Infrastructure", "Docker", "Render / Vercel"];
 
   const scrollToTop = () => {
     if (typeof window !== "undefined") {
@@ -363,7 +341,7 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
             href="#hero"
             className="flex items-center gap-1 font-bold tracking-tight text-lg uppercase transition-opacity hover:opacity-80"
           >
-            <span>{displayName}</span>
+            <span>{displayName || "PORTFOLIO"}</span>
             <sup style={{ color: accentColor }} className="text-xs font-mono font-bold">
               ®
             </sup>
@@ -589,25 +567,33 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
             <div className="lg:col-span-8">
               <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black uppercase tracking-tight leading-[0.98]">
-                <span className="block">I&apos;m {displayName} —</span>
-                <span className="block">I build {displayHeadline.split("•")[0].split("&")[0].trim()}</span>
+                {displayName ? (
+                  <span className="block">I&apos;m {displayName} —</span>
+                ) : null}
+                {displayHeadline ? (
+                  <span className="block">I build {displayHeadline.split("•")[0].split("&")[0].trim()}</span>
+                ) : null}
                 <span className="block" style={{ color: mutedTextColor }}>
-                  that live in
+                  {displayHeadline ? "that live in" : "High-Performance Systems"}
                 </span>
                 <span className="block" style={{ color: mutedTextColor }}>
-                  the real world.
+                  {displayHeadline ? "the real world." : "Crafted with Code."}
                 </span>
               </h1>
             </div>
 
             {/* Aside Tagline */}
             <div className="lg:col-span-4 lg:text-right space-y-3">
-              <p className="font-mono uppercase text-xs sm:text-sm tracking-wider leading-relaxed" style={{ color: mutedTextColor }}>
-                Crafting {displayHeadline}
-              </p>
-              <p className="font-mono text-xs uppercase tracking-widest font-semibold" style={{ color: accentColor }}>
-                &amp; High-Performance Systems
-              </p>
+              {displayHeadline && (
+                <p className="font-mono uppercase text-xs sm:text-sm tracking-wider leading-relaxed" style={{ color: mutedTextColor }}>
+                  Crafting {displayHeadline}
+                </p>
+              )}
+              {displayName && (
+                <p className="font-mono text-xs uppercase tracking-widest font-semibold" style={{ color: accentColor }}>
+                  &amp; High-Performance Systems
+                </p>
+              )}
               <div className="pt-1">
                 <button
                   type="button"
@@ -636,19 +622,21 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
         </div>
       </section>
 
-      {/* 3. INFINITE TECHNOLOGY MARQUEE */}
-      <div className="border-y overflow-hidden py-4 select-none" style={{ borderColor, backgroundColor: surfaceColor }}>
-        <div className="kinetic-marquee-track flex items-center gap-8">
-          {[...marqueeItems, ...marqueeItems, ...marqueeItems].map((tech, idx) => (
-            <div key={`${tech}-${idx}`} className="flex items-center gap-8 text-sm sm:text-base font-mono uppercase tracking-wider font-semibold" style={{ color: mutedTextColor }}>
-              <span>{tech}</span>
-              <span style={{ color: accentColor }} className="text-xs">
-                ✦
-              </span>
-            </div>
-          ))}
+      {/* 3. INFINITE TECHNOLOGY MARQUEE (Only rendered when user has added skills) */}
+      {marqueeItems.length > 0 && (
+        <div className="border-y overflow-hidden py-4 select-none" style={{ borderColor, backgroundColor: surfaceColor }}>
+          <div className="kinetic-marquee-track flex items-center gap-8">
+            {[...marqueeItems, ...marqueeItems, ...marqueeItems].map((tech, idx) => (
+              <div key={`${tech}-${idx}`} className="flex items-center gap-8 text-sm sm:text-base font-mono uppercase tracking-wider font-semibold" style={{ color: mutedTextColor }}>
+                <span>{tech}</span>
+                <span style={{ color: accentColor }} className="text-xs">
+                  ✦
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* 4. SECTION 01 — ABOUT */}
       <section id="about" className="py-24 border-b" style={{ borderColor }}>
@@ -662,45 +650,53 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
           </div>
 
           <div className="max-w-4xl ml-auto space-y-8">
-            <p className="text-2xl sm:text-3xl md:text-4xl font-medium tracking-tight leading-snug">
-              {displayBio}
-            </p>
+            {displayBio && (
+              <p className="text-2xl sm:text-3xl md:text-4xl font-medium tracking-tight leading-snug">
+                {displayBio}
+              </p>
+            )}
 
-            <p className="text-base sm:text-lg leading-relaxed font-light" style={{ color: mutedTextColor }}>
-              {displayLongBio}
-            </p>
+            {displayLongBio && (
+              <p className="text-base sm:text-lg leading-relaxed font-light" style={{ color: mutedTextColor }}>
+                {displayLongBio}
+              </p>
+            )}
 
-            <p className="font-mono text-xs uppercase tracking-widest font-semibold" style={{ color: mutedTextColor }}>
-              {displayHeadline} &bull; {profile.location || "Available Globally"}
-            </p>
+            {(displayHeadline || profile.location) && (
+              <p className="font-mono text-xs uppercase tracking-widest font-semibold" style={{ color: mutedTextColor }}>
+                {displayHeadline} {displayHeadline && profile.location ? "•" : ""} {profile.location}
+              </p>
+            )}
 
             {/* Focus Competencies */}
-            <ul className="pt-6 border-t space-y-3" style={{ borderColor }}>
-              <li className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 py-3 border-b" style={{ borderColor }}>
-                <span className="font-mono text-xs font-bold uppercase tracking-wider" style={{ color: accentColor }}>
-                  01 &bull; Autonomous AI &amp; Agents
-                </span>
-                <span className="text-sm" style={{ color: mutedTextColor }}>
-                  LangGraph &bull; RAG Architectures &bull; Tool Calling &bull; Context Routing
-                </span>
-              </li>
-              <li className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 py-3 border-b" style={{ borderColor }}>
-                <span className="font-mono text-xs font-bold uppercase tracking-wider" style={{ color: accentColor }}>
-                  02 &bull; Interactive Web Applications
-                </span>
-                <span className="text-sm" style={{ color: mutedTextColor }}>
-                  React 19 &bull; Next.js App Router &bull; Three.js / WebGL &bull; High-FPS UI
-                </span>
-              </li>
-              <li className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 py-3 border-b" style={{ borderColor }}>
-                <span className="font-mono text-xs font-bold uppercase tracking-wider" style={{ color: accentColor }}>
-                  03 &bull; Scalable Cloud &amp; Deployments
-                </span>
-                <span className="text-sm" style={{ color: mutedTextColor }}>
-                  AWS &bull; FastAPI &bull; PostgreSQL &bull; Docker &bull; Edge Delivery
-                </span>
-              </li>
-            </ul>
+            {hasSkills && (
+              <ul className="pt-6 border-t space-y-3" style={{ borderColor }}>
+                <li className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 py-3 border-b" style={{ borderColor }}>
+                  <span className="font-mono text-xs font-bold uppercase tracking-wider" style={{ color: accentColor }}>
+                    01 &bull; Autonomous AI &amp; Agents
+                  </span>
+                  <span className="text-sm" style={{ color: mutedTextColor }}>
+                    LangGraph &bull; RAG Architectures &bull; Tool Calling &bull; Context Routing
+                  </span>
+                </li>
+                <li className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 py-3 border-b" style={{ borderColor }}>
+                  <span className="font-mono text-xs font-bold uppercase tracking-wider" style={{ color: accentColor }}>
+                    02 &bull; Interactive Web Applications
+                  </span>
+                  <span className="text-sm" style={{ color: mutedTextColor }}>
+                    React 19 &bull; Next.js App Router &bull; Three.js / WebGL &bull; High-FPS UI
+                  </span>
+                </li>
+                <li className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 py-3 border-b" style={{ borderColor }}>
+                  <span className="font-mono text-xs font-bold uppercase tracking-wider" style={{ color: accentColor }}>
+                    03 &bull; Scalable Cloud &amp; Deployments
+                  </span>
+                  <span className="text-sm" style={{ color: mutedTextColor }}>
+                    AWS &bull; FastAPI &bull; PostgreSQL &bull; Docker &bull; Edge Delivery
+                  </span>
+                </li>
+              </ul>
+            )}
           </div>
 
           {/* 4-Column Stats Grid */}
@@ -716,7 +712,7 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
 
             <div className="p-6 sm:p-8 border-b lg:border-b-0 lg:border-r" style={{ borderColor }}>
               <span className="block text-4xl sm:text-5xl font-black font-sans tracking-tight">
-                {String(visibleProjects.length || 5).padStart(2, "0")}
+                {String(visibleProjects.length).padStart(2, "0")}
               </span>
               <span className="block mt-2 font-mono text-[10px] sm:text-xs uppercase tracking-widest" style={{ color: mutedTextColor }}>
                 Projects Shipped
@@ -725,7 +721,7 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
 
             <div className="p-6 sm:p-8 border-r border-b sm:border-b-0" style={{ borderColor }}>
               <span className="block text-4xl sm:text-5xl font-black font-sans tracking-tight">
-                {String(experience.length || 4).padStart(2, "0")}
+                {String(experience.length).padStart(2, "0")}
               </span>
               <span className="block mt-2 font-mono text-[10px] sm:text-xs uppercase tracking-widest" style={{ color: mutedTextColor }}>
                 Professional Tenures
@@ -734,7 +730,7 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
 
             <div className="p-6 sm:p-8">
               <span className="block text-4xl sm:text-5xl font-black font-sans tracking-tight">
-                {String(skills.length || 16).padStart(2, "0")}+
+                {String(skills.length).padStart(2, "0")}
               </span>
               <span className="block mt-2 font-mono text-[10px] sm:text-xs uppercase tracking-widest" style={{ color: mutedTextColor }}>
                 Verified Technologies
@@ -923,8 +919,8 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
         </section>
       )}
 
-      {/* 6. SECTION 03 — STACK */}
-      {isSectionVisible("skills") && (
+      {/* 6. SECTION 03 — STACK (Only rendered when user has added skills) */}
+      {isSectionVisible("skills") && hasSkills && (
         <section id="stack" className="py-24 border-b" style={{ borderColor }}>
           <div className="max-w-7xl mx-auto px-6">
             <div className="flex items-center gap-6 mb-16">
@@ -936,79 +932,76 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
 
             <div className="divide-y border-y" style={{ borderColor }}>
               {/* Pillar 01 */}
-              <div className="py-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                <div className="lg:col-span-1 font-mono text-sm font-bold" style={{ color: accentColor }}>
-                  01
+              {pillar1Skills.length > 0 && (
+                <div className="py-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                  <div className="lg:col-span-1 font-mono text-sm font-bold" style={{ color: accentColor }}>
+                    01
+                  </div>
+                  <div className="lg:col-span-4">
+                    <h3 className="text-2xl sm:text-3xl font-bold uppercase tracking-tight">Core Stack</h3>
+                  </div>
+                  <div className="lg:col-span-7 flex flex-wrap gap-2.5">
+                    {pillar1Skills.map((s) => (
+                      <div
+                        key={s.id || s.name}
+                        className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs font-mono uppercase tracking-wider transition-all hover:-translate-y-0.5"
+                        style={{ borderColor, backgroundColor: surfaceColor }}
+                      >
+                        <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: accentColor }} />
+                        <span>{s.name}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-                <div className="lg:col-span-4">
-                  <h3 className="text-2xl sm:text-3xl font-bold uppercase tracking-tight">AI &amp; Agent Systems</h3>
-                  <p className="mt-2 text-xs font-mono uppercase tracking-wider" style={{ color: mutedTextColor }}>
-                    Autonomous execution &bull; RAG pipelines &bull; Cognitive tool use
-                  </p>
-                </div>
-                <div className="lg:col-span-7 flex flex-wrap gap-2.5">
-                  {(pillar1Skills.length > 0 ? pillar1Skills.map((s) => s.name) : fallbackPillar1).map((skillName) => (
-                    <div
-                      key={skillName}
-                      className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs font-mono uppercase tracking-wider transition-all hover:-translate-y-0.5"
-                      style={{ borderColor, backgroundColor: surfaceColor }}
-                    >
-                      <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: accentColor }} />
-                      <span>{skillName}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
+              )}
 
               {/* Pillar 02 */}
-              <div className="py-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                <div className="lg:col-span-1 font-mono text-sm font-bold" style={{ color: accentColor }}>
-                  02
+              {pillar2Skills.length > 0 && (
+                <div className="py-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                  <div className="lg:col-span-1 font-mono text-sm font-bold" style={{ color: accentColor }}>
+                    02
+                  </div>
+                  <div className="lg:col-span-4">
+                    <h3 className="text-2xl sm:text-3xl font-bold uppercase tracking-tight">Frameworks &amp; Tools</h3>
+                  </div>
+                  <div className="lg:col-span-7 flex flex-wrap gap-2.5">
+                    {pillar2Skills.map((s) => (
+                      <div
+                        key={s.id || s.name}
+                        className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs font-mono uppercase tracking-wider transition-all hover:-translate-y-0.5"
+                        style={{ borderColor, backgroundColor: surfaceColor }}
+                      >
+                        <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: accentColor }} />
+                        <span>{s.name}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-                <div className="lg:col-span-4">
-                  <h3 className="text-2xl sm:text-3xl font-bold uppercase tracking-tight">Frontend &amp; Visuals</h3>
-                  <p className="mt-2 text-xs font-mono uppercase tracking-wider" style={{ color: mutedTextColor }}>
-                    High-FPS graphics &bull; Responsive layouts &bull; Next.js App Router
-                  </p>
-                </div>
-                <div className="lg:col-span-7 flex flex-wrap gap-2.5">
-                  {(pillar2Skills.length > 0 ? pillar2Skills.map((s) => s.name) : fallbackPillar2).map((skillName) => (
-                    <div
-                      key={skillName}
-                      className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs font-mono uppercase tracking-wider transition-all hover:-translate-y-0.5"
-                      style={{ borderColor, backgroundColor: surfaceColor }}
-                    >
-                      <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: accentColor }} />
-                      <span>{skillName}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
+              )}
 
               {/* Pillar 03 */}
-              <div className="py-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                <div className="lg:col-span-1 font-mono text-sm font-bold" style={{ color: accentColor }}>
-                  03
+              {pillar3Skills.length > 0 && (
+                <div className="py-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                  <div className="lg:col-span-1 font-mono text-sm font-bold" style={{ color: accentColor }}>
+                    03
+                  </div>
+                  <div className="lg:col-span-4">
+                    <h3 className="text-2xl sm:text-3xl font-bold uppercase tracking-tight">Infrastructure &amp; Systems</h3>
+                  </div>
+                  <div className="lg:col-span-7 flex flex-wrap gap-2.5">
+                    {pillar3Skills.map((s) => (
+                      <div
+                        key={s.id || s.name}
+                        className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs font-mono uppercase tracking-wider transition-all hover:-translate-y-0.5"
+                        style={{ borderColor, backgroundColor: surfaceColor }}
+                      >
+                        <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: accentColor }} />
+                        <span>{s.name}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-                <div className="lg:col-span-4">
-                  <h3 className="text-2xl sm:text-3xl font-bold uppercase tracking-tight">Backend &amp; Cloud</h3>
-                  <p className="mt-2 text-xs font-mono uppercase tracking-wider" style={{ color: mutedTextColor }}>
-                    High-throughput microservices &bull; AWS &bull; Relational Data
-                  </p>
-                </div>
-                <div className="lg:col-span-7 flex flex-wrap gap-2.5">
-                  {(pillar3Skills.length > 0 ? pillar3Skills.map((s) => s.name) : fallbackPillar3).map((skillName) => (
-                    <div
-                      key={skillName}
-                      className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs font-mono uppercase tracking-wider transition-all hover:-translate-y-0.5"
-                      style={{ borderColor, backgroundColor: surfaceColor }}
-                    >
-                      <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: accentColor }} />
-                      <span>{skillName}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
+              )}
             </div>
           </div>
         </section>
@@ -1296,32 +1289,34 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
       )}
 
       {/* 10. GIANT CLOSING WORDMARK */}
-      <section className="pt-20 pb-8 overflow-hidden select-none" aria-hidden="true">
-        <div className="max-w-7xl mx-auto px-6 text-center">
-          <span
-            className="block text-[14vw] sm:text-[16vw] font-black uppercase tracking-tighter leading-none"
-            style={{
-              backgroundImage: isDark
-                ? "linear-gradient(to bottom, rgba(237,237,230,0.2) 20%, rgba(237,237,230,0.02) 100%)"
-                : "linear-gradient(to bottom, rgba(16,16,16,0.2) 20%, rgba(16,16,16,0.02) 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-            }}
-          >
-            {displayName}
-          </span>
-        </div>
-      </section>
+      {displayName && (
+        <section className="pt-20 pb-8 overflow-hidden select-none" aria-hidden="true">
+          <div className="max-w-7xl mx-auto px-6 text-center">
+            <span
+              className="block text-[14vw] sm:text-[16vw] font-black uppercase tracking-tighter leading-none"
+              style={{
+                backgroundImage: isDark
+                  ? "linear-gradient(to bottom, rgba(237,237,230,0.2) 20%, rgba(237,237,230,0.02) 100%)"
+                  : "linear-gradient(to bottom, rgba(16,16,16,0.2) 20%, rgba(16,16,16,0.02) 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
+            >
+              {displayName}
+            </span>
+          </div>
+        </section>
+      )}
 
       {/* 11. FOOTER */}
       <footer className="py-8 border-t font-mono text-xs uppercase tracking-wider" style={{ borderColor }}>
         <div className="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4" style={{ color: mutedTextColor }}>
           <div>
-            &copy; {new Date().getFullYear()} {displayName} &bull; Kinetic Engineering Studio
+            &copy; {new Date().getFullYear()} {displayName || "PORTFOLIO"} &bull; Kinetic Engineering Studio
           </div>
 
           <div className="flex items-center gap-6">
-            <span>{profile.location || "Global / Remote"}</span>
+            {profile.location && <span>{profile.location}</span>}
             <button
               type="button"
               onClick={scrollToTop}
