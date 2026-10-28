@@ -2,85 +2,126 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { ArrowRight, Menu, X } from "lucide-react";
+import { Sun, Menu, X } from "lucide-react";
 
-export function LandingNavbar() {
+interface LandingNavbarProps {
+  variant?: "dark" | "light";
+}
+
+export function LandingNavbar({ variant = "dark" }: LandingNavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const isDark = variant === "dark";
 
   return (
-    <header className="border-b border-zinc-800/80 bg-[#101114]/80 backdrop-blur-md sticky top-0 z-40 select-none">
-      <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+    <header
+      className={`border-b sticky top-0 z-40 select-none transition-all ${
+        isDark
+          ? "border-slate-800/80 bg-[#07090e]/95 text-slate-100 backdrop-blur-md"
+          : "border-slate-200/80 bg-white/95 text-slate-900 backdrop-blur-md"
+      }`}
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between">
         {/* Brand Wordmark */}
         <Link href="/" className="flex items-center gap-2.5 group">
-          <div className="h-7 w-7 rounded bg-[#356ae6] flex items-center justify-center text-white font-mono text-sm font-bold shadow-sm transition-transform group-hover:scale-105">
+          <div className="h-8 w-8 rounded-lg bg-[#2563eb] flex items-center justify-center text-white font-mono text-base font-bold shadow-sm transition-transform group-hover:scale-105">
             P
           </div>
-          <span className="font-semibold text-base tracking-tight text-white">
+          <span
+            className={`font-extrabold text-xl tracking-tight transition-colors ${
+              isDark ? "text-white" : "text-slate-900"
+            }`}
+          >
             Portfolify
           </span>
         </Link>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-7 text-sm">
+        {/* Center Desktop Navigation */}
+        <nav className="hidden md:flex items-center gap-8 text-sm">
           <Link
-            href="/generate"
-            className="text-zinc-400 hover:text-white transition-colors font-medium flex items-center gap-1.5"
+            href="/"
+            className="text-blue-500 font-semibold relative py-6 after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-blue-500"
           >
-            <span className="text-blue-400">✨</span>
-            <span>AI Builder</span>
-          </Link>
-          <Link
-            href="/import-resume"
-            className="text-zinc-400 hover:text-white transition-colors font-medium flex items-center gap-1.5"
-          >
-            <span>Import Resume</span>
-            <span className="text-[10px] bg-blue-500/10 text-blue-400 border border-blue-500/20 px-1 rounded font-mono">New</span>
-          </Link>
-          <Link
-            href="/import-url"
-            className="text-zinc-400 hover:text-white transition-colors font-medium"
-          >
-            Import URL
+            Home
           </Link>
           <Link
             href="/templates"
-            className="text-zinc-400 hover:text-white transition-colors font-medium"
+            className={`transition-colors font-medium py-6 ${
+              isDark ? "text-slate-400 hover:text-white" : "text-slate-600 hover:text-slate-900"
+            }`}
           >
             Templates
           </Link>
           <a
             href="#features"
-            className="text-zinc-400 hover:text-white transition-colors font-medium"
+            className={`transition-colors font-medium py-6 ${
+              isDark ? "text-slate-400 hover:text-white" : "text-slate-600 hover:text-slate-900"
+            }`}
           >
             Features
           </a>
-          <a
-            href="#how-it-works"
-            className="text-zinc-400 hover:text-white transition-colors font-medium"
-          >
-            How It Works
-          </a>
           <Link
-            href="/design-system"
-            className="text-zinc-400 hover:text-white transition-colors font-medium"
+            href="/pricing"
+            className={`transition-colors font-medium py-6 ${
+              isDark ? "text-slate-400 hover:text-white" : "text-slate-600 hover:text-slate-900"
+            }`}
           >
-            Design System
+            Pricing
           </Link>
+          <a
+            href="#process"
+            className={`transition-colors font-medium py-6 ${
+              isDark ? "text-slate-400 hover:text-white" : "text-slate-600 hover:text-slate-900"
+            }`}
+          >
+            Blog
+          </a>
         </nav>
 
-        {/* CTA and Mobile Toggle */}
+        {/* Right Action Buttons */}
         <div className="flex items-center gap-3">
-          <Link href="/editor" className="hidden sm:inline-flex">
-            <Button variant="brand" size="sm" className="gap-1.5 shadow-sm">
-              Build your portfolio <ArrowRight className="w-3.5 h-3.5" />
-            </Button>
+          {/* Theme Toggle Button */}
+          <button
+            type="button"
+            className={`p-2 rounded-lg transition-colors cursor-pointer ${
+              isDark
+                ? "text-slate-400 hover:text-white hover:bg-slate-800"
+                : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
+            }`}
+            aria-label="Toggle theme"
+            title="Theme toggle"
+          >
+            <Sun className="w-4 h-4" />
+          </button>
+
+          {/* Sign In Button */}
+          <Link
+            href="/editor"
+            className={`hidden sm:inline-flex text-sm font-semibold px-3 py-1.5 rounded-lg transition-colors ${
+              isDark
+                ? "text-slate-300 hover:text-white hover:bg-slate-800"
+                : "text-slate-700 hover:text-slate-900 hover:bg-slate-100"
+            }`}
+          >
+            Sign In
           </Link>
 
+          {/* Get Started Button */}
+          <Link href="/generate">
+            <button
+              type="button"
+              className="bg-[#2563eb] hover:bg-blue-600 text-white font-semibold text-sm px-4 py-2 rounded-lg shadow-[0_0_15px_rgba(37,99,235,0.4)] transition-all cursor-pointer"
+            >
+              Get Started
+            </button>
+          </Link>
+
+          {/* Mobile Menu Toggle */}
           <button
             type="button"
             onClick={() => setMobileMenuOpen((prev) => !prev)}
-            className="p-2 rounded-md text-zinc-400 hover:text-white md:hidden cursor-pointer"
+            className={`p-2 rounded-md md:hidden cursor-pointer ${
+              isDark ? "text-slate-300 hover:text-white" : "text-slate-600 hover:text-slate-900"
+            }`}
             aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
             aria-expanded={mobileMenuOpen}
           >
@@ -91,58 +132,56 @@ export function LandingNavbar() {
 
       {/* Mobile Menu Dropdown */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-b border-zinc-800 bg-[#141519] px-6 py-5 space-y-4 animate-in slide-in-from-top-2 duration-150">
-          <nav className="flex flex-col space-y-3 text-sm">
+        <div
+          className={`md:hidden border-b px-6 py-5 space-y-4 animate-in slide-in-from-top-2 duration-150 ${
+            isDark ? "bg-[#0b0e17] border-slate-800 text-slate-200" : "bg-white border-slate-200 text-slate-800"
+          }`}
+        >
+          <nav className="flex flex-col space-y-3 text-sm font-medium">
             <Link
-              href="/import-resume"
+              href="/"
               onClick={() => setMobileMenuOpen(false)}
-              className="text-zinc-300 hover:text-white transition-colors py-1 flex items-center justify-between"
+              className="text-blue-500 font-semibold py-1"
             >
-              <span>Import from Resume</span>
-              <span className="text-xs font-mono text-blue-400">PDF / DOCX</span>
-            </Link>
-            <Link
-              href="/import-url"
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-zinc-300 hover:text-white transition-colors py-1 flex items-center justify-between"
-            >
-              <span>Import from Website URL</span>
-              <span className="text-xs font-mono text-blue-400">New</span>
+              Home
             </Link>
             <Link
               href="/templates"
               onClick={() => setMobileMenuOpen(false)}
-              className="text-zinc-300 hover:text-white transition-colors py-1"
+              className="hover:text-blue-400 transition-colors py-1"
             >
-              Templates Gallery
+              Templates
             </Link>
             <a
               href="#features"
               onClick={() => setMobileMenuOpen(false)}
-              className="text-zinc-300 hover:text-white transition-colors py-1"
+              className="hover:text-blue-400 transition-colors py-1"
             >
-              Product Capabilities
-            </a>
-            <a
-              href="#how-it-works"
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-zinc-300 hover:text-white transition-colors py-1"
-            >
-              How It Works
+              Features
             </a>
             <Link
-              href="/design-system"
+              href="/pricing"
               onClick={() => setMobileMenuOpen(false)}
-              className="text-zinc-300 hover:text-white transition-colors py-1"
+              className="hover:text-blue-400 transition-colors py-1"
             >
-              Design System Showcase
+              Pricing
+            </Link>
+            <Link
+              href="/editor"
+              onClick={() => setMobileMenuOpen(false)}
+              className="hover:text-blue-400 transition-colors py-1"
+            >
+              Studio Editor / Sign In
             </Link>
           </nav>
-          <div className="pt-2 border-t border-zinc-800">
-            <Link href="/editor" onClick={() => setMobileMenuOpen(false)}>
-              <Button variant="brand" size="sm" className="w-full justify-center gap-1.5">
-                Build your portfolio <ArrowRight className="w-3.5 h-3.5" />
-              </Button>
+          <div className={`pt-2 border-t ${isDark ? "border-slate-800" : "border-slate-200"}`}>
+            <Link href="/generate" onClick={() => setMobileMenuOpen(false)}>
+              <button
+                type="button"
+                className="w-full bg-[#2563eb] text-white font-semibold py-2 rounded-lg text-sm shadow-sm"
+              >
+                Get Started
+              </button>
             </Link>
           </div>
         </div>
@@ -150,3 +189,5 @@ export function LandingNavbar() {
     </header>
   );
 }
+
+export default LandingNavbar;

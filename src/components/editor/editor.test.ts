@@ -266,6 +266,30 @@ describe("Visual Portfolio Editor & Studio Engine", () => {
         expect(accent).not.toMatch(/purple|violet/i);
       });
     });
+
+    it("dynamically resolves every registered template for the studio preview canvas", () => {
+      const templates = getAllTemplates();
+      expect(templates.length).toBe(10);
+
+      const templateIds = templates.map((t) => t.metadata.id);
+      expect(templateIds).toContain("minimal-portfolio");
+      expect(templateIds).toContain("developer-pro");
+      expect(templateIds).toContain("signature");
+      expect(templateIds).toContain("reimagined");
+      expect(templateIds).toContain("editorial-studio");
+      expect(templateIds).toContain("creative-motion");
+      expect(templateIds).toContain("product-engineer");
+      expect(templateIds).toContain("bento-studio");
+      expect(templateIds).toContain("kinetic-studio");
+      expect(templateIds).toContain("designer-craft");
+
+      for (const tpl of templates) {
+        const resolved = getTemplate(tpl.metadata.id);
+        expect(resolved).toBeDefined();
+        expect(resolved?.metadata.name).toBe(tpl.metadata.name);
+        expect(resolved?.component).toBeDefined();
+      }
+    });
   });
 
   describe("History Operations (Undo & Redo Mechanics)", () => {

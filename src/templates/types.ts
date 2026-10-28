@@ -10,6 +10,7 @@ export interface TemplateMetadata {
   tags: string[];
   features: string[];
   previewAccent: string;
+  previewImageUrl?: string;
   supportedSections: SectionKey[];
   isPremium?: boolean;
 }

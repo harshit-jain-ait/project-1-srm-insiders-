@@ -14,6 +14,9 @@ describe("Template Engine & Registry", () => {
     const ids = templates.map((t) => t.metadata.id);
     expect(ids).toContain("minimal-portfolio");
     expect(ids).toContain("developer-pro");
+    expect(ids).toContain("bento-studio");
+    expect(ids).toContain("kinetic-studio");
+    expect(ids).toContain("designer-craft");
 
     // Unique IDs
     expect(new Set(ids).size).toBe(templates.length);
@@ -26,6 +29,24 @@ describe("Template Engine & Registry", () => {
     expect(devPro?.metadata.category).toBe("Engineering");
     expect(devPro?.metadata.supportedSections).toContain("projects");
     expect(devPro?.component).toBe(DeveloperProTemplate);
+
+    const bento = getTemplate("bento-studio");
+    expect(bento).toBeDefined();
+    expect(bento?.metadata.name).toBe("Bento Studio");
+    expect(bento?.metadata.category).toBe("Creative");
+    expect(bento?.metadata.isPremium).toBe(true);
+
+    const kinetic = getTemplate("kinetic-studio");
+    expect(kinetic).toBeDefined();
+    expect(kinetic?.metadata.name).toBe("Kinetic Studio");
+    expect(kinetic?.metadata.category).toBe("Engineering");
+    expect(kinetic?.metadata.isPremium).toBe(true);
+
+    const craft = getTemplate("designer-craft");
+    expect(craft).toBeDefined();
+    expect(craft?.metadata.name).toBe("Designer Craft");
+    expect(craft?.metadata.category).toBe("Creative");
+    expect(craft?.metadata.isPremium).toBe(true);
 
     const minimal = getTemplate("minimal-portfolio");
     expect(minimal).toBeDefined();
@@ -43,6 +64,9 @@ describe("Template Engine & Registry", () => {
   it("validates template ID correctly", () => {
     expect(isValidTemplateId("minimal-portfolio")).toBe(true);
     expect(isValidTemplateId("developer-pro")).toBe(true);
+    expect(isValidTemplateId("bento-studio")).toBe(true);
+    expect(isValidTemplateId("kinetic-studio")).toBe(true);
+    expect(isValidTemplateId("designer-craft")).toBe(true);
     expect(isValidTemplateId("invalid-id")).toBe(false);
   });
 

@@ -87,4 +87,44 @@ describe("Template Gallery Business Logic & Search Verification", () => {
       expect(retrieved?.metadata.id).toBe(tpl.metadata.id);
     });
   });
+
+  it("renders HoverExpandTemplateGallery spotlight panels with accessibility attributes", async () => {
+    const React = await import("react");
+    const { renderToString } = await import("react-dom/server");
+    const { HoverExpandTemplateGallery } = await import("./hover-expand-template-gallery");
+
+    const html = renderToString(
+      React.createElement(HoverExpandTemplateGallery, {
+        templates,
+        onPreview: () => {},
+      })
+    );
+
+    expect(html).toContain("Interactive Template Spotlight");
+    expect(html).toContain("Bento Studio");
+    expect(html).toContain("Developer Pro");
+    expect(html).toContain('role="button"');
+    expect(html).toContain('tabindex="0"');
+  });
+
+  it("renders Skiper52 and HoverExpand_001 reference components without throw", async () => {
+    const React = await import("react");
+    const { renderToString } = await import("react-dom/server");
+    const { Skiper52, HoverExpand_001 } = await import("@/components/animations/Skiper52");
+
+    expect(() => {
+      renderToString(React.createElement(Skiper52));
+    }).not.toThrow();
+
+    expect(() => {
+      renderToString(
+        React.createElement(HoverExpand_001, {
+          images: [
+            { src: "/test.jpg", alt: "Test Alt", code: "01" },
+            { src: "/test2.jpg", alt: "Test Alt 2", code: "02" },
+          ],
+        })
+      );
+    }).not.toThrow();
+  });
 });

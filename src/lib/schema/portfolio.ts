@@ -333,6 +333,9 @@ export const TemplateIdSchema = z.enum([
   "editorial-studio",
   "creative-motion",
   "product-engineer",
+  "bento-studio",
+  "kinetic-studio",
+  "designer-craft",
 ]);
 
 export type TemplateId = z.infer<typeof TemplateIdSchema>;

@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <rect width="800" height="600" fill="#18181b"/>
+
+  <!-- Minimal Header -->
+  <rect x="50" y="32" width="700" height="42" rx="10" fill="#202024" stroke="#2e2e34"/>
+  <rect x="75" y="48" width="80" height="10" rx="3" fill="#e4e4e7"/>
+  <rect x="635" y="44" width="90" height="20" rx="5" fill="#3f3f46"/>
+
+  <!-- Harmonious Hero Section -->
+  <rect x="50" y="96" width="700" height="220" rx="16" fill="#202024" stroke="#2e2e34"/>
+  <circle cx="130" cy="170" r="45" fill="#27272a" stroke="#52525b"/>
+  <rect x="210" y="130" width="80" height="16" rx="4" fill="#3f3f46"/>
+  <text x="210" y="180" font-family="system-ui, sans-serif" font-size="26" font-weight="800" fill="#ffffff">Elena Rostova</text>
+  <text x="210" y="205" font-family="system-ui, sans-serif" font-size="13" fill="#a1a1aa">Brand Strategy &amp; Interaction Direction</text>
+  <rect x="210" y="230" width="380" height="8" rx="2" fill="#52525b"/>
+  <rect x="210" y="246" width="320" height="8" rx="2" fill="#3f3f46"/>
+
+  <!-- Showcase Cards -->
+  <rect x="50" y="336" width="335" height="230" rx="14" fill="#202024" stroke="#2e2e34"/>
+  <rect x="70" y="356" width="295" height="120" rx="8" fill="#18181b"/>
+  <text x="70" y="505" font-family="system-ui, sans-serif" font-size="16" font-weight="700" fill="#ffffff">Aura Design System</text>
+  <rect x="70" y="525" width="220" height="6" rx="2" fill="#52525b"/>
+
+  <rect x="415" y="336" width="335" height="230" rx="14" fill="#202024" stroke="#2e2e34"/>
+  <rect x="435" y="356" width="295" height="120" rx="8" fill="#18181b"/>
+  <text x="435" y="505" font-family="system-ui, sans-serif" font-size="16" font-weight="700" fill="#ffffff">Fintech Mobile Experience</text>
+  <rect x="435" y="525" width="220" height="6" rx="2" fill="#52525b"/>
+</svg>

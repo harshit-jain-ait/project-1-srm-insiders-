@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { TemplateProps } from "../types";
-import { SafeExternalLink, EmptySectionHint, SocialPlatformIcon } from "../shared";
+import { SafeExternalLink, EmptySectionHint, SocialPlatformIcon, resolveTemplateTheme } from "../shared";
 import Link from "next/link";
 import {
   Terminal,
@@ -23,6 +23,8 @@ import { PublicContactForm } from "@/components/contact/public-contact-form";
 export function DeveloperProTemplate({ portfolio, isLivePreview = false }: TemplateProps) {
   const { profile, projects, experience, skills, education, socialLinks, sections, contactConfig } = portfolio;
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const theme = resolveTemplateTheme(portfolio.appearance, "developer-pro");
 
   // Filter visible projects (hide hidden projects from public view)
   const visibleProjects = (projects || []).filter((p) => isLivePreview || p.visible !== false);
@@ -50,17 +52,19 @@ export function DeveloperProTemplate({ portfolio, isLivePreview = false }: Templ
       href: `#section-${sec.key}`,
     }));
 
-  const fontClass =
-    portfolio.appearance?.fontFamily === "serif"
-      ? "font-serif"
-      : portfolio.appearance?.fontFamily === "mono"
-      ? "font-mono"
-      : "font-sans";
-
   return (
-    <article className={`min-h-screen bg-[#0A0B0E] text-[#ECECED] ${fontClass} selection:bg-blue-600/30 selection:text-white`}>
+    <article
+      className={`min-h-screen ${theme.fontClass} selection:bg-blue-600/30 selection:text-white transition-colors duration-200`}
+      style={{ backgroundColor: theme.bgColor, color: theme.textColor }}
+    >
       {/* Top Technical Status & Nav Bar */}
-      <header className="sticky top-0 z-30 border-b border-zinc-800/80 bg-[#0A0B0E]/90 backdrop-blur">
+      <header
+        className="sticky top-0 z-30 border-b backdrop-blur"
+        style={{
+          backgroundColor: `${theme.bgColor}e6`,
+          borderColor: theme.borderColor,
+        }}
+      >
         <div className="max-w-5xl mx-auto px-6 h-13 flex items-center justify-between text-xs">
           {/* Status badge & wordmark */}
           <div className="flex items-center gap-3">

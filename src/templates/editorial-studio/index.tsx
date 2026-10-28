@@ -2,13 +2,15 @@
 
 import React from "react";
 import { TemplateProps } from "../types";
-import { SafeExternalLink, SocialPlatformIcon } from "../shared";
+import { SafeExternalLink, SocialPlatformIcon, resolveTemplateTheme } from "../shared";
 import { PublicContactForm } from "@/components/contact/public-contact-form";
 import Link from "next/link";
 import { Mail, MapPin, ArrowUpRight, BookOpen, Code2 } from "lucide-react";
 
 export function EditorialStudioTemplate({ portfolio, isLivePreview = false }: TemplateProps) {
   const { profile, projects, experience, skills, socialLinks, sections, contactConfig } = portfolio;
+
+  const theme = resolveTemplateTheme(portfolio.appearance, "editorial-studio");
 
   const visibleProjects = (projects || []).filter((p) => isLivePreview || p.visible !== false);
   const activeSections = sections.filter((s) => s.visible);
@@ -18,9 +20,18 @@ export function EditorialStudioTemplate({ portfolio, isLivePreview = false }: Te
   const hasSkills = skills.length > 0;
 
   return (
-    <article className="min-h-screen bg-[#FDFBF7] text-[#1a1918] font-serif selection:bg-amber-100 selection:text-black">
+    <article
+      className={`min-h-screen ${theme.fontClass} selection:bg-amber-100 selection:text-black transition-colors duration-200`}
+      style={{ backgroundColor: theme.bgColor, color: theme.textColor }}
+    >
       {/* Top Banner / Masthead */}
-      <header className="border-b border-zinc-200/80 bg-[#FDFBF7]/90 backdrop-blur sticky top-0 z-30">
+      <header
+        className="border-b backdrop-blur sticky top-0 z-30"
+        style={{
+          backgroundColor: `${theme.bgColor}e6`,
+          borderColor: theme.borderColor,
+        }}
+      >
         <div className="max-w-5xl mx-auto px-6 sm:px-10 h-20 flex items-center justify-between">
           <div>
             <a href="#top" className="text-xl sm:text-2xl font-serif tracking-tight font-normal text-zinc-950">

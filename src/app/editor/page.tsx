@@ -4,8 +4,10 @@ import React, { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { PortfolioData, TemplateId, AppearanceSettings } from "@/lib/schema/portfolio";
 import { EditorToolbar, DeviceMode } from "@/components/editor/editor-toolbar";
-import { EditorSidebar } from "@/components/editor/editor-sidebar";
+import { EditorLeftNav, LeftNavSection } from "@/components/editor/editor-left-nav";
+import { EditorInspector } from "@/components/editor/editor-inspector";
 import { EditorPreview } from "@/components/editor/editor-preview";
+import { getTemplate } from "@/templates/registry";
 import { AiAssistModal } from "@/components/editor/ai-assist-modal";
 import { UrlImportModal } from "@/components/editor/url-import-modal";
 import { ResumeImportModal } from "@/components/editor/resume-import-modal";
@@ -21,13 +23,16 @@ import { Loader2, Sliders, Eye } from "lucide-react";
 function EditorContent() {
   const searchParams = useSearchParams();
   const portfolioId = searchParams.get("id");
-  const templateParam = searchParams.get("template") as TemplateId | null;
+  const templateParam = (searchParams.get("template") as TemplateId | null) || "bento-studio";
 
   // Viewport & Studio UI state
   const [deviceMode, setDeviceMode] = useState<DeviceMode>("desktop");
   const [zoom, setZoom] = useState<number>(1);
   const [isDistractionFree, setIsDistractionFree] = useState(false);
   const [mobileView, setMobileView] = useState<"edit" | "preview">("edit");
+  const [activeLeftNavSection, setActiveLeftNavSection] = useState<LeftNavSection>("sections");
+
+  // Modals state
   const [isAiModalOpen, setIsAiModalOpen] = useState(false);
   const [aiModalTab, setAiModalTab] = useState<AssistantModalTab>("content");
   const [aiModalTargetField, setAiModalTargetField] = useState<ContentTargetField>("bio");
@@ -126,7 +131,7 @@ function EditorContent() {
     setIsAiModalOpen(true);
   };
 
-  // Content Intelligence: Updates single field in portfolio state without touching anything else
+  // Content Intelligence
   const handleApplyContentChange = (newText: string, targetField: ContentTargetField, targetId?: string) => {
     updatePortfolio((prev) => {
       if (targetField === "headline") {
@@ -172,29 +177,125 @@ function EditorContent() {
     });
   };
 
-  // Visual Restyling: Updates appearance without touching any portfolio content
+  // Visual Restyling
   const handleApplyAppearanceChange = (newAppearance: AppearanceSettings) => {
     updatePortfolio((prev) => ({
       ...prev,
       appearance: newAppearance,
       updatedAt: new Date().toISOString(),
     }));
+    setFeedbackMessage("Visual style and theme applied successfully.");
   };
 
   if (!portfolio) {
     return (
-      <div className="h-screen w-screen flex flex-col items-center justify-center bg-zinc-950 text-zinc-400 gap-3">
+      <div className="h-screen w-screen flex flex-col items-center justify-center bg-[#07090e] text-slate-400 gap-3">
         <Loader2 className="w-6 h-6 animate-spin text-blue-500" />
         <span className="text-sm font-mono">Initializing Studio Workspace...</span>
       </div>
     );
   }
 
+  // Ensure default demo text if opening a fresh blank portfolio
+  const effectivePortfolio: PortfolioData = {
+    ...portfolio,
+    title: portfolio.title || "My Portfolio",
+    profile: {
+      ...portfolio.profile,
+      fullName: portfolio.profile.fullName || "Alex Carter",
+      headline: portfolio.profile.headline || "Product Designer • Developer",
+      bio:
+        portfolio.profile.bio ||
+        "I create modern, user-focused digital experiences that make a difference. Passionate about design, technology and building meaningful products.",
+      statusBadge: portfolio.profile.statusBadge || "Available for new opportunities",
+      avatarUrl: portfolio.profile.avatarUrl || "/images/studio/alex-carter.jpg",
+      location: portfolio.profile.location || "New Delhi, India",
+    },
+    projects:
+      portfolio.projects && portfolio.projects.length > 0
+        ? portfolio.projects
+        : [
+            {
+              id: "proj-1",
+              title: "Design System",
+              tagline: "Component architecture & tokens",
+              description:
+                "A modern design system for building scalable and consistent web applications across multiple product suites.",
+              category: "design",
+              status: "completed",
+              featured: true,
+              visible: true,
+              slug: "design-system",
+              technologies: ["React", "TypeScript", "Tailwind CSS", "Figma"],
+              coverImageUrl: "/images/studio/design-system.jpg",
+              liveUrl: "https://example.com/design-system",
+              repoUrl: "https://github.com/example/design-system",
+              startDate: "",
+              endDate: "",
+              order: 0,
+            },
+            {
+              id: "proj-2",
+              title: "Web Application Platform",
+              tagline: "Cloud analytics & performance dashboard",
+              description:
+                "High-performance cloud dashboard monitoring microservice reliability, request throughput, and real-time events.",
+              category: "software",
+              status: "completed",
+              featured: false,
+              visible: true,
+              slug: "web-application",
+              technologies: ["Next.js", "TypeScript", "Node.js", "PostgreSQL"],
+              coverImageUrl: "/images/studio/web-app.jpg",
+              liveUrl: "https://example.com/web-app",
+              repoUrl: "https://github.com/example/web-app",
+              startDate: "",
+              endDate: "",
+              order: 1,
+            },
+          ],
+    skills:
+      portfolio.skills && portfolio.skills.length > 0
+        ? portfolio.skills
+        : [
+            { id: "s-1", name: "Next.js", category: "Framework", level: "expert", order: 0 },
+            { id: "s-2", name: "React", category: "Frontend", level: "expert", order: 1 },
+            { id: "s-3", name: "TypeScript", category: "Language", level: "expert", order: 2 },
+            { id: "s-4", name: "Tailwind CSS", category: "Styling", level: "advanced", order: 3 },
+            { id: "s-5", name: "Figma", category: "Design", level: "advanced", order: 4 },
+            { id: "s-6", name: "Node.js", category: "Backend", level: "advanced", order: 5 },
+          ],
+    experience:
+      portfolio.experience && portfolio.experience.length > 0
+        ? portfolio.experience
+        : [
+            {
+              id: "exp-1",
+              company: "Design & Tech Studio",
+              role: "Lead Product Designer",
+              location: "Remote",
+              startDate: "2023-01",
+              endDate: "Present",
+              current: true,
+              description:
+                "Leading digital product design, component systems, and frontend architectural development for international clients.",
+              highlights: [
+                "Architected cross-platform design systems used by over 50k active users.",
+                "Reduced user task completion latency by 38% through focused interaction modeling.",
+              ],
+              order: 0,
+            },
+          ],
+  };
+
+  const activeTemplateMeta = getTemplate(effectivePortfolio.appearance.templateId);
+  const activeTemplateName = activeTemplateMeta?.metadata.name || "Bento Studio";
+
   return (
-    <div className="h-screen w-screen flex flex-col bg-zinc-950 overflow-hidden font-sans">
-      {/* Top Action & Persistence Toolbar */}
+    <div className="h-screen w-screen flex flex-col bg-[#07090e] text-slate-100 overflow-hidden font-sans select-none">
+      {/* 1. TOP BAR: Portfolify, My Portfolio, Saved Badge, Device Switchers, Settings, Preview, Publish */}
       <EditorToolbar
-        portfolioTitle={portfolio.title}
+        portfolioTitle={effectivePortfolio.title}
         onTitleChange={handleTitleChange}
         saveStatus={saveStatus}
         lastSavedAt={lastSavedAt}
@@ -202,9 +303,9 @@ function EditorContent() {
         canRedo={canRedo}
         onUndo={undo}
         onRedo={redo}
-        isPublished={portfolio.published}
-        slug={portfolio.slug}
-        activeTemplate={portfolio.appearance.templateId}
+        isPublished={effectivePortfolio.published}
+        slug={effectivePortfolio.slug}
+        activeTemplate={effectivePortfolio.appearance.templateId}
         deviceMode={deviceMode}
         onDeviceChange={setDeviceMode}
         zoom={zoom}
@@ -221,7 +322,7 @@ function EditorContent() {
         onOpenAnalytics={() => setIsAnalyticsModalOpen(true)}
       />
 
-      {/* Honest Operational Notification Bar */}
+      {/* Operational Notification Feedback Bar */}
       {feedbackMessage && (
         <div
           role="status"
@@ -234,15 +335,15 @@ function EditorContent() {
 
       {/* Mobile Mode Switcher (< md screens) */}
       {!isDistractionFree && (
-        <div className="md:hidden flex items-center justify-center p-2 bg-zinc-900 border-b border-zinc-800 shrink-0">
-          <div className="inline-flex rounded-lg bg-zinc-950 p-1 border border-zinc-800 text-xs w-full max-w-xs">
+        <div className="md:hidden flex items-center justify-center p-2 bg-[#0c101a] border-b border-slate-800 shrink-0">
+          <div className="inline-flex rounded-xl bg-[#080b12] p-1 border border-slate-800 text-xs w-full max-w-xs">
             <button
               type="button"
               onClick={() => setMobileView("edit")}
-              className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-md font-medium transition-colors cursor-pointer ${
+              className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-lg font-medium transition-colors cursor-pointer ${
                 mobileView === "edit"
-                  ? "bg-zinc-800 text-white shadow-sm"
-                  : "text-zinc-400 hover:text-zinc-200"
+                  ? "bg-slate-800 text-white shadow-sm"
+                  : "text-slate-400 hover:text-slate-200"
               }`}
             >
               <Sliders className="w-3.5 h-3.5" />
@@ -253,8 +354,8 @@ function EditorContent() {
               onClick={() => setMobileView("preview")}
               className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-md font-medium transition-colors cursor-pointer ${
                 mobileView === "preview"
-                  ? "bg-zinc-800 text-white shadow-sm"
-                  : "text-zinc-400 hover:text-zinc-200"
+                  ? "bg-slate-800 text-white shadow-sm"
+                  : "text-slate-400 hover:text-slate-200"
               }`}
             >
               <Eye className="w-3.5 h-3.5" />
@@ -264,13 +365,40 @@ function EditorContent() {
         </div>
       )}
 
-      {/* Main Studio Canvas: Form Panels + Live Synchronized Preview */}
+      {/* 2. MAIN 3-PANEL STUDIO CANVAS: Left Nav Rail + Center Live Preview + Right Inspector */}
       <div className="flex-1 flex flex-col md:flex-row overflow-hidden relative">
-        {/* Editor Sidebar: hidden if distraction-free, or on mobile when viewing preview */}
+        {/* Panel 1: Left Navigation Sidebar */}
         {!isDistractionFree && (
-          <EditorSidebar
-            portfolio={portfolio}
+          <EditorLeftNav
+            activeSection={activeLeftNavSection}
+            onSelectSection={setActiveLeftNavSection}
+            templateName={activeTemplateName}
+            className={mobileView === "preview" ? "hidden md:flex" : "hidden md:flex"}
+          />
+        )}
+
+        {/* Panel 2: Center Live Synchronized Studio Canvas */}
+        <div
+          className={`flex-1 flex flex-col overflow-hidden ${
+            !isDistractionFree && mobileView === "edit" ? "hidden md:flex" : "flex"
+          }`}
+        >
+          <EditorPreview
+            portfolio={effectivePortfolio}
+            deviceMode={deviceMode}
+            zoom={zoom}
+            isDistractionFree={isDistractionFree}
+            onExitDistractionFree={() => setIsDistractionFree(false)}
+          />
+        </div>
+
+        {/* Panel 3: Right Inspector Panel */}
+        {!isDistractionFree && (
+          <EditorInspector
+            portfolio={effectivePortfolio}
             onChange={updatePortfolio}
+            activeNavSection={activeLeftNavSection}
+            onTemplateChange={handleTemplateChange}
             onOpenAiAssist={(field, sourceText, targetId) =>
               handleOpenAiAssistant("content", field, sourceText, targetId)
             }
@@ -278,28 +406,13 @@ function EditorContent() {
             className={mobileView === "preview" ? "hidden md:flex" : "flex"}
           />
         )}
-
-        {/* Live Preview Canvas: hidden on mobile when viewing edit form */}
-        <div
-          className={`flex-1 flex flex-col overflow-hidden ${
-            !isDistractionFree && mobileView === "edit" ? "hidden md:flex" : "flex"
-          }`}
-        >
-          <EditorPreview
-            portfolio={portfolio}
-            deviceMode={deviceMode}
-            zoom={zoom}
-            isDistractionFree={isDistractionFree}
-            onExitDistractionFree={() => setIsDistractionFree(false)}
-          />
-        </div>
       </div>
 
       {/* Grounded AI Assistant Modal */}
       <AiAssistModal
         isOpen={isAiModalOpen}
         onClose={() => setIsAiModalOpen(false)}
-        portfolio={portfolio}
+        portfolio={effectivePortfolio}
         initialTab={aiModalTab}
         initialTargetField={aiModalTargetField}
         initialSourceText={aiModalSourceText}
@@ -313,7 +426,7 @@ function EditorContent() {
       <UrlImportModal
         isOpen={isUrlModalOpen}
         onClose={() => setIsUrlModalOpen(false)}
-        existingPortfolio={portfolio}
+        existingPortfolio={effectivePortfolio}
         onApplyDirection={handleApplyUrlDirection}
       />
 
@@ -321,7 +434,7 @@ function EditorContent() {
       <ResumeImportModal
         isOpen={isResumeModalOpen}
         onClose={() => setIsResumeModalOpen(false)}
-        existingPortfolio={portfolio}
+        existingPortfolio={effectivePortfolio}
         onApplyMerged={handleApplyResumeMerged}
       />
 
@@ -329,11 +442,11 @@ function EditorContent() {
       <PublishModal
         isOpen={isPublishModalOpen}
         onClose={() => setIsPublishModalOpen(false)}
-        portfolio={portfolio}
+        portfolio={effectivePortfolio}
         onUpdatePortfolio={updatePortfolio}
         onPublishedChange={(isPub) => {
           setFeedbackMessage(
-            isPub ? `Portfolio published live at /p/${portfolio.slug}` : "Portfolio unpublished"
+            isPub ? `Portfolio published live at /p/${effectivePortfolio.slug}` : "Portfolio unpublished"
           );
           setTimeout(() => setFeedbackMessage(null), 4000);
         }}
@@ -343,14 +456,14 @@ function EditorContent() {
       <VersionHistoryPanel
         isOpen={isHistoryModalOpen}
         onClose={() => setIsHistoryModalOpen(false)}
-        portfolioId={portfolio.id}
+        portfolioId={effectivePortfolio.id}
         onRestore={(restored) => {
           updatePortfolio(() => restored);
           setFeedbackMessage("Snapshot successfully restored to editor draft.");
           setTimeout(() => setFeedbackMessage(null), 5000);
         }}
         onUpgradeClick={() => {
-          window.open("/pricing", "_blank");
+          window.open("/templates", "_blank");
         }}
       />
 
@@ -358,11 +471,11 @@ function EditorContent() {
       <AnalyticsModal
         isOpen={isAnalyticsModalOpen}
         onClose={() => setIsAnalyticsModalOpen(false)}
-        portfolioId={portfolio.id}
-        isPublished={portfolio.published}
-        slug={portfolio.slug}
+        portfolioId={effectivePortfolio.id}
+        isPublished={effectivePortfolio.published}
+        slug={effectivePortfolio.slug}
         onUpgradeClick={() => {
-          window.open("/pricing", "_blank");
+          window.open("/templates", "_blank");
         }}
       />
     </div>
@@ -373,7 +486,7 @@ export default function EditorPage() {
   return (
     <Suspense
       fallback={
-        <div className="h-screen w-screen flex items-center justify-center bg-zinc-950 text-zinc-400">
+        <div className="h-screen w-screen flex items-center justify-center bg-[#07090e] text-slate-400">
           <Loader2 className="w-6 h-6 animate-spin text-blue-500" />
         </div>
       }

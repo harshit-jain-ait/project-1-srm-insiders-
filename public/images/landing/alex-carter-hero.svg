@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 480" width="100%" height="100%">
+  <defs>
+    <filter id="cardShadow" x="-10%" y="-10%" width="120%" height="125%">
+      <feDropShadow dx="0" dy="16" stdDeviation="24" flood-color="#0f172a" flood-opacity="0.12"/>
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#0f172a" flood-opacity="0.06"/>
+    </filter>
+    <clipPath id="avatarClip">
+      <rect x="380" y="80" width="260" height="270" rx="16" />
+    </clipPath>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#fafafa"/>
+    </linearGradient>
+    <linearGradient id="avatarBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f1f5f9"/>
+      <stop offset="100%" stop-color="#e2e8f0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Card Body -->
+  <rect x="20" y="16" width="660" height="440" rx="24" fill="url(#bgGrad)" stroke="#e2e8f0" stroke-width="1.5" filter="url(#cardShadow)"/>
+
+  <!-- Top bar -->
+  <circle cx="56" cy="48" r="5" fill="#f87171"/>
+  <circle cx="72" cy="48" r="5" fill="#fbbf24"/>
+  <circle cx="88" cy="48" r="5" fill="#34d399"/>
+
+  <text x="460" y="52" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="500" fill="#64748b">Home</text>
+  <text x="515" y="52" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="500" fill="#64748b">About</text>
+  <text x="570" y="52" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="500" fill="#64748b">Work</text>
+  <text x="620" y="52" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="500" fill="#0f172a">Contact</text>
+
+  <line x1="20" y1="72" x2="680" y2="72" stroke="#f1f5f9" stroke-width="1.5"/>
+
+  <!-- Left Content -->
+  <text x="60" y="145" font-family="system-ui, -apple-system, sans-serif" font-size="30" font-weight="800" fill="#0f172a" letter-spacing="-0.5">Alex Carter</text>
+  <text x="60" y="175" font-family="system-ui, -apple-system, sans-serif" font-size="15" font-weight="600" fill="#64748b">Product Designer</text>
+
+  <text x="60" y="225" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="400" fill="#475569">I design digital experiences</text>
+  <text x="60" y="247" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="400" fill="#475569">that feel simple, useful and human.</text>
+
+  <!-- View Work Button -->
+  <rect x="60" y="280" width="105" height="34" rx="8" fill="#0f172a"/>
+  <text x="85" y="302" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600" fill="#ffffff">View Work</text>
+
+  <!-- Right: Portrait Container -->
+  <g clip-path="url(#avatarClip)">
+    <rect x="380" y="80" width="260" height="270" fill="url(#avatarBg)"/>
+    <!-- Head & Hair -->
+    <path d="M 460 210 Q 510 110 560 210 Q 580 280 560 350 L 460 350 Z" fill="#1e293b"/>
+    <!-- Face -->
+    <ellipse cx="510" cy="205" rx="42" ry="52" fill="#ffd7ba"/>
+    <!-- Hair overlay -->
+    <path d="M 460 180 Q 480 135 510 135 Q 545 135 560 175 Q 535 155 510 155 Q 480 155 460 180 Z" fill="#0f172a"/>
+    <path d="M 465 170 Q 500 130 535 140 Q 555 145 565 170 Q 545 150 515 150 Q 485 150 465 170 Z" fill="#1e293b"/>
+    <!-- Eyes, brows & nose -->
+    <path d="M 485 185 Q 495 182 502 186" stroke="#0f172a" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M 518 186 Q 525 182 535 185" stroke="#0f172a" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <ellipse cx="495" cy="195" rx="3.5" ry="3.5" fill="#0f172a"/>
+    <ellipse cx="525" cy="195" rx="3.5" ry="3.5" fill="#0f172a"/>
+    <path d="M 510 197 L 508 212 L 514 214" stroke="#e0a98b" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <!-- Mouth -->
+    <path d="M 500 228 Q 510 234 520 228" stroke="#c97d62" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <!-- Neck & Polo Shirt -->
+    <path d="M 495 250 L 495 275 L 525 275 L 525 250 Z" fill="#f0be9e"/>
+    <path d="M 430 270 Q 510 280 590 270 L 610 360 L 410 360 Z" fill="#1e293b"/>
+    <!-- Polo Collar -->
+    <path d="M 490 270 L 510 305 L 475 295 Z" fill="#334155"/>
+    <path d="M 530 270 L 510 305 L 545 295 Z" fill="#334155"/>
+  </g>
+  <rect x="380" y="80" width="260" height="270" rx="16" fill="none" stroke="#e2e8f0" stroke-width="1.5"/>
+
+  <!-- Bottom Divider & Client / Stack Logos -->
+  <line x1="60" y1="375" x2="640" y2="375" stroke="#f1f5f9" stroke-width="1.5"/>
+
+  <!-- Notion Logo -->
+  <g transform="translate(60, 395)">
+    <rect width="20" height="20" rx="4" fill="#000000"/>
+    <text x="5" y="15" font-family="system-ui, sans-serif" font-weight="900" font-size="14" fill="#ffffff">N</text>
+    <text x="28" y="15" font-family="system-ui, sans-serif" font-weight="600" font-size="12" fill="#64748b">Notion</text>
+  </g>
+
+  <!-- Figma Logo -->
+  <g transform="translate(190, 395)">
+    <circle cx="6" cy="6" r="4" fill="#f24e1e"/>
+    <circle cx="14" cy="6" r="4" fill="#ff7262"/>
+    <circle cx="6" cy="14" r="4" fill="#a259ff"/>
+    <circle cx="14" cy="14" r="4" fill="#1abcfe"/>
+    <text x="26" y="15" font-family="system-ui, sans-serif" font-weight="600" font-size="12" fill="#64748b">Figma</text>
+  </g>
+
+  <!-- Webflow Logo -->
+  <g transform="translate(320, 395)">
+    <rect width="18" height="18" rx="4" fill="#146ef5"/>
+    <text x="3" y="14" font-family="system-ui, sans-serif" font-weight="900" font-size="12" fill="#ffffff">W</text>
+    <text x="26" y="15" font-family="system-ui, sans-serif" font-weight="600" font-size="12" fill="#64748b">Webflow</text>
+  </g>
+
+  <!-- Google / Dribbble Logo -->
+  <g transform="translate(460, 395)">
+    <circle cx="9" cy="9" r="8" fill="#ea4c89"/>
+    <text x="4" y="14" font-family="system-ui, sans-serif" font-weight="900" font-size="12" fill="#ffffff">D</text>
+    <text x="24" y="15" font-family="system-ui, sans-serif" font-weight="600" font-size="12" fill="#64748b">Dribbble</text>
+  </g>
+</svg>

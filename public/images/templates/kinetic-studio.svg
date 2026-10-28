@@ -1,0 +1,152 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="kineticBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0e0e0c"/>
+      <stop offset="50%" stop-color="#141411"/>
+      <stop offset="100%" stop-color="#090908"/>
+    </linearGradient>
+    <linearGradient id="orangeGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ff5c1a" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#ff5c1a" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="wordmarkGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.02"/>
+    </linearGradient>
+    <radialGradient id="glSpot" cx="80%" cy="30%" r="50%">
+      <stop offset="0%" stop-color="#ff5c1a" stop-opacity="0.18"/>
+      <stop offset="60%" stop-color="#6e56cf" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#0e0e0c" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background Base -->
+  <rect width="800" height="600" fill="url(#kineticBg)"/>
+  <rect width="800" height="600" fill="url(#glSpot)"/>
+
+  <!-- Top Sticky Nav -->
+  <rect x="0" y="0" width="800" height="52" fill="#0e0e0c" fill-opacity="0.9" stroke="rgba(237,237,230,0.12)" stroke-width="1"/>
+  <g transform="translate(48, 32)">
+    <text font-family="'Space Grotesk', -apple-system, sans-serif" font-size="14" font-weight="700" fill="#edede6" letter-spacing="-0.02em">SHREYAS</text>
+    <text x="68" y="-4" font-family="'Space Mono', monospace" font-size="9" font-weight="700" fill="#ff5c1a">®</text>
+  </g>
+
+  <!-- Desktop Nav Links -->
+  <g transform="translate(400, 32)" font-family="'Space Mono', monospace" font-size="10" font-weight="500" fill="#8a8a82" letter-spacing="0.08em">
+    <text x="0">WORK</text>
+    <text x="56">STACK</text>
+    <text x="115">JOURNEY</text>
+    <text x="188">FREELANCE</text>
+    <text x="272" fill="#edede6">CONTACT</text>
+  </g>
+
+  <!-- Nav Action Pill -->
+  <rect x="712" y="16" width="40" height="22" rx="11" fill="none" stroke="rgba(237,237,230,0.15)"/>
+  <text x="722" y="31" font-family="'Space Mono', monospace" font-size="9" fill="#8a8a82">⌘K</text>
+
+  <!-- HERO SECTION -->
+  <g transform="translate(48, 120)">
+    <!-- Status Badge -->
+    <rect x="0" y="0" width="220" height="24" rx="12" fill="rgba(255,92,26,0.08)" stroke="rgba(255,92,26,0.3)" stroke-width="1"/>
+    <circle cx="12" cy="12" r="3.5" fill="#ff5c1a"/>
+    <text x="24" y="16" font-family="'Space Mono', monospace" font-size="9" fill="#edede6" letter-spacing="0.06em">AGENTIC AI &amp; SYSTEMS</text>
+
+    <!-- Kinetic Statement Headline -->
+    <text x="0" y="60" font-family="'Space Grotesk', -apple-system, sans-serif" font-size="34" font-weight="800" fill="#edede6" letter-spacing="-0.03em" text-transform="uppercase">
+      I BUILD AI SYSTEMS
+    </text>
+    <text x="0" y="98" font-family="'Space Grotesk', -apple-system, sans-serif" font-size="34" font-weight="800" fill="#8a8a82" letter-spacing="-0.03em" text-transform="uppercase">
+      THAT LIVE IN THE REAL WORLD.
+    </text>
+
+    <!-- Subtitle Aside -->
+    <text x="560" y="70" font-family="'Space Mono', monospace" font-size="10" font-style="italic" fill="#8a8a82" text-anchor="end">
+      CRAFTING AGENTIC AI
+    </text>
+    <text x="560" y="86" font-family="'Space Mono', monospace" font-size="10" font-style="italic" fill="#ff5c1a" text-anchor="end">
+      &amp; DIGITAL EXPERIENCES
+    </text>
+  </g>
+
+  <!-- TECH MARQUEE STRIP -->
+  <g transform="translate(0, 248)">
+    <rect x="0" y="0" width="800" height="34" fill="#141411" stroke="rgba(237,237,230,0.12)" stroke-width="1"/>
+    <g font-family="'Space Mono', monospace" font-size="11" font-weight="600" fill="#8a8a82" letter-spacing="0.06em">
+      <text x="48" y="22">REACT</text>
+      <text x="100" y="21" fill="#ff5c1a">✦</text>
+      <text x="122" y="22">NEXT.JS</text>
+      <text x="188" y="21" fill="#ff5c1a">✦</text>
+      <text x="210" y="22">LANGGRAPH</text>
+      <text x="296" y="21" fill="#ff5c1a">✦</text>
+      <text x="318" y="22">MCP</text>
+      <text x="355" y="21" fill="#ff5c1a">✦</text>
+      <text x="376" y="22">RAG PIPELINES</text>
+      <text x="480" y="21" fill="#ff5c1a">✦</text>
+      <text x="502" y="22">FASTAPI</text>
+      <text x="565" y="21" fill="#ff5c1a">✦</text>
+      <text x="586" y="22">THREE.JS</text>
+      <text x="658" y="21" fill="#ff5c1a">✦</text>
+      <text x="679" y="22">POSTGRESQL</text>
+    </g>
+  </g>
+
+  <!-- 01 - ABOUT & STATS -->
+  <g transform="translate(48, 305)">
+    <!-- Section Index Header -->
+    <text x="0" y="14" font-family="'Space Mono', monospace" font-size="11" font-weight="700" fill="#ff5c1a" letter-spacing="0.08em">01 — ABOUT</text>
+    <line x1="95" y1="10" x2="704" y2="10" stroke="rgba(237,237,230,0.15)" stroke-width="1"/>
+
+    <!-- Stats 4-Column Bar -->
+    <g transform="translate(0, 32)">
+      <!-- Stat 1 -->
+      <text x="0" y="32" font-family="'Space Grotesk', sans-serif" font-size="28" font-weight="800" fill="#edede6">1<tspan font-size="14" fill="#ff5c1a" dy="-10">st</tspan></text>
+      <text x="0" y="48" font-family="'Space Mono', monospace" font-size="8" fill="#8a8a82">BUILDATHON WINNER</text>
+      <line x1="165" y1="12" x2="165" y2="52" stroke="rgba(237,237,230,0.12)" stroke-width="1"/>
+
+      <!-- Stat 2 -->
+      <text x="185" y="32" font-family="'Space Grotesk', sans-serif" font-size="28" font-weight="800" fill="#edede6">05</text>
+      <text x="185" y="48" font-family="'Space Mono', monospace" font-size="8" fill="#8a8a82">PROJECTS SHIPPED</text>
+      <line x1="350" y1="12" x2="350" y2="52" stroke="rgba(237,237,230,0.12)" stroke-width="1"/>
+
+      <!-- Stat 3 -->
+      <text x="370" y="32" font-family="'Space Grotesk', sans-serif" font-size="28" font-weight="800" fill="#edede6">04</text>
+      <text x="370" y="48" font-family="'Space Mono', monospace" font-size="8" fill="#8a8a82">AWARDS WON</text>
+      <line x1="535" y1="12" x2="535" y2="52" stroke="rgba(237,237,230,0.12)" stroke-width="1"/>
+
+      <!-- Stat 4 -->
+      <text x="555" y="32" font-family="'Space Grotesk', sans-serif" font-size="28" font-weight="800" fill="#edede6">9.57</text>
+      <text x="555" y="48" font-family="'Space Mono', monospace" font-size="8" fill="#8a8a82">CSE GPA (CLOUD)</text>
+    </g>
+  </g>
+
+  <!-- 02 - WORK PREVIEW ROW -->
+  <g transform="translate(48, 400)">
+    <text x="0" y="14" font-family="'Space Mono', monospace" font-size="11" font-weight="700" fill="#ff5c1a" letter-spacing="0.08em">02 — WORK</text>
+    <line x1="85" y1="10" x2="704" y2="10" stroke="rgba(237,237,230,0.15)" stroke-width="1"/>
+
+    <!-- Project Card Row -->
+    <g transform="translate(0, 24)">
+      <rect x="0" y="0" width="704" height="66" rx="8" fill="#1b1b18" stroke="rgba(237,237,230,0.12)" stroke-width="1"/>
+      <text x="20" y="38" font-family="'Space Mono', monospace" font-size="12" font-weight="700" fill="#ff5c1a">01</text>
+      <text x="56" y="32" font-family="'Space Grotesk', sans-serif" font-size="16" font-weight="700" fill="#edede6">DOCUMIND · AGENTIC RAG</text>
+      <text x="56" y="50" font-family="'Space Grotesk', sans-serif" font-size="10" fill="#8a8a82">Multi-agent research synthesis platform with hybrid neural search</text>
+      
+      <!-- Tags -->
+      <rect x="440" y="24" width="72" height="20" rx="10" fill="none" stroke="rgba(237,237,230,0.15)"/>
+      <text x="454" y="37" font-family="'Space Mono', monospace" font-size="8" fill="#8a8a82">LANGGRAPH</text>
+      <rect x="520" y="24" width="60" height="20" rx="10" fill="none" stroke="rgba(237,237,230,0.15)"/>
+      <text x="534" y="37" font-family="'Space Mono', monospace" font-size="8" fill="#8a8a82">FASTAPI</text>
+
+      <!-- Action Button -->
+      <rect x="590" y="22" width="98" height="24" rx="12" fill="#ff5c1a"/>
+      <text x="608" y="37" font-family="'Space Mono', monospace" font-size="9" font-weight="700" fill="#ffffff">CASE STUDY ↗</text>
+    </g>
+  </g>
+
+  <!-- GIANT FOOTER WORDMARK BACKGROUND -->
+  <g transform="translate(48, 550)">
+    <text x="352" y="30" font-family="'Space Grotesk', -apple-system, sans-serif" font-size="82" font-weight="900" fill="url(#wordmarkGrad)" letter-spacing="-0.04em" text-anchor="middle">
+      KINETIC
+    </text>
+  </g>
+</svg>

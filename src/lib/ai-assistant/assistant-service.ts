@@ -268,7 +268,7 @@ You are Portfolify's Visual Restyling Architect.
 Map the user's style description to a supported Portfolify appearance configuration.
 
 SUPPORTED CONSTRAINTS:
-- templateId: "minimal-portfolio" | "developer-pro" | "signature" | "reimagined"
+- templateId: "minimal-portfolio" | "developer-pro" | "signature" | "reimagined" | "bento-studio" | "editorial-studio" | "creative-motion" | "product-engineer" | "kinetic-studio" | "designer-craft"
 - fontFamily: "sans" | "serif" | "mono"
 - colorScheme: "dark" | "light" | "system"
 - accentColor: "blue" | "neutral" | "slate"
@@ -276,9 +276,11 @@ SUPPORTED CONSTRAINTS:
   - layoutDensity: "compact" | "balanced" | "spacious"
   - cardStyle: "bordered" | "flat" | "elevated" | "glass"
   - headerLayout: "split" | "centered" | "editorial" | "minimal"
-  - accentHex: optional hex string (e.g. "#356ae6", "#2563eb", "#71717a")
-  - backgroundColor: optional dark hex (e.g. "#09090b", "#0e1015")
-  - surfaceColor: optional dark hex (e.g. "#121215", "#181a20")
+  - accentHex: optional hex string (e.g. "#356ae6", "#2563eb", "#3b82f6", "#10b981", "#71717a")
+  - backgroundColor: optional hex (e.g. "#08080a", "#09090b", "#0e1015", "#0c0d0e", "#FDFBF7", "#FAFAF8")
+  - surfaceColor: optional hex (e.g. "#111116", "#121215", "#181a20", "#16181b", "#F5F2EB", "#ffffff")
+  - borderColor: optional hex or rgba string
+  - textColor: optional hex string
 
 RULES:
 - NEVER introduce purple or violet colors.
@@ -293,7 +295,7 @@ User Visual Preference:
 
 Respond with JSON:
 {
-  "templateId": "one of the 4 supported templates",
+  "templateId": "one of the 10 supported templates",
   "fontFamily": "sans | serif | mono",
   "colorScheme": "dark | light | system",
   "accentColor": "blue | neutral | slate",
@@ -371,9 +373,32 @@ Respond with JSON:
   ): AssistantApiResponse<RestyleResponse> {
     const lower = prompt.toLowerCase();
 
-    let matchedPresetId: "minimal-editorial" | "modern-professional" | "technical-structured" | "creative-expressive" | "bold-high-contrast" = "modern-professional";
+    let matchedPresetId:
+      | "minimal-editorial"
+      | "modern-professional"
+      | "technical-structured"
+      | "creative-expressive"
+      | "bold-high-contrast"
+      | "bento-grid"
+      | "editorial-literary"
+      | "creative-interactive"
+      | "product-specs"
+      | "kinetic-engineer"
+      | "designer-craft" = "modern-professional";
 
-    if (lower.includes("minimal") || lower.includes("editorial") || lower.includes("book") || lower.includes("serif") || lower.includes("clean white")) {
+    if (lower.includes("jackie") || lower.includes("craft") || lower.includes("tactile") || lower.includes("airdrop") || lower.includes("paris") || lower.includes("micro-interaction")) {
+      matchedPresetId = "designer-craft";
+    } else if (lower.includes("kinetic") || lower.includes("shreyas") || lower.includes("vermillion") || lower.includes("orange") || lower.includes("marquee") || lower.includes("brutalist") || lower.includes("agentic")) {
+      matchedPresetId = "kinetic-engineer";
+    } else if (lower.includes("bento") || lower.includes("modular") || lower.includes("grid") || lower.includes("apple") || lower.includes("obsidian")) {
+      matchedPresetId = "bento-grid";
+    } else if (lower.includes("motion") || lower.includes("spotlight") || lower.includes("interactive") || lower.includes("fluid")) {
+      matchedPresetId = "creative-interactive";
+    } else if (lower.includes("product") || lower.includes("architect") || lower.includes("system spec") || lower.includes("specs")) {
+      matchedPresetId = "product-specs";
+    } else if (lower.includes("literary") || lower.includes("newspaper") || lower.includes("print") || lower.includes("warm paper") || lower.includes("book")) {
+      matchedPresetId = "editorial-literary";
+    } else if (lower.includes("minimal") || lower.includes("editorial") || lower.includes("clean white") || lower.includes("whitespace")) {
       matchedPresetId = "minimal-editorial";
     } else if (lower.includes("terminal") || lower.includes("code") || lower.includes("tech") || lower.includes("mono") || lower.includes("engineer")) {
       matchedPresetId = "technical-structured";

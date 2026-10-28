@@ -2,7 +2,7 @@
 
 import React from "react";
 import { TemplateProps } from "../types";
-import { SafeExternalLink, SocialPlatformIcon } from "../shared";
+import { SafeExternalLink, SocialPlatformIcon, resolveTemplateTheme } from "../shared";
 import { PublicContactForm } from "@/components/contact/public-contact-form";
 import Link from "next/link";
 import {
@@ -19,6 +19,8 @@ import {
 export function ProductEngineerTemplate({ portfolio, isLivePreview = false }: TemplateProps) {
   const { profile, projects, experience, skills, socialLinks, sections, contactConfig } = portfolio;
 
+  const theme = resolveTemplateTheme(portfolio.appearance, "product-engineer");
+
   const visibleProjects = (projects || []).filter((p) => isLivePreview || p.visible !== false);
   const activeSections = sections.filter((s) => s.visible);
 
@@ -27,9 +29,18 @@ export function ProductEngineerTemplate({ portfolio, isLivePreview = false }: Te
   const hasSkills = skills.length > 0;
 
   return (
-    <article className="min-h-screen bg-[#0c0d0e] text-[#e4e4e7] font-sans selection:bg-blue-600 selection:text-white">
+    <article
+      className={`min-h-screen ${theme.fontClass} selection:bg-blue-600 selection:text-white transition-colors duration-200`}
+      style={{ backgroundColor: theme.bgColor, color: theme.textColor }}
+    >
       {/* Terminal Style Header Bar */}
-      <header className="border-b border-zinc-800 bg-[#0c0d0e]/90 backdrop-blur sticky top-0 z-30">
+      <header
+        className="border-b backdrop-blur sticky top-0 z-30"
+        style={{
+          backgroundColor: `${theme.bgColor}e6`,
+          borderColor: theme.borderColor,
+        }}
+      >
         <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between font-mono text-xs">
           <div className="flex items-center gap-2 text-zinc-300">
             <Terminal className="w-4 h-4 text-emerald-400" />

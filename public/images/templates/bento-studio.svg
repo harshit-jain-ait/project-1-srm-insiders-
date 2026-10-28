@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bentoBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090a0d"/>
+      <stop offset="100%" stop-color="#12141a"/>
+    </linearGradient>
+    <linearGradient id="bentoCard" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#161820"/>
+      <stop offset="100%" stop-color="#0f1015"/>
+    </linearGradient>
+    <linearGradient id="mountainMorn" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#fdba74"/>
+      <stop offset="30%" stop-color="#f97316"/>
+      <stop offset="70%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#090a0f"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="600" fill="url(#bentoBg)"/>
+
+  <!-- Top bar -->
+  <rect x="40" y="24" width="720" height="40" fill="none" stroke="#262833" stroke-width="1"/>
+  <text x="60" y="48" font-family="system-ui, sans-serif" font-size="14" font-weight="700" fill="#ffffff">Bento</text>
+  <text x="520" y="48" font-family="system-ui, sans-serif" font-size="12" font-weight="500" fill="#94a3b8">Home</text>
+  <text x="580" y="48" font-family="system-ui, sans-serif" font-size="12" font-weight="500" fill="#94a3b8">About</text>
+  <text x="640" y="48" font-family="system-ui, sans-serif" font-size="12" font-weight="500" fill="#94a3b8">Work</text>
+  <text x="700" y="48" font-family="system-ui, sans-serif" font-size="12" font-weight="500" fill="#ffffff">Contact</text>
+
+  <!-- Hero Row -->
+  <!-- Left Hero Intro -->
+  <g transform="translate(40, 80)">
+    <rect width="380" height="260" rx="16" fill="url(#bentoCard)" stroke="#262833" stroke-width="1"/>
+    <text x="35" y="65" font-family="system-ui, -apple-system, sans-serif" font-size="32" font-weight="800" fill="#ffffff" letter-spacing="-0.5">Create</text>
+    <text x="35" y="105" font-family="system-ui, -apple-system, sans-serif" font-size="32" font-weight="800" fill="#ffffff" letter-spacing="-0.5">Your Next</text>
+    <text x="35" y="145" font-family="system-ui, -apple-system, sans-serif" font-size="32" font-weight="800" fill="#3b82f6" letter-spacing="-0.5">Big Thing</text>
+    <text x="35" y="180" font-family="system-ui, sans-serif" font-size="12" font-weight="400" fill="#94a3b8">A bold, modern portfolio with an editorial dark theme</text>
+    <text x="35" y="198" font-family="system-ui, sans-serif" font-size="12" font-weight="400" fill="#94a3b8">and asymmetric Bento Grid interactive showcases.</text>
+
+    <rect x="35" y="215" width="95" height="30" rx="6" fill="#ffffff"/>
+    <text x="52" y="234" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#090a0d">Start Studio</text>
+  </g>
+
+  <!-- Right Hero Mountain Graphic -->
+  <g transform="translate(440, 80)">
+    <rect width="320" height="260" rx="16" fill="url(#mountainMorn)" stroke="#262833" stroke-width="1"/>
+    <!-- Mountain Peak -->
+    <path d="M 0 260 L 80 160 L 160 80 L 240 180 L 320 260 Z" fill="#090a0f"/>
+    <!-- Sun glow behind peak -->
+    <circle cx="160" cy="80" r="40" fill="#fbbf24" opacity="0.3"/>
+    <circle cx="160" cy="80" r="15" fill="#fef08a" opacity="0.8"/>
+    <!-- Snow peak -->
+    <path d="M 160 80 L 140 120 L 155 130 L 165 115 L 180 130 L 185 115 Z" fill="#ffffff"/>
+    <text x="25" y="235" font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="#ffffff">Alpine Studio</text>
+  </g>
+
+  <!-- Bottom Bento Tiles -->
+  <g transform="translate(40, 360)">
+    <!-- Tile 1: 3D Spheres & Render -->
+    <rect x="0" y="0" width="225" height="200" rx="14" fill="url(#bentoCard)" stroke="#262833" stroke-width="1"/>
+    <circle cx="90" cy="80" r="38" fill="#3b82f6"/>
+    <circle cx="140" cy="110" r="24" fill="#a855f7" opacity="0.8"/>
+    <circle cx="65" cy="120" r="16" fill="#38bdf8"/>
+    <text x="25" y="165" font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="#ffffff">3D Explorations</text>
+    <text x="25" y="182" font-family="system-ui, sans-serif" font-size="11" font-weight="500" fill="#94a3b8">Interactive Spatial</text>
+
+    <!-- Tile 2: Tech Gadgets / Mobile -->
+    <rect x="245" y="0" width="240" height="200" rx="14" fill="url(#bentoCard)" stroke="#262833" stroke-width="1"/>
+    <rect x="280" y="30" width="85" height="110" rx="12" fill="#1e293b" stroke="#334155"/>
+    <circle cx="322" cy="40" r="3" fill="#64748b"/>
+    <circle cx="395" cy="85" r="28" fill="#ec4899" opacity="0.5"/>
+    <text x="265" y="165" font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="#ffffff">Hardware &amp; IoT</text>
+    <text x="265" y="182" font-family="system-ui, sans-serif" font-size="11" font-weight="500" fill="#94a3b8">Mobile Engineering</text>
+
+    <!-- Tile 3: Design Anthology -->
+    <rect x="505" y="0" width="215" height="200" rx="14" fill="url(#bentoCard)" stroke="#262833" stroke-width="1"/>
+    <ellipse cx="612" cy="75" rx="35" ry="42" fill="#ffd7ba"/>
+    <path d="M 577 65 Q 612 40 647 65 Z" fill="#0f172a"/>
+    <path d="M 585 110 L 640 110 L 645 140 L 580 140 Z" fill="#1e293b"/>
+    <text x="525" y="165" font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="#ffffff">Personal Identity</text>
+    <text x="525" y="182" font-family="system-ui, sans-serif" font-size="11" font-weight="500" fill="#94a3b8">Verified Anthology</text>
+  </g>
+</svg>

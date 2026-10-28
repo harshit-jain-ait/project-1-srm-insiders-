@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { TemplateProps } from "../types";
 import { SafeExternalLink, EmptySectionHint, SocialPlatformIcon } from "../shared";
+import { resolveTemplateTheme } from "../shared/theme";
 import Link from "next/link";
 import { Mail, MapPin, Menu, X, ArrowUpRight, FileText, Sparkles } from "lucide-react";
 import { GithubIcon } from "@/components/ui/icons";
@@ -41,21 +42,23 @@ export function MinimalPortfolioTemplate({ portfolio, isLivePreview = false }: T
       href: `#section-${sec.key}`,
     }));
 
-  const fontClass =
-    portfolio.appearance?.fontFamily === "serif"
-      ? "font-serif"
-      : portfolio.appearance?.fontFamily === "mono"
-      ? "font-mono"
-      : "font-sans";
+  const theme = resolveTemplateTheme(portfolio.appearance, "minimal-portfolio");
 
   return (
-    <article className={`min-h-screen bg-[#FAFAF8] text-[#191919] ${fontClass} selection:bg-zinc-200 selection:text-black`}>
+    <article
+      className={`min-h-screen ${theme.fontClass} transition-colors duration-200 selection:bg-zinc-500/20`}
+      style={{ backgroundColor: theme.bgColor, color: theme.textColor }}
+    >
       {/* Editorial Sticky Navigation Bar */}
-      <header className="sticky top-0 z-30 bg-[#FAFAF8]/90 backdrop-blur border-b border-zinc-200/80">
+      <header
+        className="sticky top-0 z-30 backdrop-blur border-b transition-colors"
+        style={{ backgroundColor: `${theme.bgColor}f0`, borderColor: theme.borderColor }}
+      >
         <div className="max-w-4xl mx-auto px-6 h-16 flex items-center justify-between">
           <a
             href="#top"
-            className="font-serif text-lg tracking-tight font-medium text-zinc-950 hover:opacity-80 transition-opacity"
+            className="text-lg tracking-tight font-medium hover:opacity-80 transition-opacity"
+            style={{ color: theme.textColor }}
           >
             {profile.fullName || (isLivePreview ? "Your Portfolio" : "Portfolio")}
           </a>

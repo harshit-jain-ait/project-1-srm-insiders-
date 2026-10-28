@@ -53,6 +53,8 @@ class TemplateErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryS
   }
 }
 
+import { resolveTemplateTheme } from "./shared/theme";
+
 /**
  * Central Portfolio Template Engine Renderer.
  * Resolves registered templates by stable ID, provides graceful fallback on unrecognized IDs,
@@ -68,6 +70,8 @@ export function PortfolioRenderer({
   const activeTemplate = registered || getDefaultTemplate();
   const TemplateComponent = activeTemplate.component;
 
+  const theme = resolveTemplateTheme(portfolio.appearance, activeTemplate.metadata.id);
+
   return (
     <TemplateErrorBoundary fallbackTemplateId={requestedId}>
       {isUnregistered && isLivePreview && (
@@ -75,7 +79,24 @@ export function PortfolioRenderer({
           <span>Notice: Template &quot;{requestedId}&quot; not found in registry. Displaying default &quot;{activeTemplate.metadata.name}&quot;.</span>
         </div>
       )}
-      <TemplateComponent portfolio={portfolio} isLivePreview={isLivePreview} />
+      <div
+        className={`portfolio-theme-root w-full min-h-full transition-colors duration-200 ${theme.fontClass} ${theme.isDark ? "dark" : ""}`}
+        style={
+          {
+            backgroundColor: theme.bgColor,
+            color: theme.textColor,
+            "--theme-bg": theme.bgColor,
+            "--theme-text": theme.textColor,
+            "--theme-surface": theme.surfaceColor,
+            "--theme-border": theme.borderColor,
+            "--theme-accent": theme.accentColor,
+            "--theme-muted": theme.mutedTextColor,
+          } as React.CSSProperties
+        }
+      >
+        <TemplateComponent portfolio={portfolio} isLivePreview={isLivePreview} />
+      </div>
     </TemplateErrorBoundary>
   );
 }
+

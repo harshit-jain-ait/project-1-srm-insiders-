@@ -1,0 +1,158 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="craftBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#131415"/>
+      <stop offset="50%" stop-color="#181a1c"/>
+      <stop offset="100%" stop-color="#101112"/>
+    </linearGradient>
+    <radialGradient id="electricBlueGlow" cx="20%" cy="15%" r="60%">
+      <stop offset="0%" stop-color="#0080ff" stop-opacity="0.16"/>
+      <stop offset="50%" stop-color="#2060df" stop-opacity="0.05"/>
+      <stop offset="100%" stop-color="#131415" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="airdropGlow" cx="80%" cy="10%" r="40%">
+      <stop offset="0%" stop-color="#0080ff" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#131415" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="shadowSm" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000000" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+
+  <!-- Background Base -->
+  <rect width="800" height="600" fill="url(#craftBg)"/>
+  <rect width="800" height="600" fill="url(#electricBlueGlow)"/>
+  <rect width="800" height="600" fill="url(#airdropGlow)"/>
+
+  <!-- Top Ambient Music Pill (Left) -->
+  <g transform="translate(40, 24)" filter="url(#shadowSm)">
+    <rect width="210" height="34" rx="17" fill="#1a1c1d" stroke="#272b2d" stroke-width="1"/>
+    <!-- Play Icon -->
+    <circle cx="17" cy="17" r="10" fill="#222426"/>
+    <polygon points="15,13 22,17 15,21" fill="#0080ff"/>
+    <text x="36" y="18" font-family="-apple-system, BlinkMacSystemFont, 'Manrope', 'Inter', sans-serif" font-size="10" font-weight="600" fill="#ffffff">Jazz et thé vert</text>
+    <text x="36" y="28" font-family="-apple-system, BlinkMacSystemFont, 'Manrope', 'Inter', sans-serif" font-size="8" font-weight="400" fill="#9ba1a5">Souleance • 1:10 / 3:32</text>
+  </g>
+
+  <!-- Centered Floating Pill Navigation -->
+  <g transform="translate(285, 24)" filter="url(#shadowSm)">
+    <rect width="230" height="34" rx="17" fill="#1a1c1d" fill-opacity="0.95" stroke="#272b2d" stroke-width="1"/>
+    <!-- Active Status Dot -->
+    <circle cx="18" cy="17" r="3.5" fill="#10b981"/>
+    <text x="28" y="21" font-family="-apple-system, BlinkMacSystemFont, 'Manrope', sans-serif" font-size="10.5" font-weight="600" fill="#ffffff">Jackie Hu</text>
+    <text x="96" y="21" font-family="-apple-system, BlinkMacSystemFont, 'Manrope', sans-serif" font-size="10" font-weight="500" fill="#0080ff">Work ▶</text>
+    <text x="145" y="21" font-family="-apple-system, BlinkMacSystemFont, 'Manrope', sans-serif" font-size="10" font-weight="500" fill="#9ba1a5">About ⌘</text>
+    <text x="195" y="21" font-family="-apple-system, BlinkMacSystemFont, 'Manrope', sans-serif" font-size="10" font-weight="500" fill="#9ba1a5">Craft</text>
+  </g>
+
+  <!-- AirDrop Interactive Capsule (Top Right) -->
+  <g transform="translate(545, 18)" filter="url(#shadowSm)">
+    <rect width="215" height="46" rx="23" fill="#1a1c1d" stroke="#272b2d" stroke-width="1"/>
+    <!-- AirDrop Icon -->
+    <circle cx="23" cy="23" r="13" fill="#222426"/>
+    <path d="M19 25 C19 21 27 21 27 25 M20 22 C20 18 26 18 26 22 M21.5 19 C21.5 16 24.5 16 24.5 19" fill="none" stroke="#0080ff" stroke-width="1.5" stroke-linecap="round"/>
+    <text x="44" y="20" font-family="-apple-system, BlinkMacSystemFont, 'Manrope', sans-serif" font-size="9" font-weight="600" fill="#ffffff">AirDrop: Jackie</text>
+    <text x="44" y="31" font-family="-apple-system, BlinkMacSystemFont, 'Manrope', sans-serif" font-size="8" font-weight="400" fill="#9ba1a5">wants to share a photo</text>
+    <!-- Accept Button -->
+    <rect x="156" y="13" width="46" height="20" rx="10" fill="#0080ff"/>
+    <text x="165" y="26" font-family="-apple-system, BlinkMacSystemFont, 'Manrope', sans-serif" font-size="8.5" font-weight="600" fill="#ffffff">Accept</text>
+  </g>
+
+  <!-- HERO SECTION -->
+  <g transform="translate(48, 95)">
+    <!-- Location & Status Badge -->
+    <rect x="0" y="0" width="180" height="24" rx="12" fill="#1a1c1d" stroke="#272b2d" stroke-width="1"/>
+    <text x="12" y="15" font-family="'IBM Plex Mono', monospace" font-size="9.5" fill="#9ba1a5">📍 Paris, France • Product</text>
+
+    <!-- Main Headline -->
+    <text x="0" y="52" font-family="-apple-system, BlinkMacSystemFont, 'Manrope', sans-serif" font-size="28" font-weight="700" fill="#ffffff" letter-spacing="-0.02em">
+      Product Designer crafting intuitive digital products
+    </text>
+    <text x="0" y="82" font-family="-apple-system, BlinkMacSystemFont, 'Manrope', sans-serif" font-size="28" font-weight="700" fill="#9ba1a5" letter-spacing="-0.02em">
+      &amp; high-craft interaction systems.
+    </text>
+
+    <!-- Subtitle / Philosophy -->
+    <text x="0" y="112" font-family="-apple-system, BlinkMacSystemFont, 'Manrope', sans-serif" font-size="12" font-weight="400" fill="#9ba1a5">
+      A thoughtful process of crafting experiences that engage people, shape clarity, and spark delights.
+    </text>
+
+    <!-- Playful Status Pill: "Currently cooking ☺︎" -->
+    <g transform="translate(0, 128)">
+      <rect width="360" height="30" rx="15" fill="#1a1c1d" stroke="#272b2d" stroke-width="1"/>
+      <text x="14" y="19" font-family="-apple-system, BlinkMacSystemFont, 'Manrope', sans-serif" font-size="9.5" font-weight="600" fill="#0080ff">Currently cooking ☺︎</text>
+      <text x="120" y="19" font-family="-apple-system, BlinkMacSystemFont, 'Manrope', sans-serif" font-size="9.5" font-weight="400" fill="#9ba1a5">Designing something new: The Little Things ✈️</text>
+    </g>
+  </g>
+
+  <!-- WORK SECTION: "Recently Made ▶" -->
+  <g transform="translate(48, 285)">
+    <!-- Section Label -->
+    <text x="0" y="0" font-family="-apple-system, BlinkMacSystemFont, 'Manrope', sans-serif" font-size="13" font-weight="600" fill="#ffffff">
+      Recently Made <tspan fill="#0080ff">▶</tspan>
+    </text>
+
+    <!-- Card 1: Zenly (Snap Inc) -->
+    <g transform="translate(0, 16)" filter="url(#shadowSm)">
+      <rect width="340" height="240" rx="20" fill="#1a1c1d" stroke="#272b2d" stroke-width="1"/>
+      <!-- Media Frame -->
+      <rect x="12" y="12" width="316" height="145" rx="14" fill="#222426"/>
+      <!-- Inner subtle map / UI graphic -->
+      <circle cx="170" cy="84" r="32" fill="#0080ff" fill-opacity="0.15"/>
+      <circle cx="170" cy="84" r="8" fill="#0080ff"/>
+      <circle cx="210" cy="65" r="5" fill="#10b981"/>
+      <circle cx="130" cy="100" r="5" fill="#f59e0b"/>
+      <path d="M130 100 Q 170 84 210 65" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" stroke-dasharray="3,3" fill="none"/>
+
+      <!-- Tags & Meta -->
+      <rect x="16" y="170" width="98" height="18" rx="9" fill="#222426"/>
+      <text x="24" y="182" font-family="'IBM Plex Mono', monospace" font-size="8.5" fill="#0080ff">Social Maps</text>
+
+      <rect x="120" y="170" width="85" height="18" rx="9" fill="#222426"/>
+      <text x="128" y="182" font-family="'IBM Plex Mono', monospace" font-size="8.5" fill="#9ba1a5">Mobile App</text>
+
+      <!-- Title & Description -->
+      <text x="16" y="206" font-family="-apple-system, BlinkMacSystemFont, 'Manrope', sans-serif" font-size="14" font-weight="700" fill="#ffffff">
+        Zenly (Snap. Inc)
+      </text>
+      <text x="16" y="224" font-family="-apple-system, BlinkMacSystemFont, 'Manrope', sans-serif" font-size="10" font-weight="400" fill="#9ba1a5">
+        Live map connecting close friends and family with joyful micro-interactions.
+      </text>
+    </g>
+
+    <!-- Card 2: The Little Things (Personal AI App) -->
+    <g transform="translate(364, 16)" filter="url(#shadowSm)">
+      <rect width="340" height="240" rx="20" fill="#1a1c1d" stroke="#272b2d" stroke-width="1"/>
+      <!-- Media Frame -->
+      <rect x="12" y="12" width="316" height="145" rx="14" fill="#222426"/>
+      <!-- AI / Guided questions visual -->
+      <rect x="40" y="38" width="260" height="26" rx="8" fill="#1a1c1d" stroke="#272b2d"/>
+      <text x="52" y="54" font-family="-apple-system, BlinkMacSystemFont, 'Manrope', sans-serif" font-size="9" fill="#9ba1a5">What brought you unexpected peace today?</text>
+      <rect x="40" y="74" width="220" height="26" rx="8" fill="#0080ff" fill-opacity="0.15" stroke="#0080ff" stroke-opacity="0.4"/>
+      <text x="52" y="90" font-family="-apple-system, BlinkMacSystemFont, 'Manrope', sans-serif" font-size="9" fill="#ffffff">Personal introspection with guided AI insights ✈️</text>
+
+      <!-- Tags & Meta -->
+      <rect x="16" y="170" width="82" height="18" rx="9" fill="#222426"/>
+      <text x="24" y="182" font-family="'IBM Plex Mono', monospace" font-size="8.5" fill="#0080ff">AI Systems</text>
+
+      <rect x="104" y="170" width="75" height="18" rx="9" fill="#222426"/>
+      <text x="112" y="182" font-family="'IBM Plex Mono', monospace" font-size="8.5" fill="#9ba1a5">TestFlight</text>
+
+      <!-- Title & Description -->
+      <text x="16" y="206" font-family="-apple-system, BlinkMacSystemFont, 'Manrope', sans-serif" font-size="14" font-weight="700" fill="#ffffff">
+        The Little Things
+      </text>
+      <text x="16" y="224" font-family="-apple-system, BlinkMacSystemFont, 'Manrope', sans-serif" font-size="10" font-weight="400" fill="#9ba1a5">
+        A playful self-reflection iOS app powered by guided questions &amp; personal AI.
+      </text>
+    </g>
+  </g>
+
+  <!-- Bottom Interactive Contact Pill -->
+  <g transform="translate(250, 560)">
+    <rect width="300" height="28" rx="14" fill="#1a1c1d" stroke="#272b2d" stroke-width="1"/>
+    <text x="20" y="18" font-family="'IBM Plex Mono', monospace" font-size="9.5" fill="#9ba1a5">✉ jackiehu.design@gmail.com</text>
+    <rect x="220" y="6" width="68" height="16" rx="8" fill="#222426"/>
+    <text x="232" y="17" font-family="-apple-system, BlinkMacSystemFont, 'Manrope', sans-serif" font-size="8" font-weight="600" fill="#0080ff">Copy 📋</text>
+  </g>
+</svg>

@@ -34,6 +34,9 @@ export const PREMIUM_TEMPLATES: TemplateId[] = [
   "editorial-studio",
   "creative-motion",
   "product-engineer",
+  "bento-studio",
+  "kinetic-studio",
+  "designer-craft",
 ];
 
 export const ALL_TEMPLATES: TemplateId[] = [

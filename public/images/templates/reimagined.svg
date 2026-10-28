@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <rect width="800" height="600" fill="#0f1115"/>
+
+  <!-- Top Accent Bar -->
+  <rect x="0" y="0" width="800" height="4" fill="#3b82f6"/>
+
+  <!-- Minimal Header -->
+  <rect x="50" y="30" width="700" height="42" rx="10" fill="#16181f" stroke="#252834"/>
+  <rect x="75" y="47" width="90" height="8" rx="2" fill="#ffffff"/>
+  <rect x="630" y="41" width="95" height="20" rx="5" fill="#2563eb"/>
+
+  <!-- Reimagined Split Section -->
+  <rect x="50" y="92" width="340" height="230" rx="16" fill="#16181f" stroke="#252834"/>
+  <rect x="75" y="118" width="80" height="16" rx="4" fill="#1e293b"/>
+  <text x="75" y="165" font-family="system-ui, sans-serif" font-size="24" font-weight="800" fill="#ffffff">Reimagined</text>
+  <text x="75" y="190" font-family="system-ui, sans-serif" font-size="12" fill="#94a3b8">Creative &amp; Technical Synthesis</text>
+  <rect x="75" y="215" width="280" height="6" rx="2" fill="#475569"/>
+  <rect x="75" y="230" width="240" height="6" rx="2" fill="#334155"/>
+  <rect x="75" y="260" width="100" height="30" rx="6" fill="#2563eb"/>
+
+  <rect x="410" y="92" width="340" height="230" rx="16" fill="#16181f" stroke="#252834"/>
+  <rect x="435" y="118" width="290" height="130" rx="8" fill="#0a0b0e" stroke="#252834"/>
+  <rect x="435" y="265" width="180" height="12" rx="3" fill="#ffffff"/>
+
+  <!-- Project Tiles -->
+  <rect x="50" y="342" width="220" height="220" rx="14" fill="#16181f" stroke="#252834"/>
+  <rect x="70" y="362" width="180" height="120" rx="6" fill="#0a0b0e"/>
+  <rect x="70" y="500" width="140" height="12" rx="2" fill="#ffffff"/>
+
+  <rect x="290" y="342" width="220" height="220" rx="14" fill="#16181f" stroke="#252834"/>
+  <rect x="310" y="362" width="180" height="120" rx="6" fill="#0a0b0e"/>
+  <rect x="310" y="500" width="140" height="12" rx="2" fill="#ffffff"/>
+
+  <rect x="530" y="342" width="220" height="220" rx="14" fill="#16181f" stroke="#252834"/>
+  <rect x="550" y="362" width="180" height="120" rx="6" fill="#0a0b0e"/>
+  <rect x="550" y="500" width="140" height="12" rx="2" fill="#ffffff"/>
+</svg>

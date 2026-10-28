@@ -2,7 +2,7 @@
 
 import React from "react";
 import { TemplateProps } from "../types";
-import { SafeExternalLink, SocialPlatformIcon } from "../shared";
+import { SafeExternalLink, SocialPlatformIcon, resolveTemplateTheme } from "../shared";
 import { SpotlightCard } from "@/components/visual/spotlight-card";
 import { AnimatedBadge } from "@/components/visual/animated-badge";
 import { PublicContactForm } from "@/components/contact/public-contact-form";
@@ -12,6 +12,8 @@ import { ArrowUpRight, BookOpen, Code2, Sparkles, MapPin, Mail, Layers } from "l
 export function CreativeMotionTemplate({ portfolio, isLivePreview = false }: TemplateProps) {
   const { profile, projects, experience, skills, socialLinks, sections, contactConfig } = portfolio;
 
+  const theme = resolveTemplateTheme(portfolio.appearance, "creative-motion");
+
   const visibleProjects = (projects || []).filter((p) => isLivePreview || p.visible !== false);
   const activeSections = sections.filter((s) => s.visible);
 
@@ -20,9 +22,18 @@ export function CreativeMotionTemplate({ portfolio, isLivePreview = false }: Tem
   const hasSkills = skills.length > 0;
 
   return (
-    <article className="min-h-screen bg-[#09090b] text-[#f4f4f5] font-sans selection:bg-blue-600 selection:text-white">
+    <article
+      className={`min-h-screen ${theme.fontClass} selection:bg-blue-600 selection:text-white transition-colors duration-200`}
+      style={{ backgroundColor: theme.bgColor, color: theme.textColor }}
+    >
       {/* Dynamic Header */}
-      <header className="sticky top-0 z-30 bg-[#09090b]/80 backdrop-blur-md border-b border-zinc-800/80">
+      <header
+        className="sticky top-0 z-30 backdrop-blur-md border-b"
+        style={{
+          backgroundColor: `${theme.bgColor}cc`,
+          borderColor: theme.borderColor,
+        }}
+      >
         <div className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <span className="font-semibold text-white tracking-tight">

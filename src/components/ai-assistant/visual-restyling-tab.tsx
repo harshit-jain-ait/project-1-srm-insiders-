@@ -138,7 +138,7 @@ export function VisualRestylingTab({
           </span>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2.5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 max-h-[220px] overflow-y-auto pr-1">
           {presets.map((preset) => {
             const isSelected = selectedPresetId === preset.id;
             return (
@@ -275,11 +275,20 @@ export function VisualRestylingTab({
         </div>
 
         <div
-          className={`mx-auto transition-all duration-300 overflow-y-auto max-h-[460px] bg-background ${
+          className={`mx-auto transition-all duration-300 overflow-y-auto max-h-[460px] ${
             previewDevice === "mobile" ? "max-w-[390px] border-x border-zinc-800" : "w-full"
           }`}
+          style={{
+            backgroundColor:
+              proposedAppearance.designTokens?.backgroundColor ||
+              (proposedAppearance.colorScheme === "dark" ? "#0A0B0E" : "#fafaf9"),
+          }}
         >
-          <PortfolioRenderer portfolio={previewPortfolio} isLivePreview={true} />
+          <PortfolioRenderer
+            key={`${proposedAppearance.templateId}-${proposedAppearance.colorScheme}-${proposedAppearance.fontFamily}-${proposedAppearance.accentColor}-${proposedAppearance.designTokens?.backgroundColor || ""}-${proposedAppearance.designTokens?.accentHex || ""}`}
+            portfolio={previewPortfolio}
+            isLivePreview={true}
+          />
         </div>
       </div>
 
@@ -300,10 +309,9 @@ export function VisualRestylingTab({
           variant="brand"
           size="sm"
           onClick={handleApply}
-          disabled={!hasChanges}
-          className="gap-1.5 text-xs font-semibold shadow-sm"
+          className="gap-1.5 text-xs font-semibold shadow-sm cursor-pointer"
         >
-          <span>Apply Visual Restyling</span>
+          <span>{hasChanges ? "Use This Style & Apply to Studio" : "Apply Current Style to Studio"}</span>
           <ArrowRight className="w-3.5 h-3.5" />
         </Button>
       </div>

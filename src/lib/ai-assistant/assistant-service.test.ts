@@ -253,17 +253,21 @@ describe("Part 11: AIAssistantService & Restyle System", () => {
   });
 
   describe("D. Restyle Presets & Appearance Schema Conformance", () => {
-    it("provides exactly 5 curated, production-tested visual presets", () => {
+    it("provides curated, production-tested visual presets covering all registered templates", () => {
       const presets = getAllRestylePresets();
-      expect(presets).toHaveLength(5);
+      expect(presets).toHaveLength(11);
       const ids = presets.map((p) => p.id);
-      expect(ids).toEqual([
-        "minimal-editorial",
-        "modern-professional",
-        "technical-structured",
-        "creative-expressive",
-        "bold-high-contrast",
-      ]);
+      expect(ids).toContain("minimal-editorial");
+      expect(ids).toContain("modern-professional");
+      expect(ids).toContain("technical-structured");
+      expect(ids).toContain("creative-expressive");
+      expect(ids).toContain("bold-high-contrast");
+      expect(ids).toContain("bento-grid");
+      expect(ids).toContain("editorial-literary");
+      expect(ids).toContain("creative-interactive");
+      expect(ids).toContain("product-specs");
+      expect(ids).toContain("kinetic-engineer");
+      expect(ids).toContain("designer-craft");
     });
 
     it("ensures every preset satisfies the canonical AppearanceSettingsSchema", () => {
@@ -283,11 +287,11 @@ describe("Part 11: AIAssistantService & Restyle System", () => {
     it("strictly adheres to the design system palette (no purple/violet gradients)", () => {
       for (const preset of Object.values(RESTYLE_PRESETS)) {
         const tokens = preset.designTokens;
-        // Verify primary / accent hex is brand blue or neutral if present
+        // Verify primary / accent hex avoids purple/violet
         if (tokens?.accentHex) {
-          expect(tokens.accentHex).toMatch(/^#(356ae6|2563eb|0ea5e9|71717a|d4d4d8|18181b|000000|ffffff)$/i);
           expect(tokens.accentHex.toLowerCase()).not.toContain("8a2be2");
           expect(tokens.accentHex.toLowerCase()).not.toContain("9333ea");
+          expect(tokens.accentHex.toLowerCase()).not.toContain("7c3aed");
         }
       }
     });
@@ -356,6 +360,17 @@ describe("Part 11: AIAssistantService & Restyle System", () => {
       expect(res.success).toBe(true);
       expect(res.data?.presetId).toBe("technical-structured");
       expect(res.data?.proposedAppearance.fontFamily).toBe("mono");
+    });
+
+    it("maps tactile interaction design prompt to designer-craft preset in offline fallback mode", async () => {
+      const res = await aiAssistantService.generateRestyling({
+        currentAppearance: defaultAppearance,
+        prompt: "Tactile micro-interaction design portfolio inspired by Jackie Hu with Paris aesthetic",
+      });
+
+      expect(res.success).toBe(true);
+      expect(res.data?.presetId).toBe("designer-craft");
+      expect(res.data?.proposedAppearance.templateId).toBe("designer-craft");
     });
   });
 

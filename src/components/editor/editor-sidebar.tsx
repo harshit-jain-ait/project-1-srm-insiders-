@@ -163,46 +163,78 @@ export function EditorSidebar({
     });
   };
 
-  const tabs: { key: TabKey; label: string; icon: React.ComponentType<{ className?: string }>; count?: number }[] = [
-    { key: "profile", label: "Profile", icon: User },
-    { key: "projects", label: "Projects", icon: Code2, count: portfolio.projects.length },
-    { key: "experience", label: "Experience", icon: Briefcase, count: portfolio.experience.length },
-    { key: "skills", label: "Skills", icon: Layers, count: portfolio.skills.length },
-    { key: "education", label: "Education", icon: GraduationCap, count: portfolio.education.length },
-    { key: "sections", label: "Layout", icon: SlidersHorizontal },
-    { key: "appearance", label: "Theme", icon: Palette },
-    { key: "seo", label: "SEO & Domain", icon: Globe },
-    { key: "contact", label: "Contact", icon: Mail },
+  const categories = [
+    {
+      title: "Content",
+      items: [
+        { key: "profile" as TabKey, label: "Personal Info", icon: User },
+        { key: "projects" as TabKey, label: "Projects", icon: Code2, count: portfolio.projects.length },
+        { key: "experience" as TabKey, label: "Experience", icon: Briefcase, count: portfolio.experience.length },
+        { key: "skills" as TabKey, label: "Skills", icon: Layers, count: portfolio.skills.length },
+        { key: "education" as TabKey, label: "Education", icon: GraduationCap, count: portfolio.education.length },
+        { key: "contact" as TabKey, label: "Contact", icon: Mail },
+      ],
+    },
+    {
+      title: "Design",
+      items: [
+        { key: "appearance" as TabKey, label: "Appearance", icon: Palette },
+        { key: "sections" as TabKey, label: "Layout", icon: SlidersHorizontal },
+      ],
+    },
+    {
+      title: "Settings",
+      items: [
+        { key: "seo" as TabKey, label: "SEO & Domain", icon: Globe },
+      ],
+    },
   ];
 
   return (
-    <aside className={`w-full md:w-[440px] lg:w-[480px] border-r border-zinc-800 bg-zinc-950 flex flex-col h-full overflow-hidden text-zinc-100 shrink-0 ${className}`}>
-      {/* Category Tabs Header */}
-      <div className="flex border-b border-zinc-800 overflow-x-auto p-1.5 gap-1 shrink-0 bg-zinc-900/60 text-xs">
-        {tabs.map((tab) => {
-          const Icon = tab.icon;
-          const isActive = activeTab === tab.key;
-          return (
-            <button
-              key={tab.key}
-              type="button"
-              onClick={() => handleTabSelect(tab.key)}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md font-medium whitespace-nowrap transition-colors cursor-pointer ${
-                isActive
-                  ? "bg-zinc-800 text-white shadow-sm"
-                  : "text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900"
-              }`}
-            >
-              <Icon className="w-3.5 h-3.5 shrink-0" />
-              <span>{tab.label}</span>
-              {typeof tab.count === "number" && tab.count > 0 && (
-                <span className="text-[10px] font-mono bg-zinc-950 px-1.5 py-0.2 rounded text-zinc-400">
-                  {tab.count}
-                </span>
-              )}
-            </button>
-          );
-        })}
+    <aside className={`w-full md:w-[500px] lg:w-[560px] border-r border-zinc-800 bg-[#0c0f18] flex flex-col md:flex-row h-full overflow-hidden text-zinc-100 shrink-0 ${className}`}>
+      {/* Studio Categorized Navigation Rail */}
+      <div className="w-full md:w-44 lg:w-48 bg-[#080b12] border-b md:border-b-0 md:border-r border-zinc-850 p-2.5 flex md:flex-col justify-between shrink-0 select-none overflow-x-auto md:overflow-x-visible md:overflow-y-auto">
+        <div className="flex md:flex-col gap-3 md:gap-4 w-full">
+          {categories.map((cat) => (
+            <div key={cat.title} className="space-y-1 shrink-0">
+              <span className="hidden md:block text-[10px] font-bold uppercase tracking-wider text-zinc-400 px-2 py-0.5">
+                {cat.title}
+              </span>
+              <div className="flex md:flex-col gap-1">
+                {cat.items.map((item) => {
+                  const Icon = item.icon;
+                  const isActive = activeTab === item.key;
+                  return (
+                    <button
+                      key={item.key}
+                      type="button"
+                      onClick={() => handleTabSelect(item.key)}
+                      className={`flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer text-left whitespace-nowrap ${
+                        isActive
+                          ? "bg-blue-600 text-white font-semibold shadow-sm"
+                          : "text-zinc-400 hover:text-zinc-200 hover:bg-zinc-850/60"
+                      }`}
+                    >
+                      <div className="flex items-center gap-2">
+                        <Icon className="w-3.5 h-3.5 shrink-0" />
+                        <span>{item.label}</span>
+                      </div>
+                      {typeof item.count === "number" && item.count > 0 && (
+                        <span
+                          className={`text-[9px] font-mono px-1.5 py-0.2 rounded ${
+                            isActive ? "bg-blue-700 text-white" : "bg-zinc-900 text-zinc-400"
+                          }`}
+                        >
+                          {item.count}
+                        </span>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* Active Tab Form Panel */}

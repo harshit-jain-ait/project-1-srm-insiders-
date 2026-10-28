@@ -14,7 +14,7 @@ describe("Part 15 — Premium Templates & Advanced Visual Experiences", () => {
   });
 
   describe("Template Registry & Metadata Integrity", () => {
-    it("registers all 7 templates in TemplateIdSchema and template registry", () => {
+    it("registers all templates in TemplateIdSchema and template registry", () => {
       const allIds = [
         "minimal-portfolio",
         "developer-pro",
@@ -23,6 +23,9 @@ describe("Part 15 — Premium Templates & Advanced Visual Experiences", () => {
         "editorial-studio",
         "creative-motion",
         "product-engineer",
+        "bento-studio",
+        "kinetic-studio",
+        "designer-craft",
       ];
 
       for (const id of allIds) {
@@ -35,7 +38,7 @@ describe("Part 15 — Premium Templates & Advanced Visual Experiences", () => {
       }
 
       const registered = getAllTemplates();
-      expect(registered).toHaveLength(7);
+      expect(registered).toHaveLength(10);
     });
 
     it("correctly identifies free vs premium templates", () => {
@@ -47,6 +50,9 @@ describe("Part 15 — Premium Templates & Advanced Visual Experiences", () => {
       expect(isPremiumTemplate("editorial-studio")).toBe(true);
       expect(isPremiumTemplate("creative-motion")).toBe(true);
       expect(isPremiumTemplate("product-engineer")).toBe(true);
+      expect(isPremiumTemplate("bento-studio")).toBe(true);
+      expect(isPremiumTemplate("kinetic-studio")).toBe(true);
+      expect(isPremiumTemplate("designer-craft")).toBe(true);
 
       const editorial = getTemplate("editorial-studio");
       expect(editorial?.metadata.isPremium).toBe(true);
@@ -54,6 +60,12 @@ describe("Part 15 — Premium Templates & Advanced Visual Experiences", () => {
       expect(motion?.metadata.isPremium).toBe(true);
       const product = getTemplate("product-engineer");
       expect(product?.metadata.isPremium).toBe(true);
+      const bento = getTemplate("bento-studio");
+      expect(bento?.metadata.isPremium).toBe(true);
+      const kinetic = getTemplate("kinetic-studio");
+      expect(kinetic?.metadata.isPremium).toBe(true);
+      const craft = getTemplate("designer-craft");
+      expect(craft?.metadata.isPremium).toBe(true);
     });
   });
 
@@ -206,6 +218,49 @@ describe("Part 15 — Premium Templates & Advanced Visual Experiences", () => {
     it("renders Product Engineer template with empty portfolio without crashing", () => {
       const empty = createEmptyPortfolio({ appearance: { templateId: "product-engineer" } });
       const tpl = getTemplate("product-engineer");
+
+      const html = renderToString(React.createElement(tpl!.component, { portfolio: empty }));
+      expect(html).toBeDefined();
+      expect(html.length).toBeGreaterThan(100);
+    });
+
+    it("renders Kinetic Studio template with kinetic statement, marquee, and full content", () => {
+      const tpl = getTemplate("kinetic-studio");
+      expect(tpl).toBeDefined();
+
+      const html = renderToString(React.createElement(tpl!.component, { portfolio: mockFullPortfolio }));
+      expect(html).toContain("Cassian Vance");
+      expect(html).toContain("Vortex Distributed Cache");
+      expect(html).toContain("01 — About");
+      expect(html).toContain("02 — Work");
+      expect(html).toContain("Let&#x27;s build something.");
+      expect(html).toContain("Kinetic Engineering Studio");
+    });
+
+    it("renders Kinetic Studio template with empty portfolio safely", () => {
+      const empty = createEmptyPortfolio({ appearance: { templateId: "kinetic-studio" } });
+      const tpl = getTemplate("kinetic-studio");
+
+      const html = renderToString(React.createElement(tpl!.component, { portfolio: empty }));
+      expect(html).toBeDefined();
+      expect(html.length).toBeGreaterThan(100);
+    });
+
+    it("renders Designer Craft template with floating capsule nav, AirDrop capsule, and full content", () => {
+      const tpl = getTemplate("designer-craft");
+      expect(tpl).toBeDefined();
+
+      const html = renderToString(React.createElement(tpl!.component, { portfolio: mockFullPortfolio }));
+      expect(html).toContain("Cassian Vance");
+      expect(html).toContain("Recently Made");
+      expect(html).toContain("Craft &amp; Principles");
+      expect(html).toContain("AirDrop");
+      expect(html).toContain("Vortex Distributed Cache");
+    });
+
+    it("renders Designer Craft template with empty portfolio safely", () => {
+      const empty = createEmptyPortfolio({ appearance: { templateId: "designer-craft" } });
+      const tpl = getTemplate("designer-craft");
 
       const html = renderToString(React.createElement(tpl!.component, { portfolio: empty }));
       expect(html).toBeDefined();

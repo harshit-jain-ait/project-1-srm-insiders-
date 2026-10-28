@@ -84,6 +84,12 @@ export const RestylePresetIdSchema = z.enum([
   "technical-structured",
   "creative-expressive",
   "bold-high-contrast",
+  "bento-grid",
+  "editorial-literary",
+  "creative-interactive",
+  "product-specs",
+  "kinetic-engineer",
+  "designer-craft",
 ]);
 
 export type RestylePresetId = z.infer<typeof RestylePresetIdSchema>;
