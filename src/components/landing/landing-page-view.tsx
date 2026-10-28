@@ -7,6 +7,7 @@ import { LandingNavbar } from "@/components/landing/navbar";
 import { TemplatePreviewModal } from "@/components/templates/template-preview-modal";
 import { getAllTemplates } from "@/templates/registry";
 import { RegisteredTemplate } from "@/templates/types";
+import { motion } from "framer-motion";
 import {
   ArrowRight,
   Sparkles,
@@ -17,6 +18,7 @@ import {
   Edit3,
   Share2,
   Smartphone,
+  Play,
   Mail,
   MessageSquare,
   Send,
@@ -85,95 +87,194 @@ export function LandingPageView() {
         <StudioShowcase />
 
         {/* 3. Simple Process Section ("From idea to live portfolio in minutes.") */}
-        <section id="process" className="py-20 bg-white dark:bg-[#090b11] border-b border-slate-200/80 dark:border-slate-800/80 transition-colors duration-300">
-          <div className="max-w-7xl mx-auto px-6">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-              {/* Left Column: Heading & Info */}
-              <div className="lg:col-span-5 space-y-4 text-left">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-[#2563eb] bg-blue-50 dark:bg-blue-950/60 dark:text-blue-400 px-2.5 py-1 rounded-md inline-block">
-                  SIMPLE PROCESS
-                </span>
-                <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight">
+        <section id="process" className="py-20 bg-slate-50/70 dark:bg-[#07090f] border-b border-slate-200/80 dark:border-slate-800/80 transition-colors duration-300 relative overflow-hidden">
+          {/* Subtle decorative background blobs */}
+          <div className="absolute -bottom-10 left-10 w-72 h-72 bg-blue-500/5 dark:bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute top-10 right-20 w-80 h-80 bg-purple-500/5 dark:bg-purple-500/10 rounded-full blur-3xl pointer-events-none" />
+
+          <div className="max-w-7xl mx-auto px-6 relative z-10">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+              {/* Left Column: Heading, Badge, Subtitle & CTA */}
+              <div className="lg:col-span-5 space-y-6 text-left">
+                {/* Badge */}
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-100/90 dark:bg-blue-950/80 border border-blue-200/70 dark:border-blue-800/50 text-[11px] font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 shadow-xs">
+                  <span>SIMPLE PROCESS</span>
+                </div>
+
+                {/* Main Heading with hand-drawn blue underline curve on "minutes." */}
+                <h2 className="text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-[1.12]">
                   From idea to live portfolio <br />
-                  in minutes.
+                  in{" "}
+                  <span className="relative inline-block text-blue-600 dark:text-blue-400">
+                    minutes.
+                    {/* Hand-drawn blue underline accent */}
+                    <svg
+                      className="absolute -bottom-2 sm:-bottom-2.5 left-0 w-full h-3 sm:h-4 text-blue-500 overflow-visible"
+                      viewBox="0 0 120 14"
+                      fill="none"
+                      preserveAspectRatio="none"
+                    >
+                      <path
+                        d="M2 10 C 35 2, 85 2, 118 10"
+                        stroke="currentColor"
+                        strokeWidth="3.5"
+                        strokeLinecap="round"
+                      />
+                    </svg>
+                  </span>
                 </h2>
-                <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed max-w-md">
+
+                {/* Subtitle */}
+                <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 leading-relaxed max-w-md font-normal">
                   Create a professional portfolio website without coding. Just follow a few simple steps and let AI handle the rest.
                 </p>
+
+                {/* See How It Works Button matching reference */}
+                <div className="pt-2">
+                  <Link href="/editor">
+                    <motion.button
+                      type="button"
+                      whileHover={{ scale: 1.04 }}
+                      whileTap={{ scale: 0.96 }}
+                      transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                      className="rounded-full bg-[#0f172a] hover:bg-[#1e293b] text-white font-semibold text-xs sm:text-sm px-5 py-2.5 inline-flex items-center gap-3 shadow-md hover:shadow-xl transition-all cursor-pointer group"
+                    >
+                      <span className="w-5 h-5 rounded-full bg-white text-slate-900 flex items-center justify-center shrink-0 shadow-xs">
+                        <Play className="w-2.5 h-2.5 fill-current ml-0.5 text-slate-900" />
+                      </span>
+                      <span>See How It Works</span>
+                      <ArrowRight className="w-4 h-4 text-slate-400 group-hover:translate-x-1 group-hover:text-white transition-all" />
+                    </motion.button>
+                  </Link>
+                </div>
               </div>
 
-              {/* Right Column: 4-Step Chain */}
-              <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 relative">
-                {/* Step 1 */}
-                <div className="p-4 rounded-xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-[#0f121d] hover:border-blue-300 dark:hover:border-blue-600 hover:shadow-sm transition-all space-y-3 relative group text-left">
-                  <div className="flex items-center justify-between">
-                    <div className="w-10 h-10 rounded-full bg-blue-50 dark:bg-blue-950/60 border border-blue-100 dark:border-blue-800/50 text-[#2563eb] dark:text-blue-400 flex items-center justify-center">
-                      <Link2 className="w-4 h-4" />
-                    </div>
-                    <span className="w-5 h-5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-[11px] font-bold flex items-center justify-center">
-                      1
-                    </span>
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-sm text-slate-900 dark:text-white">Add your details</h3>
-                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
-                      Share your background, skills, and goals.
+              {/* Right Column: Handwritten annotation + 4 Step Cards */}
+              <div className="lg:col-span-7 relative">
+                {/* Handwritten "Your story. Your website." annotation pointing to cards */}
+                <div className="hidden lg:flex items-center justify-end gap-2.5 mb-3 pr-6 text-slate-400 select-none pointer-events-none">
+                  <div className="text-right">
+                    <p className="font-serif italic text-xs sm:text-[13px] text-slate-500 dark:text-slate-400 leading-tight">
+                      Your story.
+                    </p>
+                    <p className="font-serif italic text-xs sm:text-[13px] text-slate-500 dark:text-slate-400 leading-tight">
+                      Your website.
                     </p>
                   </div>
+                  {/* Decorative sketch arrow */}
+                  <svg
+                    className="w-8 h-8 text-slate-400 stroke-current -rotate-12 transform shrink-0"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M4 4c4 8 10 12 16 12m0 0l-4-4m4 4l-4 4"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                  {/* Small spark ticks */}
+                  <span className="text-[11px] font-mono text-slate-400 -mt-3">\ | /</span>
                 </div>
 
-                {/* Step 2 */}
-                <div className="p-4 rounded-xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-[#0f121d] hover:border-blue-300 dark:hover:border-blue-600 hover:shadow-sm transition-all space-y-3 relative group text-left">
-                  <div className="flex items-center justify-between">
-                    <div className="w-10 h-10 rounded-full bg-blue-50 dark:bg-blue-950/60 border border-blue-100 dark:border-blue-800/50 text-[#2563eb] dark:text-blue-400 flex items-center justify-center">
-                      <Sparkles className="w-4 h-4" />
+                {/* 4 Step Cards Grid with Smooth Hover Spring Animation */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                  {/* Step 1 */}
+                  <motion.div
+                    whileHover={{ y: -8, scale: 1.02 }}
+                    transition={{ type: "spring", stiffness: 350, damping: 22 }}
+                    className="group relative p-5 sm:p-6 rounded-3xl bg-white dark:bg-[#0c0f18] border border-slate-200/90 dark:border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.3)] hover:shadow-[0_20px_40px_rgba(59,130,246,0.12)] dark:hover:shadow-[0_20px_40px_rgba(59,130,246,0.18)] hover:border-blue-400/60 dark:hover:border-blue-500/40 transition-colors text-left flex flex-col justify-between min-h-[200px]"
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="w-11 h-11 rounded-2xl bg-blue-100/90 dark:bg-blue-950/80 text-blue-600 dark:text-blue-400 flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300 shadow-xs">
+                        <Link2 className="w-5 h-5 stroke-[2]" />
+                      </div>
+                      <span className="w-6 h-6 rounded-full bg-slate-100 dark:bg-white/10 text-slate-400 dark:text-slate-400 text-xs font-semibold flex items-center justify-center">
+                        1
+                      </span>
                     </div>
-                    <span className="w-5 h-5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-[11px] font-bold flex items-center justify-center">
-                      2
-                    </span>
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-sm text-slate-900 dark:text-white">Let AI create</h3>
-                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
-                      Get personalized content and design suggestions.
-                    </p>
-                  </div>
-                </div>
+                    <div className="mt-6">
+                      <h3 className="font-bold text-sm sm:text-base text-slate-900 dark:text-white tracking-tight">
+                        Add your details
+                      </h3>
+                      <p className="text-xs sm:text-[13px] text-slate-500 dark:text-slate-400 mt-1.5 leading-relaxed">
+                        Share your background, skills, and goals.
+                      </p>
+                    </div>
+                  </motion.div>
 
-                {/* Step 3 */}
-                <div className="p-4 rounded-xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-[#0f121d] hover:border-blue-300 dark:hover:border-blue-600 hover:shadow-sm transition-all space-y-3 relative group text-left">
-                  <div className="flex items-center justify-between">
-                    <div className="w-10 h-10 rounded-full bg-blue-50 dark:bg-blue-950/60 border border-blue-100 dark:border-blue-800/50 text-[#2563eb] dark:text-blue-400 flex items-center justify-center">
-                      <Palette className="w-4 h-4" />
+                  {/* Step 2 */}
+                  <motion.div
+                    whileHover={{ y: -8, scale: 1.02 }}
+                    transition={{ type: "spring", stiffness: 350, damping: 22 }}
+                    className="group relative p-5 sm:p-6 rounded-3xl bg-white dark:bg-[#0c0f18] border border-slate-200/90 dark:border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.3)] hover:shadow-[0_20px_40px_rgba(16,185,129,0.12)] dark:hover:shadow-[0_20px_40px_rgba(16,185,129,0.18)] hover:border-emerald-400/60 dark:hover:border-emerald-500/40 transition-colors text-left flex flex-col justify-between min-h-[200px]"
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="w-11 h-11 rounded-2xl bg-emerald-100/90 dark:bg-emerald-950/80 text-emerald-600 dark:text-emerald-400 flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300 shadow-xs">
+                        <Sparkles className="w-5 h-5 stroke-[2]" />
+                      </div>
+                      <span className="w-6 h-6 rounded-full bg-slate-100 dark:bg-white/10 text-slate-400 dark:text-slate-400 text-xs font-semibold flex items-center justify-center">
+                        2
+                      </span>
                     </div>
-                    <span className="w-5 h-5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-[11px] font-bold flex items-center justify-center">
-                      3
-                    </span>
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-sm text-slate-900 dark:text-white">Customize &amp; refine</h3>
-                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
-                      Edit visually with our intuitive builder.
-                    </p>
-                  </div>
-                </div>
+                    <div className="mt-6">
+                      <h3 className="font-bold text-sm sm:text-base text-slate-900 dark:text-white tracking-tight">
+                        Let AI create
+                      </h3>
+                      <p className="text-xs sm:text-[13px] text-slate-500 dark:text-slate-400 mt-1.5 leading-relaxed">
+                        Get personalized content and design suggestions.
+                      </p>
+                    </div>
+                  </motion.div>
 
-                {/* Step 4 */}
-                <div className="p-4 rounded-xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-[#0f121d] hover:border-blue-300 dark:hover:border-blue-600 hover:shadow-sm transition-all space-y-3 relative group text-left">
-                  <div className="flex items-center justify-between">
-                    <div className="w-10 h-10 rounded-full bg-blue-50 dark:bg-blue-950/60 border border-blue-100 dark:border-blue-800/50 text-[#2563eb] dark:text-blue-400 flex items-center justify-center">
-                      <Globe className="w-4 h-4" />
+                  {/* Step 3 */}
+                  <motion.div
+                    whileHover={{ y: -8, scale: 1.02 }}
+                    transition={{ type: "spring", stiffness: 350, damping: 22 }}
+                    className="group relative p-5 sm:p-6 rounded-3xl bg-white dark:bg-[#0c0f18] border border-slate-200/90 dark:border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.3)] hover:shadow-[0_20px_40px_rgba(168,85,247,0.12)] dark:hover:shadow-[0_20px_40px_rgba(168,85,247,0.18)] hover:border-purple-400/60 dark:hover:border-purple-500/40 transition-colors text-left flex flex-col justify-between min-h-[200px]"
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="w-11 h-11 rounded-2xl bg-purple-100/90 dark:bg-purple-950/80 text-purple-600 dark:text-purple-400 flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300 shadow-xs">
+                        <Palette className="w-5 h-5 stroke-[2]" />
+                      </div>
+                      <span className="w-6 h-6 rounded-full bg-slate-100 dark:bg-white/10 text-slate-400 dark:text-slate-400 text-xs font-semibold flex items-center justify-center">
+                        3
+                      </span>
                     </div>
-                    <span className="w-5 h-5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-[11px] font-bold flex items-center justify-center">
-                      4
-                    </span>
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-sm text-slate-900 dark:text-white">Publish &amp; share</h3>
-                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
-                      Go live and showcase your work to the world.
-                    </p>
-                  </div>
+                    <div className="mt-6">
+                      <h3 className="font-bold text-sm sm:text-base text-slate-900 dark:text-white tracking-tight">
+                        Customize &amp; refine
+                      </h3>
+                      <p className="text-xs sm:text-[13px] text-slate-500 dark:text-slate-400 mt-1.5 leading-relaxed">
+                        Edit visually with our intuitive builder.
+                      </p>
+                    </div>
+                  </motion.div>
+
+                  {/* Step 4 */}
+                  <motion.div
+                    whileHover={{ y: -8, scale: 1.02 }}
+                    transition={{ type: "spring", stiffness: 350, damping: 22 }}
+                    className="group relative p-5 sm:p-6 rounded-3xl bg-white dark:bg-[#0c0f18] border border-slate-200/90 dark:border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.3)] hover:shadow-[0_20px_40px_rgba(245,158,11,0.12)] dark:hover:shadow-[0_20px_40px_rgba(245,158,11,0.18)] hover:border-amber-400/60 dark:hover:border-amber-500/40 transition-colors text-left flex flex-col justify-between min-h-[200px]"
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="w-11 h-11 rounded-2xl bg-amber-100/90 dark:bg-amber-950/80 text-amber-600 dark:text-amber-400 flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300 shadow-xs">
+                        <Globe className="w-5 h-5 stroke-[2]" />
+                      </div>
+                      <span className="w-6 h-6 rounded-full bg-slate-100 dark:bg-white/10 text-slate-400 dark:text-slate-400 text-xs font-semibold flex items-center justify-center">
+                        4
+                      </span>
+                    </div>
+                    <div className="mt-6">
+                      <h3 className="font-bold text-sm sm:text-base text-slate-900 dark:text-white tracking-tight">
+                        Publish &amp; share
+                      </h3>
+                      <p className="text-xs sm:text-[13px] text-slate-500 dark:text-slate-400 mt-1.5 leading-relaxed">
+                        Go live and showcase your work to the world.
+                      </p>
+                    </div>
+                  </motion.div>
                 </div>
               </div>
             </div>
