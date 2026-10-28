@@ -4,42 +4,24 @@ import React from "react";
 import Link from "next/link";
 import {
   ArrowLeft,
-  LayoutGrid,
-  Palette,
-  Type,
   Folder,
   User,
   Briefcase,
   GraduationCap,
   Link2,
-  Settings,
   Image as ImageIcon,
-  Sparkles,
-  Layers,
-  MessageSquare,
-  HelpCircle,
-  Tag,
-  Check,
   LayoutTemplate,
   ChevronDown,
 } from "lucide-react";
 
 export type LeftNavSection =
   | "templates"
-  | "sections"
-  | "style"
-  | "typography"
-  | "colors"
-  | "background"
-  | "projects"
   | "about"
   | "experience"
   | "education"
+  | "projects"
   | "social"
-  | "settings"
-  | "assets_images"
-  | "assets_icons"
-  | "assets_logos";
+  | "assets_images";
 
 interface EditorLeftNavProps {
   activeSection: LeftNavSection;
@@ -51,18 +33,16 @@ interface EditorLeftNavProps {
 export function EditorLeftNav({
   activeSection,
   onSelectSection,
-  templateName = "Bento Studio",
+  templateName = "Kinetic Studio",
   className = "",
 }: EditorLeftNavProps) {
   const mainNavItems: { id: LeftNavSection; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
     { id: "templates", label: "Templates", icon: LayoutTemplate },
-    { id: "sections", label: "Sections", icon: LayoutGrid },
-    { id: "projects", label: "Projects", icon: Folder },
     { id: "about", label: "About", icon: User },
     { id: "experience", label: "Experience", icon: Briefcase },
     { id: "education", label: "Education", icon: GraduationCap },
+    { id: "projects", label: "Projects", icon: Folder },
     { id: "social", label: "Social Links", icon: Link2 },
-    { id: "settings", label: "Settings", icon: Settings },
   ];
 
   const assetItems: { id: LeftNavSection; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
@@ -83,7 +63,7 @@ export function EditorLeftNav({
           <span>Back to Templates</span>
         </Link>
 
-        {/* Template Header with Live Template Badge */}
+        {/* Template Header with Live Badge */}
         <div className="flex items-center justify-between gap-1.5 pt-1">
           <button
             type="button"
@@ -149,28 +129,6 @@ export function EditorLeftNav({
               </button>
             );
           })}
-        </div>
-      </div>
-
-      {/* Bottom Template Customization Card */}
-      <div className="p-3 border-t border-slate-850/80 bg-[#07090e]/60">
-        <div className="p-3 rounded-2xl bg-[#0d121f] border border-slate-800/90 space-y-2 text-left">
-          <div className="w-6 h-6 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center">
-            <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
-          </div>
-          <div>
-            <h4 className="text-[11px] font-bold text-white">Template Gallery</h4>
-            <p className="text-[10px] text-slate-400 leading-tight mt-0.5">
-              Switch anytime between 8 curated templates without losing any of your data.
-            </p>
-          </div>
-          <button
-            type="button"
-            onClick={() => onSelectSection("templates")}
-            className="w-full py-1.5 px-2.5 rounded-lg bg-blue-600/20 hover:bg-blue-600/30 text-blue-300 hover:text-white text-[11px] font-semibold transition-colors border border-blue-500/40 cursor-pointer text-center"
-          >
-            Switch Template
-          </button>
         </div>
       </div>
     </aside>

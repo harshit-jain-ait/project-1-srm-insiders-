@@ -57,7 +57,7 @@ export function EditorPreview({
             className={`w-full transition-all duration-300 ${
               isDistractionFree
                 ? "min-h-screen bg-zinc-950 shadow-2xl relative border-x border-zinc-850/80"
-                : "max-w-4xl xl:max-w-5xl rounded-2xl md:rounded-3xl border border-slate-800/90 bg-[#090d16] text-white shadow-[0_20px_70px_rgba(0,0,0,0.85)] overflow-hidden flex flex-col text-left"
+                : "max-w-6xl xl:max-w-7xl w-full rounded-2xl md:rounded-3xl border border-slate-800/90 bg-[#090d16] text-white shadow-[0_20px_70px_rgba(0,0,0,0.85)] overflow-hidden flex flex-col text-left"
             }`}
           >
             <PortfolioRenderer portfolio={portfolio} isLivePreview={true} />

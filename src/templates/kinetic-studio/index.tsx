@@ -40,6 +40,7 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
   const [isDayMode, setIsDayMode] = useState<boolean>(!baseTheme.isDark);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [expandedProjectIndex, setExpandedProjectIndex] = useState<number | null>(null);
+  const [liveDemoProject, setLiveDemoProject] = useState<{ url: string; title: string } | null>(null);
 
   // Active theme computed based on local mode or default
   const isDark = !isDayMode;
@@ -140,6 +141,57 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
         isOpen={isCvModalOpen}
         onClose={() => setIsCvModalOpen(false)}
       />
+
+      {/* Live Website Demo Modal */}
+      {liveDemoProject && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          className="fixed inset-0 z-[100] bg-black/85 backdrop-blur-md flex flex-col items-center justify-center p-3 sm:p-6"
+        >
+          <div className="w-full max-w-5xl h-[85vh] bg-[#0c101a] border border-slate-800 rounded-2xl overflow-hidden shadow-2xl flex flex-col">
+            <div className="flex items-center justify-between px-4 py-2.5 bg-[#080b12] border-b border-slate-800 shrink-0">
+              <div className="flex items-center gap-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#ff5c1a] animate-pulse" />
+                <span className="font-mono text-xs font-bold text-white uppercase tracking-wider truncate max-w-[200px] sm:max-w-md">
+                  {liveDemoProject.title}
+                </span>
+                <span className="text-[11px] text-slate-500 font-mono hidden sm:inline truncate max-w-xs">
+                  {liveDemoProject.url}
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <a
+                  href={liveDemoProject.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-2.5 py-1 rounded-lg bg-[#ff5c1a]/15 text-[#ff5c1a] hover:bg-[#ff5c1a] hover:text-white text-xs font-mono font-semibold flex items-center gap-1 transition-colors"
+                >
+                  <span>Open in Tab</span>
+                  <ArrowUpRight className="w-3 h-3" />
+                </a>
+                <button
+                  type="button"
+                  onClick={() => setLiveDemoProject(null)}
+                  className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
+                  aria-label="Close Live Demo"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+            <div className="flex-1 w-full bg-slate-950 relative">
+              <iframe
+                src={liveDemoProject.url}
+                title={`Live demo: ${liveDemoProject.title}`}
+                className="w-full h-full border-0"
+                sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+                loading="lazy"
+              />
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Dynamic Keyframes for Marquee, Kinetic Pulse & Custom Cursor */}
       <style dangerouslySetInnerHTML={{ __html: `
@@ -654,13 +706,27 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
                               </Link>
                             )}
                             {project.liveUrl && (
-                              <SafeExternalLink
-                                href={project.liveUrl}
-                                className="inline-flex items-center gap-1 underline underline-offset-4 hover:text-[#ff5c1a] transition-colors"
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  setLiveDemoProject({
+                                    url: project.liveUrl,
+                                    title: project.title,
+                                  })
+                                }
+                                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-semibold transition-all hover:scale-105 cursor-pointer shadow-sm border"
+                                style={{
+                                  backgroundColor: isDark
+                                    ? "rgba(255, 92, 26, 0.15)"
+                                    : "rgba(255, 92, 26, 0.2)",
+                                  color: accentColor,
+                                  borderColor: accentColor,
+                                }}
                               >
+                                <span className="w-1.5 h-1.5 rounded-full bg-[#ff5c1a] animate-pulse" />
                                 <span>Live Demo</span>
                                 <ArrowUpRight className="w-3 h-3" />
-                              </SafeExternalLink>
+                              </button>
                             )}
                             {project.repoUrl && (
                               <SafeExternalLink

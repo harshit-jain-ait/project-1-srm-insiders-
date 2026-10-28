@@ -49,6 +49,8 @@ import {
   LayoutTemplate,
 } from "lucide-react";
 import { ContentTargetField } from "@/lib/ai-assistant/types";
+import { KineticProjectForm } from "./kinetic-project-form";
+import { KineticSocialForm } from "./kinetic-social-form";
 
 interface EditorInspectorProps {
   portfolio: PortfolioData;
@@ -187,12 +189,11 @@ export function EditorInspector({
   };
 
   // Determine what panel content to show based on left nav selection
-  const showDedicatedForm =
-    activeNavSection !== "sections" && activeNavSection !== "style" && activeNavSection !== "colors" && activeNavSection !== "typography" && activeNavSection !== "background";
+  const showDedicatedForm = (activeNavSection as string) !== "sections";
 
   return (
     <aside
-      className={`w-80 lg:w-96 bg-[#080b12] border-l border-slate-800/80 flex flex-col h-full shrink-0 select-none overflow-hidden text-xs text-slate-200 ${className}`}
+      className={`w-80 lg:w-96 bg-[#080b12] border-r border-slate-800/80 flex flex-col h-full shrink-0 select-none overflow-hidden text-xs text-slate-200 ${className}`}
     >
       {/* Top Tabs: Content | Layout */}
       <div className="h-12 border-b border-slate-800/80 flex items-center px-4 gap-6 shrink-0 bg-[#07090e]">
@@ -313,14 +314,9 @@ export function EditorInspector({
             </div>
           </div>
         ) : activeNavSection === "projects" ? (
-          <ProjectForm
+          <KineticProjectForm
             projects={portfolio.projects}
             onProjectsChange={handleProjectsChange}
-            onOpenAiAssist={(field, projectId) => {
-              const proj = portfolio.projects.find((p) => p.id === projectId);
-              const sourceText = field === "project_description" ? proj?.description : proj?.tagline;
-              onOpenAiAssist?.(field, sourceText, projectId);
-            }}
           />
         ) : activeNavSection === "experience" ? (
           <ExperienceForm
@@ -352,18 +348,11 @@ export function EditorInspector({
             />
           </div>
         ) : activeNavSection === "social" ? (
-          <div className="space-y-4">
-            <h3 className="text-xs font-bold text-white uppercase tracking-wider text-slate-400">
-              Social Links &amp; Profiles
-            </h3>
-            <ProfileForm
-              profile={portfolio.profile}
-              socialLinks={portfolio.socialLinks}
-              onProfileChange={handleProfileChange}
-              onSocialLinksChange={handleSocialLinksChange}
-            />
-          </div>
-        ) : activeNavSection === "settings" ? (
+          <KineticSocialForm
+            socialLinks={portfolio.socialLinks}
+            onSocialLinksChange={handleSocialLinksChange}
+          />
+        ) : (activeNavSection as string) === "settings" ? (
           <div className="space-y-6">
             <SeoForm
               seo={portfolio.seo}

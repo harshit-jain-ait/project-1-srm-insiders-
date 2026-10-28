@@ -23,14 +23,14 @@ import { Loader2, Sliders, Eye } from "lucide-react";
 function EditorContent() {
   const searchParams = useSearchParams();
   const portfolioId = searchParams.get("id");
-  const templateParam = (searchParams.get("template") as TemplateId | null) || "bento-studio";
+  const templateParam = (searchParams.get("template") as TemplateId | null) || "kinetic-studio";
 
   // Viewport & Studio UI state
   const [deviceMode, setDeviceMode] = useState<DeviceMode>("desktop");
   const [zoom, setZoom] = useState<number>(1);
   const [isDistractionFree, setIsDistractionFree] = useState(false);
   const [mobileView, setMobileView] = useState<"edit" | "preview">("edit");
-  const [activeLeftNavSection, setActiveLeftNavSection] = useState<LeftNavSection>("sections");
+  const [activeLeftNavSection, setActiveLeftNavSection] = useState<LeftNavSection>("about");
 
   // Modals state
   const [isAiModalOpen, setIsAiModalOpen] = useState(false);
@@ -365,7 +365,7 @@ function EditorContent() {
         </div>
       )}
 
-      {/* 2. MAIN 3-PANEL STUDIO CANVAS: Left Nav Rail + Center Live Preview + Right Inspector */}
+      {/* 2. MAIN 3-PANEL STUDIO CANVAS: Left Nav Rail + Inspector + Center Live Preview */}
       <div className="flex-1 flex flex-col md:flex-row overflow-hidden relative">
         {/* Panel 1: Left Navigation Sidebar */}
         {!isDistractionFree && (
@@ -377,22 +377,7 @@ function EditorContent() {
           />
         )}
 
-        {/* Panel 2: Center Live Synchronized Studio Canvas */}
-        <div
-          className={`flex-1 flex flex-col overflow-hidden ${
-            !isDistractionFree && mobileView === "edit" ? "hidden md:flex" : "flex"
-          }`}
-        >
-          <EditorPreview
-            portfolio={effectivePortfolio}
-            deviceMode={deviceMode}
-            zoom={zoom}
-            isDistractionFree={isDistractionFree}
-            onExitDistractionFree={() => setIsDistractionFree(false)}
-          />
-        </div>
-
-        {/* Panel 3: Right Inspector Panel */}
+        {/* Panel 2: Inspector Panel (moved left of preview) */}
         {!isDistractionFree && (
           <EditorInspector
             portfolio={effectivePortfolio}
@@ -406,6 +391,21 @@ function EditorContent() {
             className={mobileView === "preview" ? "hidden md:flex" : "flex"}
           />
         )}
+
+        {/* Panel 3: Center Live Synchronized Studio Canvas (flex-1, takes remaining space) */}
+        <div
+          className={`flex-1 flex flex-col overflow-hidden ${
+            !isDistractionFree && mobileView === "edit" ? "hidden md:flex" : "flex"
+          }`}
+        >
+          <EditorPreview
+            portfolio={effectivePortfolio}
+            deviceMode={deviceMode}
+            zoom={zoom}
+            isDistractionFree={isDistractionFree}
+            onExitDistractionFree={() => setIsDistractionFree(false)}
+          />
+        </div>
       </div>
 
       {/* Grounded AI Assistant Modal */}
