@@ -35,7 +35,7 @@ export function LandingNavbar() {
   return (
     <header className="sticky top-0 z-50 w-full select-none pt-4 px-4 sm:px-6 pointer-events-none">
       {/* Floating Capsule Navbar */}
-      <div className="max-w-7xl mx-auto w-full pointer-events-auto">
+      <div className="max-w-5xl mx-auto w-full pointer-events-auto">
         <motion.div
           layout
           className={`relative rounded-full border transition-colors duration-300 ${
