@@ -17,7 +17,6 @@ import {
   Edit3,
   Share2,
   Smartphone,
-  Play,
   Mail,
   MessageSquare,
   Send,
@@ -101,19 +100,6 @@ export function LandingPageView() {
                 <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed max-w-md">
                   Create a professional portfolio website without coding. Just follow a few simple steps and let AI handle the rest.
                 </p>
-                <div className="pt-2">
-                  <Link href="/editor">
-                    <button
-                      type="button"
-                      className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 text-xs font-semibold transition-all cursor-pointer shadow-sm"
-                    >
-                      <span className="w-5 h-5 rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 flex items-center justify-center text-[10px]">
-                        <Play className="w-2.5 h-2.5 fill-current ml-0.5" />
-                      </span>
-                      <span>See How It Works</span>
-                    </button>
-                  </Link>
-                </div>
               </div>
 
               {/* Right Column: 4-Step Chain */}
