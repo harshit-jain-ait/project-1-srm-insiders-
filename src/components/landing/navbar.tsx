@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { Sun, Menu, X } from "lucide-react";
+import { Sun, Menu, X, Globe } from "lucide-react";
 import { Logo } from "@/components/ui/logo";
 
 interface LandingNavbarProps {
@@ -14,162 +14,158 @@ export function LandingNavbar({ variant = "dark" }: LandingNavbarProps) {
   const isDark = variant === "dark";
 
   return (
-    <header
-      className={`border-b sticky top-0 z-40 select-none transition-all ${
-        isDark
-          ? "border-slate-800/80 bg-[#07090e]/95 text-slate-100 backdrop-blur-md"
-          : "border-slate-200/80 bg-white/95 text-slate-900 backdrop-blur-md"
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between">
-        {/* Brand Wordmark */}
-        <Link href="/" className="group">
-          <Logo size="md" isDark={isDark} />
-        </Link>
-
-        {/* Center Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-8 text-sm">
-          <Link
-            href="/"
-            className="text-blue-500 font-semibold relative py-6 after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-blue-500"
-          >
-            Home
-          </Link>
-          <Link
-            href="/templates"
-            className={`transition-colors font-medium py-6 ${
-              isDark ? "text-slate-400 hover:text-white" : "text-slate-600 hover:text-slate-900"
-            }`}
-          >
-            Templates
-          </Link>
-          <a
-            href="#features"
-            className={`transition-colors font-medium py-6 ${
-              isDark ? "text-slate-400 hover:text-white" : "text-slate-600 hover:text-slate-900"
-            }`}
-          >
-            Features
-          </a>
-          <a
-            href="#process"
-            className={`transition-colors font-medium py-6 ${
-              isDark ? "text-slate-400 hover:text-white" : "text-slate-600 hover:text-slate-900"
-            }`}
-          >
-            Working
-          </a>
-        </nav>
-
-        {/* Right Action Buttons */}
-        <div className="flex items-center gap-3">
-          {/* Theme Toggle Button */}
-          <button
-            type="button"
-            className={`p-2 rounded-lg transition-colors cursor-pointer ${
-              isDark
-                ? "text-slate-400 hover:text-white hover:bg-slate-800"
-                : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
-            }`}
-            aria-label="Toggle theme"
-            title="Theme toggle"
-          >
-            <Sun className="w-4 h-4" />
-          </button>
-
-          {/* Launch Editor Studio Button */}
-          <Link
-            href="/editor"
-            className={`hidden sm:inline-flex text-sm font-semibold px-3 py-1.5 rounded-lg transition-colors ${
-              isDark
-                ? "text-slate-300 hover:text-white hover:bg-slate-800"
-                : "text-slate-700 hover:text-slate-900 hover:bg-slate-100"
-            }`}
-          >
-            Launch Editor Studio
-          </Link>
-
-          {/* Get Started Button */}
-          <Link href="/generate">
-            <button
-              type="button"
-              className="bg-[#2563eb] hover:bg-blue-600 text-white font-semibold text-sm px-4 py-2 rounded-lg shadow-[0_0_15px_rgba(37,99,235,0.4)] transition-all cursor-pointer"
-            >
-              Get Started
-            </button>
-          </Link>
-
-          {/* Mobile Menu Toggle */}
-          <button
-            type="button"
-            onClick={() => setMobileMenuOpen((prev) => !prev)}
-            className={`p-2 rounded-md md:hidden cursor-pointer ${
-              isDark ? "text-slate-300 hover:text-white" : "text-slate-600 hover:text-slate-900"
-            }`}
-            aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
-            aria-expanded={mobileMenuOpen}
-          >
-            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile Menu Dropdown */}
-      {mobileMenuOpen && (
+    <header className="sticky top-0 z-50 w-full select-none pt-4 px-4 sm:px-6 pointer-events-none">
+      {/* Floating Capsule Navbar */}
+      <div className="max-w-7xl mx-auto w-full pointer-events-auto">
         <div
-          className={`md:hidden border-b px-6 py-5 space-y-4 animate-in slide-in-from-top-2 duration-150 ${
-            isDark ? "bg-[#0b0e17] border-slate-800 text-slate-200" : "bg-white border-slate-200 text-slate-800"
+          className={`relative rounded-full border transition-all duration-300 shadow-[0_10px_35px_rgba(0,0,0,0.6),0_0_25px_rgba(139,92,246,0.12)] ${
+            isDark
+              ? "border-white/10 bg-[#090a0f]/90 text-white backdrop-blur-xl"
+              : "border-slate-300/80 bg-white/95 text-slate-900 backdrop-blur-xl shadow-lg"
           }`}
         >
-          <nav className="flex flex-col space-y-3 text-sm font-medium">
-            <Link
-              href="/"
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-blue-500 font-semibold py-1"
-            >
-              Home
+          <div className="px-5 sm:px-6 h-16 flex items-center justify-between gap-4">
+            {/* Left: Brand Logo */}
+            <Link href="/" className="group flex items-center shrink-0">
+              <Logo size="md" isDark={isDark} />
             </Link>
-            <Link
-              href="/templates"
-              onClick={() => setMobileMenuOpen(false)}
-              className="hover:text-blue-400 transition-colors py-1"
-            >
-              Templates
-            </Link>
-            <a
-              href="#features"
-              onClick={() => setMobileMenuOpen(false)}
-              className="hover:text-blue-400 transition-colors py-1"
-            >
-              Features
-            </a>
-            <a
-              href="#process"
-              onClick={() => setMobileMenuOpen(false)}
-              className="hover:text-blue-400 transition-colors py-1"
-            >
-              Working
-            </a>
-            <Link
-              href="/editor"
-              onClick={() => setMobileMenuOpen(false)}
-              className="hover:text-blue-400 transition-colors py-1"
-            >
-              Launch Editor Studio
-            </Link>
-          </nav>
-          <div className={`pt-2 border-t ${isDark ? "border-slate-800" : "border-slate-200"}`}>
-            <Link href="/generate" onClick={() => setMobileMenuOpen(false)}>
+
+            {/* Center: Desktop Navigation Links */}
+            <nav className="hidden lg:flex items-center gap-7 text-sm font-medium">
+              <Link
+                href="/"
+                className="text-white font-semibold transition-colors hover:text-blue-400 py-2"
+              >
+                Home
+              </Link>
+              <Link
+                href="/templates"
+                className="text-slate-300 hover:text-white transition-colors py-2"
+              >
+                Templates
+              </Link>
+              <a
+                href="#features"
+                className="text-slate-300 hover:text-white transition-colors py-2"
+              >
+                Features
+              </a>
+              <a
+                href="#process"
+                className="text-slate-300 hover:text-white transition-colors py-2"
+              >
+                Working
+              </a>
+            </nav>
+
+            {/* Right: Actions & Pill Button */}
+            <div className="flex items-center gap-2.5 sm:gap-3.5">
+              {/* Theme / Globe Action Icon */}
               <button
                 type="button"
-                className="w-full bg-[#2563eb] text-white font-semibold py-2 rounded-lg text-sm shadow-sm"
+                className="p-2 rounded-full text-slate-300 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+                aria-label="Toggle language or region"
+                title="Region / Language"
               >
-                Get Started
+                <Globe className="w-4 h-4" />
               </button>
-            </Link>
+
+              {/* Theme Toggle Button */}
+              <button
+                type="button"
+                className="p-2 rounded-full text-slate-300 hover:text-white hover:bg-white/10 transition-colors cursor-pointer hidden sm:inline-flex"
+                aria-label="Toggle theme"
+                title="Theme toggle"
+              >
+                <Sun className="w-4 h-4" />
+              </button>
+
+              {/* Launch Editor Studio Link */}
+              <Link
+                href="/editor"
+                className="hidden md:inline-flex text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-full text-slate-300 hover:text-white hover:bg-white/10 transition-colors"
+              >
+                Launch Editor Studio
+              </Link>
+
+              {/* Get Started Pill Button with Purple/Indigo Glow Gradient */}
+              <Link href="/generate" className="shrink-0">
+                <button
+                  type="button"
+                  className="rounded-full bg-gradient-to-r from-[#7c3aed] via-[#8b5cf6] to-[#6366f1] hover:from-[#6d28d9] hover:via-[#7c3aed] hover:to-[#4f46e5] text-white font-semibold text-xs sm:text-sm px-5 py-2.5 sm:px-6 sm:py-2.5 shadow-[0_0_20px_rgba(139,92,246,0.45)] hover:shadow-[0_0_25px_rgba(139,92,246,0.65)] transition-all transform hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+                >
+                  Get Started
+                </button>
+              </Link>
+
+              {/* Mobile Menu Toggle */}
+              <button
+                type="button"
+                onClick={() => setMobileMenuOpen((prev) => !prev)}
+                className="p-2 rounded-full text-slate-300 hover:text-white hover:bg-white/10 lg:hidden cursor-pointer"
+                aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+                aria-expanded={mobileMenuOpen}
+              >
+                {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              </button>
+            </div>
           </div>
         </div>
-      )}
+
+        {/* Mobile Dropdown Card */}
+        {mobileMenuOpen && (
+          <div className="lg:hidden mt-2 p-5 rounded-3xl border border-white/10 bg-[#090a0f]/95 text-slate-200 backdrop-blur-xl shadow-2xl animate-in slide-in-from-top-2 duration-150">
+            <nav className="flex flex-col space-y-3 text-sm font-medium">
+              <Link
+                href="/"
+                onClick={() => setMobileMenuOpen(false)}
+                className="text-white font-semibold py-1.5 hover:text-blue-400 transition-colors"
+              >
+                Home
+              </Link>
+              <Link
+                href="/templates"
+                onClick={() => setMobileMenuOpen(false)}
+                className="text-slate-300 hover:text-white transition-colors py-1.5"
+              >
+                Templates
+              </Link>
+              <a
+                href="#features"
+                onClick={() => setMobileMenuOpen(false)}
+                className="text-slate-300 hover:text-white transition-colors py-1.5"
+              >
+                Features
+              </a>
+              <a
+                href="#process"
+                onClick={() => setMobileMenuOpen(false)}
+                className="text-slate-300 hover:text-white transition-colors py-1.5"
+              >
+                Working
+              </a>
+              <Link
+                href="/editor"
+                onClick={() => setMobileMenuOpen(false)}
+                className="text-slate-300 hover:text-white transition-colors py-1.5"
+              >
+                Launch Editor Studio
+              </Link>
+            </nav>
+
+            <div className="pt-4 mt-3 border-t border-white/10">
+              <Link href="/generate" onClick={() => setMobileMenuOpen(false)}>
+                <button
+                  type="button"
+                  className="w-full rounded-full bg-gradient-to-r from-[#7c3aed] via-[#8b5cf6] to-[#6366f1] text-white font-semibold py-2.5 text-sm shadow-[0_0_20px_rgba(139,92,246,0.4)]"
+                >
+                  Get Started
+                </button>
+              </Link>
+            </div>
+          </div>
+        )}
+      </div>
     </header>
   );
 }
