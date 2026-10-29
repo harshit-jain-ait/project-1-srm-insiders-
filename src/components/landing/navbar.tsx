@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Sun, Moon, Menu, X } from "lucide-react";
 import { Logo } from "@/components/ui/logo";
@@ -21,14 +21,29 @@ export function LandingNavbar() {
   const [hoveredNav, setHoveredNav] = useState<string | null>(null);
   const { isDark, toggleTheme } = useTheme();
   const pathname = usePathname();
+  const router = useRouter();
 
   const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    if (href.startsWith("#")) {
+    if (href === "/") {
       e.preventDefault();
+      if (pathname === "/") {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } else {
+        router.push("/");
+      }
+    } else if (href.startsWith("#")) {
+      e.preventDefault();
+      if (pathname !== "/") {
+        router.push(`/${href}`);
+        return;
+      }
       const target = document.querySelector(href);
       if (target) {
         target.scrollIntoView({ behavior: "smooth", block: "start" });
       }
+    } else if (href.startsWith("/")) {
+      e.preventDefault();
+      router.push(href);
     }
   };
 
@@ -46,7 +61,16 @@ export function LandingNavbar() {
         >
           <div className="px-5 sm:px-6 h-16 flex items-center justify-between gap-4">
             {/* Left: Brand Logo */}
-            <Link href="/" className="group flex items-center shrink-0">
+            <Link
+              href="/"
+              onClick={(e) => {
+                if (pathname === "/") {
+                  e.preventDefault();
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }
+              }}
+              className="group flex items-center shrink-0 cursor-pointer"
+            >
               <Logo size="md" isDark={isDark} />
             </Link>
 

@@ -836,25 +836,60 @@ export function LandingPageView() {
         <div className="max-w-7xl mx-auto px-6 space-y-6 sm:space-y-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6 pb-6 sm:pb-8 border-b border-slate-100 dark:border-slate-800/50">
             {/* Brand Logo */}
-            <Link href="/" className="group opacity-95 hover:opacity-100 transition-opacity">
+            <Link
+              href="/"
+              onClick={(e) => {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+              className="group opacity-95 hover:opacity-100 transition-opacity cursor-pointer"
+            >
               <Logo size="md" isDark={isDark} />
             </Link>
 
             {/* Navigation Links with Smooth Minimalist Hover */}
             <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-8 text-[13px] font-normal text-slate-500 dark:text-slate-400">
-              <Link href="/" className="hover:text-slate-900 dark:hover:text-white transition-colors duration-200">
+              <Link
+                href="/"
+                onClick={(e) => {
+                  e.preventDefault();
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+                className="hover:text-slate-900 dark:hover:text-white transition-colors duration-200 cursor-pointer"
+              >
                 Home
               </Link>
               <Link href="/templates" className="hover:text-slate-900 dark:hover:text-white transition-colors duration-200">
                 Templates
               </Link>
-              <a href="#features" className="hover:text-slate-900 dark:hover:text-white transition-colors duration-200">
+              <a
+                href="#features"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.querySelector("#features")?.scrollIntoView({ behavior: "smooth", block: "start" });
+                }}
+                className="hover:text-slate-900 dark:hover:text-white transition-colors duration-200 cursor-pointer"
+              >
                 Features
               </a>
-              <a href="#process" className="hover:text-slate-900 dark:hover:text-white transition-colors duration-200">
+              <a
+                href="#process"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.querySelector("#process")?.scrollIntoView({ behavior: "smooth", block: "start" });
+                }}
+                className="hover:text-slate-900 dark:hover:text-white transition-colors duration-200 cursor-pointer"
+              >
                 Working
               </a>
-              <a href="#contact" className="hover:text-slate-900 dark:hover:text-white transition-colors duration-200">
+              <a
+                href="#contact"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth", block: "start" });
+                }}
+                className="hover:text-slate-900 dark:hover:text-white transition-colors duration-200 cursor-pointer"
+              >
                 Contact
               </a>
             </div>
