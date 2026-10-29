@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Script from "next/script";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/providers";
@@ -39,31 +38,10 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <head>
-        <Script
+        <script
           id="theme-script"
-          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                try {
-                  var saved = localStorage.getItem('portfolify_theme');
-                  var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                  var isDark = saved === 'dark' || (!saved && prefersDark) || !saved;
-                  var root = document.documentElement;
-                  if (isDark) {
-                    root.classList.add('dark');
-                    root.classList.remove('light');
-                    root.setAttribute('data-theme', 'dark');
-                    root.style.colorScheme = 'dark';
-                  } else {
-                    root.classList.remove('dark');
-                    root.classList.add('light');
-                    root.setAttribute('data-theme', 'light');
-                    root.style.colorScheme = 'light';
-                  }
-                } catch (e) {}
-              })();
-            `,
+            __html: `(function(){try{var s=localStorage.getItem('portfolify_theme'),p=window.matchMedia('(prefers-color-scheme:dark)').matches,d=s==='dark'||(!s&&p)||!s,r=document.documentElement;if(d){r.classList.add('dark');r.classList.remove('light');r.setAttribute('data-theme','dark');r.style.colorScheme='dark';}else{r.classList.remove('dark');r.classList.add('light');r.setAttribute('data-theme','light');r.style.colorScheme='light';}}catch(e){}})();`,
           }}
         />
       </head>
