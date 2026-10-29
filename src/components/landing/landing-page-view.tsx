@@ -374,19 +374,19 @@ export function LandingPageView() {
               {featuredTemplates.map((item) => (
                 <motion.div
                   key={item.id}
-                  whileHover={{ y: -6, scale: 1.02 }}
-                  transition={{ type: "spring", stiffness: 350, damping: 22 }}
-                  className={`rounded-2xl border border-slate-200/90 dark:border-white/10 bg-white/95 dark:bg-[#0c0f18]/95 backdrop-blur-md overflow-hidden shadow-[0_6px_25px_rgba(0,0,0,0.04)] dark:shadow-[0_6px_25px_rgba(0,0,0,0.35)] hover:shadow-[0_18px_35px_rgba(59,130,246,0.14)] dark:hover:shadow-[0_18px_35px_rgba(59,130,246,0.2)] hover:border-blue-400/70 dark:hover:border-blue-500/50 transition-colors flex flex-col justify-between p-3 group cursor-pointer ${
-                    featuredTemplates.length === 1 ? "w-full max-w-sm sm:max-w-md" : ""
+                  whileHover={{ y: -5, scale: 1.015 }}
+                  transition={{ type: "spring", stiffness: 280, damping: 24, mass: 0.8 }}
+                  className={`rounded-2xl border border-slate-200/90 dark:border-white/10 bg-white/95 dark:bg-[#0c0f18]/95 backdrop-blur-md overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.04)] dark:shadow-[0_6px_25px_rgba(0,0,0,0.35)] hover:shadow-[0_16px_36px_rgba(59,130,246,0.16)] dark:hover:shadow-[0_16px_36px_rgba(59,130,246,0.24)] hover:border-blue-400/80 dark:hover:border-blue-500/60 transition-all duration-300 ease-out flex flex-col justify-between p-2.5 group cursor-pointer ${
+                    featuredTemplates.length === 1 ? "w-full max-w-[300px] sm:max-w-[320px]" : ""
                   }`}
                 >
                   <div>
-                    {/* Inner Thumbnail Preview Frame */}
-                    <div className="relative aspect-[16/10] rounded-xl bg-slate-100 dark:bg-slate-900 overflow-hidden border border-slate-100/80 dark:border-white/5">
+                    {/* Inner Thumbnail Preview Frame - compact height */}
+                    <div className="relative aspect-[16/9.5] rounded-xl bg-slate-100 dark:bg-slate-900 overflow-hidden border border-slate-100/80 dark:border-white/5">
                       <img
                         src={item.imageSrc}
                         alt={`${item.name} template preview`}
-                        className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                        className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700 ease-out"
                         loading="lazy"
                       />
 
@@ -409,16 +409,16 @@ export function LandingPageView() {
                     </div>
 
                     {/* Card Content */}
-                    <div className="px-1 pt-3 pb-1 text-left space-y-1">
-                      <h3 className="font-bold text-sm sm:text-base text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors tracking-tight">
+                    <div className="px-1 pt-2.5 pb-0.5 text-left space-y-1">
+                      <h3 className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors tracking-tight">
                         {item.name}
                       </h3>
-                      <p className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 leading-relaxed line-clamp-2">
+                      <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed line-clamp-2">
                         {item.description}
                       </p>
 
                       {/* 4 Dot indicators */}
-                      <div className="flex items-center gap-1.5 pt-1.5">
+                      <div className="flex items-center gap-1.5 pt-1">
                         <span className="w-1.5 h-1.5 rounded-full bg-slate-900 dark:bg-white" />
                         <span className="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700" />
                         <span className="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700" />
@@ -429,22 +429,28 @@ export function LandingPageView() {
 
                   {/* Actions Row */}
                   <div className="pt-2 px-0.5 flex items-center justify-between gap-2">
-                    <button
+                    <motion.button
                       type="button"
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.97 }}
+                      transition={{ type: "spring", stiffness: 400, damping: 25 }}
                       onClick={() => handlePreview(item.id)}
-                      className="flex-1 py-1.5 px-2.5 rounded-lg border border-slate-200/90 dark:border-white/15 bg-white dark:bg-white/5 hover:bg-slate-50 dark:hover:bg-white/10 text-[11px] font-semibold text-slate-700 dark:text-slate-200 transition-all cursor-pointer flex items-center justify-center gap-1.5 shadow-2xs hover:shadow-xs"
+                      className="flex-1 h-8 px-2 rounded-lg border border-slate-200/90 dark:border-white/15 bg-white dark:bg-white/5 hover:bg-slate-50 dark:hover:bg-white/10 text-[11px] font-semibold text-slate-700 dark:text-slate-200 transition-colors cursor-pointer flex items-center justify-center gap-1.5 shadow-2xs hover:shadow-xs"
                     >
                       <Eye className="w-3 h-3 text-slate-500 dark:text-slate-400" />
                       <span>Preview</span>
-                    </button>
+                    </motion.button>
 
                     <Link href={`/editor?template=${item.id}`} className="flex-1">
-                      <button
+                      <motion.button
                         type="button"
-                        className="w-full py-1.5 px-2.5 rounded-lg bg-[#0f172a] hover:bg-[#1e293b] text-white text-[11px] font-semibold transition-all cursor-pointer shadow-xs hover:shadow-md text-center"
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.97 }}
+                        transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                        className="w-full h-8 px-2 rounded-lg bg-[#0f172a] hover:bg-[#1e293b] text-white text-[11px] font-semibold transition-colors cursor-pointer shadow-xs hover:shadow-md text-center"
                       >
                         Select
-                      </button>
+                      </motion.button>
                     </Link>
                   </div>
                 </motion.div>
