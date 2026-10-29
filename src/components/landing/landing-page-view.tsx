@@ -657,9 +657,6 @@ export function LandingPageView() {
             </div>
           </div>
         </section>
-            </div>
-          </div>
-        </section>
 
         {/* 6. Dark CTA Banner ("Build your portfolio today.") */}
         <section className="py-20 bg-slate-50 dark:bg-[#07090e] transition-colors duration-300">
