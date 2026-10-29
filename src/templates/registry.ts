@@ -2,8 +2,31 @@ import { TemplateId } from "@/lib/schema/portfolio";
 import { RegisteredTemplate } from "./types";
 import { KineticStudioTemplate } from "./kinetic-studio";
 import { CosmicOrbitTemplate } from "./cosmic-orbit";
+import { EditorialCraftTemplate } from "./editorial-craft";
 
 const TEMPLATES: Partial<Record<TemplateId, RegisteredTemplate>> = {
+  "editorial-craft": {
+    metadata: {
+      id: "editorial-craft",
+      name: "Editorial Craft",
+      description: "Clean, editorial product designer portfolio with high-craft typography, 3D character illustrations, and minimalist whitespace.",
+      category: "Editorial",
+      tagline: "Product Designer · Systems & Clarity",
+      tags: ["Editorial", "Product Design", "Minimal", "Orange Accent", "3D Avatar", "Whitespace"],
+      features: [
+        "Full-viewport white hero with clean top navigation and active orange underline",
+        "Large bold dual-tone name heading with vibrant orange first name",
+        "3D thinking and magnifying glass designer illustrations with handwritten notes",
+        "Subtle oversized circular geometry and pale green telemetry ray marker",
+        "Editorial text link with diagonal arrow and tactile case study showcase",
+      ],
+      previewAccent: "#EF4B18",
+      previewImageUrl: "/images/templates/editorial-craft.svg",
+      supportedSections: ["profile", "projects", "experience", "skills", "education", "contact"],
+      isPremium: true,
+    },
+    component: EditorialCraftTemplate,
+  },
   "cosmic-orbit": {
     metadata: {
       id: "cosmic-orbit",

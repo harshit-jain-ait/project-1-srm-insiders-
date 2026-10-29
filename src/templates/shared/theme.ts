@@ -125,6 +125,15 @@ const TEMPLATE_DEFAULT_THEMES: Record<
     border: "#202C40",
     accent: "#4BE5FF",
   },
+  "editorial-craft": {
+    isDark: false,
+    fontClass: "font-sans",
+    bg: "#FFFFFF",
+    text: "#0A0A0A",
+    surface: "#FAFAFA",
+    border: "#EAEAEA",
+    accent: "#EF4B18",
+  },
 };
 
 export function resolveTemplateTheme(

@@ -1,0 +1,201 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <!-- Shadows & Filters -->
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#000000" flood-opacity="0.08"/>
+    </filter>
+    <filter id="greenGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Character Avatar Gradients -->
+    <radialGradient id="craftSkin" cx="40%" cy="35%" r="60%">
+      <stop offset="0%" stop-color="#fed7aa"/>
+      <stop offset="70%" stop-color="#fb923c"/>
+      <stop offset="100%" stop-color="#ea580c"/>
+    </radialGradient>
+    <linearGradient id="craftHoodie" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#27272a"/>
+      <stop offset="50%" stop-color="#18181b"/>
+      <stop offset="100%" stop-color="#09090b"/>
+    </linearGradient>
+    <linearGradient id="craftHair" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1c1917"/>
+      <stop offset="100%" stop-color="#0c0a09"/>
+    </linearGradient>
+
+    <!-- Pale Green Fade Line -->
+    <linearGradient id="greenFade" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#71A85B" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#71A85B" stop-opacity="0.05"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Crisp Pure White Canvas -->
+  <rect width="800" height="600" fill="#ffffff"/>
+
+  <!-- Top Border Rule -->
+  <line x1="0" y1="1" x2="800" y2="1" stroke="#eaeaea" stroke-width="1.5"/>
+
+  <!-- Subtle Oversized Circular Outline Behind Center Copy -->
+  <circle cx="400" cy="300" r="230" fill="none" stroke="#e2e8f0" stroke-width="1.2" stroke-opacity="0.6"/>
+
+  <!-- Pale Green Diagonal Line & Marker Node -->
+  <g transform="translate(190, 290)">
+    <line x1="0" y1="80" x2="150" y2="10" stroke="#71A85B" stroke-width="1.5" stroke-opacity="0.6"/>
+    <!-- Glowing Green Marker -->
+    <circle cx="0" cy="80" r="5" fill="#71A85B" filter="url(#greenGlow)"/>
+    <circle cx="0" cy="80" r="9" fill="none" stroke="#71A85B" stroke-width="1" stroke-opacity="0.3"/>
+  </g>
+
+  <!-- ── TOP NAVIGATION BAR ──────────────────────────────────────────────── -->
+  <g transform="translate(0, 0)">
+    <line x1="0" y1="64" x2="800" y2="64" stroke="#f1f5f9" stroke-width="1"/>
+
+    <!-- Left Wordmark -->
+    <text x="48" y="40" font-family="-apple-system, BlinkMacSystemFont, 'Inter', sans-serif" font-size="16" font-weight="800" fill="#0f172a" letter-spacing="-0.02em">
+      Sai Tharun
+    </text>
+
+    <!-- Right Nav Links -->
+    <g transform="translate(610, 40)" font-family="-apple-system, BlinkMacSystemFont, 'Inter', sans-serif" font-size="13" font-weight="500">
+      <!-- Active Home Link with Orange Underline -->
+      <text x="0" y="0" fill="#0f172a" font-weight="700">Home</text>
+      <line x1="0" y1="7" x2="36" y2="7" stroke="#EF4B18" stroke-width="2.5" stroke-linecap="round"/>
+
+      <text x="64" y="0" fill="#64748b">About me</text>
+      <text x="145" y="0" fill="#64748b">Resume</text>
+    </g>
+  </g>
+
+  <!-- ── 3D CHARACTER 1: Thinking Designer (Upper-Left) ───────────────────── -->
+  <g transform="translate(68, 90)">
+    <!-- Lightbulb Thought Bubble -->
+    <g transform="translate(80, 0)" filter="url(#softShadow)">
+      <rect x="0" y="0" width="46" height="42" rx="14" fill="#ffffff" stroke="#f1f5f9"/>
+      <circle cx="23" cy="20" r="10" fill="#fef3c7"/>
+      <path d="M 23 14 A 5 5 0 0 1 27 21 L 25 24 L 21 24 L 19 21 A 5 5 0 0 1 23 14 Z" fill="#f59e0b"/>
+      <line x1="21" y1="26" x2="25" y2="26" stroke="#b45309" stroke-width="1.5" stroke-linecap="round"/>
+      <!-- Bubble tail -->
+      <polygon points="12,38 8,46 18,40" fill="#ffffff"/>
+    </g>
+
+    <!-- Character Body -->
+    <g transform="translate(0, 30)">
+      <!-- Curly Hair -->
+      <circle cx="48" cy="50" r="18" fill="url(#craftHair)"/>
+      <circle cx="65" cy="40" r="20" fill="url(#craftHair)"/>
+      <circle cx="85" cy="42" r="19" fill="url(#craftHair)"/>
+      <circle cx="98" cy="54" r="17" fill="url(#craftHair)"/>
+      <circle cx="45" cy="68" r="16" fill="url(#craftHair)"/>
+      <circle cx="102" cy="72" r="15" fill="url(#craftHair)"/>
+
+      <!-- Face -->
+      <ellipse cx="74" cy="72" rx="24" ry="26" fill="url(#craftSkin)"/>
+      <circle cx="48" cy="74" r="7" fill="#f97316"/>
+
+      <!-- Eyes & Brows -->
+      <path d="M62 62 Q68 59 74 62" stroke="#1c1917" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M82 62 Q88 59 94 62" stroke="#1c1917" stroke-width="2.5" stroke-linecap="round"/>
+      <ellipse cx="68" cy="70" rx="3.5" ry="4.5" fill="#09090b"/>
+      <ellipse cx="88" cy="70" rx="3.5" ry="4.5" fill="#09090b"/>
+      <circle cx="69.5" cy="68.5" r="1.2" fill="#ffffff"/>
+      <circle cx="89.5" cy="68.5" r="1.2" fill="#ffffff"/>
+
+      <!-- Mustache & Smile -->
+      <path d="M72 82 Q78 80 84 82 Q78 85 72 82" fill="#1c1917"/>
+      <path d="M74 87 Q78 89 82 87" stroke="#9a3412" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+
+      <!-- Hoodie Body -->
+      <path d="M30 150 Q36 104 62 100 L90 100 Q118 104 124 150 Z" fill="url(#craftHoodie)"/>
+      <path d="M60 100 Q76 114 92 100" stroke="#3f3f46" stroke-width="2.5" fill="none"/>
+    </g>
+
+    <!-- Handwritten Callout: "okay... but why?" -->
+    <g transform="translate(135, 95)">
+      <text font-family="'Caveat', cursive, -apple-system, sans-serif" font-size="14" font-weight="700" fill="#475569" letter-spacing="0.02em">
+        “okay... but why?”
+      </text>
+      <!-- Purple curved underline -->
+      <path d="M2 14 Q35 9 68 14" stroke="#818cf8" stroke-width="2" stroke-linecap="round" fill="none"/>
+    </g>
+  </g>
+
+  <!-- ── 3D CHARACTER 2: Magnifier Inspector (Lower-Right) ───────────────── -->
+  <g transform="translate(610, 360)">
+    <!-- Character Body -->
+    <g transform="translate(0, 0)">
+      <!-- Curly Hair -->
+      <circle cx="50" cy="50" r="18" fill="url(#craftHair)"/>
+      <circle cx="67" cy="40" r="20" fill="url(#craftHair)"/>
+      <circle cx="87" cy="42" r="19" fill="url(#craftHair)"/>
+      <circle cx="100" cy="54" r="17" fill="url(#craftHair)"/>
+
+      <!-- Face -->
+      <ellipse cx="76" cy="72" rx="24" ry="26" fill="url(#craftSkin)"/>
+      <circle cx="104" cy="74" r="7" fill="#f97316"/>
+
+      <!-- Right Eye -->
+      <path d="M84 62 Q90 59 96 62" stroke="#1c1917" stroke-width="2.5" stroke-linecap="round"/>
+      <ellipse cx="90" cy="70" rx="3.5" ry="4.5" fill="#09090b"/>
+      <circle cx="91.5" cy="68.5" r="1.2" fill="#ffffff"/>
+
+      <!-- Mustache -->
+      <path d="M74 82 Q80 80 86 82 Q80 85 74 82" fill="#1c1917"/>
+
+      <!-- Hoodie -->
+      <path d="M32 150 Q38 104 64 100 L92 100 Q120 104 126 150 Z" fill="url(#craftHoodie)"/>
+
+      <!-- Magnifying Glass Over Left Eye -->
+      <g transform="translate(42, 54)">
+        <circle cx="20" cy="20" r="16" stroke="#334155" stroke-width="3.5" fill="#e0f2fe" fill-opacity="0.8"/>
+        <path d="M 12 14 A 12 12 0 0 1 26 8" stroke="#ffffff" stroke-width="2" stroke-linecap="round" fill="none"/>
+        <ellipse cx="20" cy="20" rx="5" ry="6" fill="#09090b"/>
+        <circle cx="22" cy="18" r="1.5" fill="#ffffff"/>
+        <line x1="8" y1="32" x2="-2" y2="44" stroke="#1e293b" stroke-width="4.5" stroke-linecap="round"/>
+      </g>
+    </g>
+
+    <!-- Handwritten Callout: "2px. I can see it." -->
+    <g transform="translate(-105, 120)">
+      <text font-family="'Caveat', cursive, -apple-system, sans-serif" font-size="14" font-weight="700" fill="#475569">
+        “2px. I can see it.”
+      </text>
+      <!-- Purple curved underline -->
+      <path d="M2 14 Q35 9 72 14" stroke="#818cf8" stroke-width="2" stroke-linecap="round" fill="none"/>
+    </g>
+  </g>
+
+  <!-- ── CENTER MAIN HERO INTRODUCTION ───────────────────────────────────── -->
+  <g transform="translate(400, 230)" text-anchor="middle">
+    <!-- Role Label (Uppercase, generous tracking) -->
+    <text y="0" font-family="-apple-system, BlinkMacSystemFont, 'Inter', sans-serif" font-size="11" font-weight="700" fill="#64748b" letter-spacing="0.25em">
+      SENIOR PRODUCT DESIGNER AT LICIOUS
+    </text>
+
+    <!-- Very Large Bold Name Heading (Orange "Sai" + Black "Tharun") -->
+    <g transform="translate(0, 56)">
+      <text font-family="-apple-system, BlinkMacSystemFont, 'Inter', sans-serif" font-size="64" font-weight="900" letter-spacing="-0.035em">
+        <tspan fill="#EF4B18">Sai</tspan>
+        <tspan dx="16" fill="#0a0a0a">Tharun</tspan>
+      </text>
+    </g>
+
+    <!-- Muted Gray Positioning Statement -->
+    <text y="104" font-family="-apple-system, BlinkMacSystemFont, 'Inter', sans-serif" font-size="15" font-weight="400" fill="#475569" letter-spacing="-0.01em">
+      Simplifying complex products into clear, useful experiences.
+    </text>
+
+    <!-- Editorial CTA Link: "View selected work ↘" with Orange Underline -->
+    <g transform="translate(0, 150)">
+      <text font-family="-apple-system, BlinkMacSystemFont, 'Inter', sans-serif" font-size="14" font-weight="700" fill="#0f172a" letter-spacing="-0.01em">
+        View selected work <tspan font-family="monospace">↘</tspan>
+      </text>
+      <line x1="-75" y1="8" x2="75" y2="8" stroke="#EF4B18" stroke-width="2" stroke-linecap="round"/>
+    </g>
+  </g>
+</svg>

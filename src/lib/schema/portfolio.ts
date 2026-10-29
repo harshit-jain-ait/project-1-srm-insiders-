@@ -339,6 +339,7 @@ export const TemplateIdSchema = z.enum([
   "kinetic-studio",
   "designer-craft",
   "cosmic-orbit",
+  "editorial-craft",
 ]);
 
 export type TemplateId = z.infer<typeof TemplateIdSchema>;
@@ -760,18 +761,19 @@ export function initializePortfolioWithTemplate(
     : "minimal-portfolio";
 
   const isCosmic = resolvedTemplate === "cosmic-orbit";
+  const isCraft = resolvedTemplate === "editorial-craft";
 
   return createEmptyPortfolio({
     ...partial,
     appearance: {
       templateId: resolvedTemplate,
-      colorScheme: isCosmic ? "dark" : "system",
+      colorScheme: isCosmic ? "dark" : isCraft ? "light" : "system",
       accentColor: isCosmic ? "blue" : "neutral",
       fontFamily: isCosmic ? "sans" : "sans",
       designTokens: {
-        accentHex: isCosmic ? "#4BE5FF" : undefined,
-        backgroundColor: isCosmic ? "#070B14" : undefined,
-        textColor: isCosmic ? "#FFFFFF" : undefined,
+        accentHex: isCosmic ? "#4BE5FF" : isCraft ? "#EF4B18" : undefined,
+        backgroundColor: isCosmic ? "#070B14" : isCraft ? "#FFFFFF" : undefined,
+        textColor: isCosmic ? "#FFFFFF" : isCraft ? "#0A0A0A" : undefined,
         ...partial?.appearance?.designTokens,
       },
       ...partial?.appearance,
