@@ -646,21 +646,21 @@ export function LandingPageView() {
         <section className="py-14 sm:py-20 bg-slate-50/60 dark:bg-[#07090e] transition-colors duration-300">
           <div className="max-w-7xl mx-auto px-6">
             <div className="rounded-[2.5rem] bg-[#FAF8F5] dark:bg-[#0f1118] border border-[#ECE7DE] dark:border-white/10 p-8 sm:p-14 lg:p-16 relative overflow-hidden shadow-[0_20px_50px_-20px_rgba(0,0,0,0.05)]">
-              {/* Subtle ambient glow in background */}
-              <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-purple-100/40 dark:bg-purple-950/20 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20" />
-              <div className="absolute bottom-0 left-1/3 w-[400px] h-[400px] bg-amber-50/50 dark:bg-amber-950/10 rounded-full blur-3xl pointer-events-none" />
+              {/* Subtle ambient glow in background matching royal blue theme */}
+              <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-100/50 dark:bg-blue-950/25 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20" />
+              <div className="absolute bottom-0 left-1/3 w-[400px] h-[400px] bg-sky-100/40 dark:bg-sky-950/20 rounded-full blur-3xl pointer-events-none" />
 
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center relative z-10">
                 {/* Left Column: Clean Minimalist Typography & Actions */}
                 <div className="lg:col-span-7 space-y-6 text-left">
-                  <span className="text-xs sm:text-[13px] font-semibold uppercase tracking-[0.22em] text-neutral-500 dark:text-neutral-400 block">
+                  <span className="text-xs sm:text-[13px] font-bold uppercase tracking-[0.22em] text-[#2563eb] dark:text-blue-400 block">
                     CRAFT &amp; INNOVATION
                   </span>
 
                   <h2 className="text-3xl sm:text-5xl lg:text-[3.5rem] font-bold text-neutral-900 dark:text-white tracking-tight leading-[1.12]">
                     The art of <br />
                     thoughtful digital <br />
-                    portfolios.
+                    <span className="text-[#2563eb] dark:text-blue-400">portfolios.</span>
                   </h2>
 
                   <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-400 font-normal leading-relaxed max-w-md">
@@ -673,7 +673,7 @@ export function LandingPageView() {
                         type="button"
                         whileHover={{ scale: 1.03 }}
                         whileTap={{ scale: 0.97 }}
-                        className="bg-[#111111] hover:bg-neutral-800 text-white dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-200 font-medium px-7 py-3.5 rounded-full text-sm shadow-xs transition-all cursor-pointer"
+                        className="bg-[#111111] hover:bg-[#2563eb] text-white dark:bg-[#2563eb] dark:hover:bg-blue-500 font-medium px-7 py-3.5 rounded-full text-sm shadow-sm transition-all cursor-pointer"
                       >
                         Get started
                       </motion.button>
@@ -681,10 +681,10 @@ export function LandingPageView() {
 
                     <Link
                       href="/templates"
-                      className="inline-flex items-center gap-1.5 text-sm font-medium text-neutral-700 dark:text-neutral-300 hover:text-neutral-950 dark:hover:text-white transition-colors group cursor-pointer"
+                      className="inline-flex items-center gap-1.5 text-sm font-medium text-neutral-700 dark:text-neutral-300 hover:text-[#2563eb] dark:hover:text-blue-400 transition-colors group cursor-pointer"
                     >
                       <span>Explore templates</span>
-                      <span className="text-base leading-none transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+                      <span className="text-base leading-none text-[#2563eb] dark:text-blue-400 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
                         ↗
                       </span>
                     </Link>

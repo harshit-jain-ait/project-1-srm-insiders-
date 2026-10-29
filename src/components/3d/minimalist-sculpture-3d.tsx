@@ -2,7 +2,6 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
-import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
 
 interface MinimalistSculpture3DProps {
   className?: string;
@@ -40,7 +39,7 @@ export function MinimalistSculpture3D({ className = "" }: MinimalistSculpture3DP
     // 1. Scene & Camera
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 100);
-    camera.position.set(0, 0.2, 7.2);
+    camera.position.set(0, 0.1, 7.0);
     camera.lookAt(0, 0, 0);
 
     // 2. Renderer with transparent background and high fidelity
@@ -52,158 +51,101 @@ export function MinimalistSculpture3D({ className = "" }: MinimalistSculpture3DP
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.2;
-    renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.toneMappingExposure = 1.25;
 
     container.appendChild(renderer.domElement);
 
-    // 3. Studio Lighting Setup matching Image 1
-    // Soft warm ambient base
-    const ambientLight = new THREE.AmbientLight(0xfff8f0, 1.4);
+    // 3. Studio Lighting tuned to the brand's Royal Blue & Clean Modern Theme
+    const ambientLight = new THREE.AmbientLight(0xf0f7ff, 1.4);
     scene.add(ambientLight);
 
-    // Warm main key light
-    const keyLight = new THREE.DirectionalLight(0xfffaed, 2.4);
+    // Crisp white key light
+    const keyLight = new THREE.DirectionalLight(0xffffff, 2.6);
     keyLight.position.set(5, 7, 6);
-    keyLight.castShadow = true;
     scene.add(keyLight);
 
-    // Purple / Lavender backlight to produce the glowing glass edge
-    const rimLight = new THREE.DirectionalLight(0x8a7aff, 3.2);
+    // Signature Royal Blue backlight for luminous rim glow on the glass
+    const rimLight = new THREE.DirectionalLight(0x2563eb, 4.0);
     rimLight.position.set(-6, -2, -5);
     scene.add(rimLight);
 
-    // Fill light from lower front
-    const fillLight = new THREE.DirectionalLight(0xe8e6f5, 1.2);
+    // Soft sky-blue fill light from bottom-front
+    const fillLight = new THREE.DirectionalLight(0xdbeafe, 1.3);
     fillLight.position.set(2, -4, 4);
     scene.add(fillLight);
 
-    // Glowing internal point light inside the knot
-    const innerLight = new THREE.PointLight(0xb4a4f8, 1.8, 8);
-    innerLight.position.set(0.2, 0.3, 0);
+    // Internal radiant cobalt-blue point light inside the cylindrical core
+    const innerLight = new THREE.PointLight(0x3b82f6, 2.5, 9);
+    innerLight.position.set(0, 0.2, 0);
     scene.add(innerLight);
 
-    // 4. Materials
-    // A. Translucent Violet-Blue Glass Material
-    const glassMaterial = new THREE.MeshPhysicalMaterial({
-      color: 0x857fc8,
-      emissive: 0x1a1236,
-      emissiveIntensity: 0.15,
-      roughness: 0.12,
-      transmission: 0.88,
-      thickness: 1.4,
+    // 4. Materials matching Theme (Royal Sapphire Blue, Pearl White, & Ice Sky Blue)
+    // A. Translucent Royal Sapphire Blue Glass (Cylindrical Tube)
+    const sapphireGlassMaterial = new THREE.MeshPhysicalMaterial({
+      color: 0x2563eb,
+      emissive: 0x0f2b6e,
+      emissiveIntensity: 0.22,
+      roughness: 0.08,
+      transmission: 0.9,
+      thickness: 1.8,
       ior: 1.52,
       specularIntensity: 1.0,
-      specularColor: 0xffffff,
+      specularColor: 0x93c5fd,
       clearcoat: 1.0,
-      clearcoatRoughness: 0.08,
+      clearcoatRoughness: 0.06,
       transparent: true,
-      opacity: 0.92,
+      opacity: 0.93,
       side: THREE.DoubleSide,
     });
 
-    // B. Matte Satin Cream / Off-White Ribbon Material
-    const creamMaterial = new THREE.MeshPhysicalMaterial({
-      color: 0xf5f0e6,
-      roughness: 0.36,
-      metalness: 0.04,
-      clearcoat: 0.35,
-      clearcoatRoughness: 0.15,
+    // B. Pearl White Satin Ceramic Cylinder
+    const pearlCylinderMaterial = new THREE.MeshPhysicalMaterial({
+      color: 0xf1f5f9,
+      emissive: 0x1e3a8a,
+      emissiveIntensity: 0.06,
+      roughness: 0.24,
+      metalness: 0.08,
+      clearcoat: 0.55,
+      clearcoatRoughness: 0.12,
       side: THREE.DoubleSide,
     });
 
-    // C. Secondary Soft Lavender Satin Ribbon Material
-    const lavenderMaterial = new THREE.MeshPhysicalMaterial({
-      color: 0xd8cee8,
-      roughness: 0.28,
-      metalness: 0.06,
-      clearcoat: 0.4,
-      side: THREE.DoubleSide,
-    });
-
-    // D. Frosted Glass Floating Card Material
-    const frostedCardMaterial = new THREE.MeshPhysicalMaterial({
-      color: 0xffffff,
-      roughness: 0.42,
-      transmission: 0.94,
-      thickness: 0.8,
-      ior: 1.45,
+    // C. Ethereal Ice Sky-Blue Glass Orbiting Cylinder Ring
+    const skyGlassMaterial = new THREE.MeshPhysicalMaterial({
+      color: 0x60a5fa,
+      emissive: 0x1d4ed8,
+      emissiveIntensity: 0.18,
+      roughness: 0.1,
+      transmission: 0.88,
+      thickness: 1.2,
+      ior: 1.48,
       transparent: true,
-      opacity: 0.82,
-      clearcoat: 0.8,
-      clearcoatRoughness: 0.2,
+      opacity: 0.85,
       side: THREE.DoubleSide,
     });
 
-    const cardDetailMaterial = new THREE.MeshStandardMaterial({
-      color: 0xd5d0db,
-      roughness: 0.5,
-      metalness: 0.1,
-      transparent: true,
-      opacity: 0.65,
-    });
-
-    // 5. Geometry & Mesh Construction
+    // 5. Cylindrical 3D Geometries (Clean, Round Tubular Cross-Section - No Rectangular Card)
     const mainGroup = new THREE.Group();
     scene.add(mainGroup);
 
-    // --- Ribbon 1: Main Purple Glass Torus Knot ---
-    const glassKnotGeom = new THREE.TorusKnotGeometry(1.5, 0.32, 200, 36, 2, 3);
-    glassKnotGeom.scale(1.05, 1.0, 0.42); // Flatten into a twisting ribbon
-    const glassRibbonMesh = new THREE.Mesh(glassKnotGeom, glassMaterial);
-    glassRibbonMesh.rotation.set(0.4, 0.2, 0.5);
-    mainGroup.add(glassRibbonMesh);
+    // Cylinder 1: Main Sapphire Blue Cylindrical Torus Knot (radius 1.55, tube 0.36)
+    const sapphireCylinderGeom = new THREE.TorusKnotGeometry(1.55, 0.36, 220, 48, 2, 3);
+    const sapphireCylinderMesh = new THREE.Mesh(sapphireCylinderGeom, sapphireGlassMaterial);
+    sapphireCylinderMesh.rotation.set(0.35, 0.15, 0.45);
+    mainGroup.add(sapphireCylinderMesh);
 
-    // --- Ribbon 2: Entwined Cream Satin Ribbon ---
-    const creamKnotGeom = new THREE.TorusKnotGeometry(1.55, 0.3, 200, 36, 2, 3);
-    creamKnotGeom.scale(0.95, 1.05, 0.4); // Ribbon profile
-    const creamRibbonMesh = new THREE.Mesh(creamKnotGeom, creamMaterial);
-    creamRibbonMesh.rotation.set(-0.6, 1.1, -0.3);
-    creamRibbonMesh.position.set(-0.1, 0.05, 0.1);
-    mainGroup.add(creamRibbonMesh);
+    // Cylinder 2: Entwined Pearl White Cylindrical Torus Knot (radius 1.58, tube 0.34)
+    const pearlCylinderGeom = new THREE.TorusKnotGeometry(1.58, 0.34, 220, 48, 2, 3);
+    const pearlCylinderMesh = new THREE.Mesh(pearlCylinderGeom, pearlCylinderMaterial);
+    pearlCylinderMesh.rotation.set(-0.55, 1.15, -0.25);
+    pearlCylinderMesh.position.set(-0.05, 0.05, 0.05);
+    mainGroup.add(pearlCylinderMesh);
 
-    // --- Ribbon 3: Lavender Inner Loop ---
-    const innerKnotGeom = new THREE.TorusKnotGeometry(1.25, 0.22, 160, 28, 3, 4);
-    innerKnotGeom.scale(1.1, 0.9, 0.4);
-    const innerRibbonMesh = new THREE.Mesh(innerKnotGeom, lavenderMaterial);
-    innerRibbonMesh.rotation.set(1.2, -0.4, 0.8);
-    mainGroup.add(innerRibbonMesh);
-
-    // --- Floating Frosted Glass Card Group ---
-    const cardGroup = new THREE.Group();
-    cardGroup.position.set(-0.85, 0.05, 1.85);
-    cardGroup.rotation.set(0.04, 0.18, -0.05);
-
-    // Card Body
-    const cardGeom = new RoundedBoxGeometry(2.35, 1.45, 0.05, 6, 0.14);
-    const cardMesh = new THREE.Mesh(cardGeom, frostedCardMaterial);
-    cardGroup.add(cardMesh);
-
-    // Card Detail 1: Left Top Dot
-    const dotGeom = new THREE.SphereGeometry(0.065, 16, 16);
-    const dotLeft = new THREE.Mesh(dotGeom, cardDetailMaterial);
-    dotLeft.position.set(-0.85, 0.42, 0.035);
-    cardGroup.add(dotLeft);
-
-    // Card Detail 2: Right Top Dot
-    const dotRight = new THREE.Mesh(dotGeom, cardDetailMaterial);
-    dotRight.position.set(0.85, 0.42, 0.035);
-    cardGroup.add(dotRight);
-
-    // Card Detail 3: Top Skeleton Pill Bar
-    const bar1Geom = new RoundedBoxGeometry(1.5, 0.065, 0.02, 3, 0.03);
-    const bar1 = new THREE.Mesh(bar1Geom, cardDetailMaterial);
-    bar1.position.set(-0.1, 0.02, 0.035);
-    cardGroup.add(bar1);
-
-    // Card Detail 4: Bottom Skeleton Pill Bar
-    const bar2Geom = new RoundedBoxGeometry(0.95, 0.065, 0.02, 3, 0.03);
-    const bar2 = new THREE.Mesh(bar2Geom, cardDetailMaterial);
-    bar2.position.set(-0.38, -0.16, 0.035);
-    cardGroup.add(bar2);
-
-    mainGroup.add(cardGroup);
+    // Cylinder 3: Dynamic Orbiting Cylindrical Ring around the sculpture (radius 2.15, tube 0.11)
+    const ringCylinderGeom = new THREE.TorusGeometry(2.15, 0.11, 32, 180);
+    const ringCylinderMesh = new THREE.Mesh(ringCylinderGeom, skyGlassMaterial);
+    ringCylinderMesh.rotation.set(1.1, 0.3, 0.6);
+    mainGroup.add(ringCylinderMesh);
 
     // 6. Interactive Smooth Pointer Tracking
     let targetRotX = 0;
@@ -217,8 +159,8 @@ export function MinimalistSculpture3D({ className = "" }: MinimalistSculpture3DP
       const ny = -(((e.clientY - rect.top) / rect.height) * 2 - 1);
       targetMouseX = Math.max(-1, Math.min(1, nx));
       targetMouseY = Math.max(-1, Math.min(1, ny));
-      targetRotY = targetMouseX * 0.45;
-      targetRotX = -targetMouseY * 0.35;
+      targetRotY = targetMouseX * 0.55;
+      targetRotX = -targetMouseY * 0.45;
     };
 
     const handlePointerLeave = () => {
@@ -252,24 +194,23 @@ export function MinimalistSculpture3D({ className = "" }: MinimalistSculpture3DP
       const elapsedTime = clock.getElapsedTime();
 
       // Continuous gentle idle rotation and breathing
-      mainGroup.rotation.y += 0.0035;
-      mainGroup.rotation.x += (targetRotX + Math.sin(elapsedTime * 0.6) * 0.06 - mainGroup.rotation.x) * 0.06;
+      mainGroup.rotation.y += 0.004;
+      mainGroup.rotation.x += (targetRotX + Math.sin(elapsedTime * 0.6) * 0.07 - mainGroup.rotation.x) * 0.06;
       mainGroup.rotation.y += (targetRotY * 0.4) * 0.05;
       mainGroup.rotation.z = Math.cos(elapsedTime * 0.5) * 0.04;
 
-      // Independent subtle floating for the ribbons
-      glassRibbonMesh.rotation.y += 0.0015;
-      creamRibbonMesh.rotation.x += 0.001;
+      // Independent rotational breathing for the entwined cylinders
+      sapphireCylinderMesh.rotation.y += 0.002;
+      pearlCylinderMesh.rotation.x += 0.0015;
 
-      // Card organic floating & counter-bobbing
-      cardGroup.position.y = 0.05 + Math.sin(elapsedTime * 1.8) * 0.07;
-      cardGroup.rotation.z = -0.05 + Math.sin(elapsedTime * 1.2) * 0.025;
-      cardGroup.rotation.y = 0.18 + (targetMouseX * 0.18);
-      cardGroup.rotation.x = 0.04 - (targetMouseY * 0.12);
+      // Orbiting ring counter-spin
+      ringCylinderMesh.rotation.z += 0.006;
+      ringCylinderMesh.rotation.x = 1.1 + Math.sin(elapsedTime * 0.8) * 0.12;
 
-      // Light oscillation for realistic glint on glass curves
-      innerLight.position.x = Math.sin(elapsedTime * 0.8) * 0.4;
-      innerLight.position.y = Math.cos(elapsedTime * 0.9) * 0.3;
+      // Subtle light refraction pulse inside the cylindrical glass
+      innerLight.position.x = Math.sin(elapsedTime * 0.9) * 0.45;
+      innerLight.position.y = Math.cos(elapsedTime * 1.1) * 0.35;
+      innerLight.intensity = 2.4 + Math.sin(elapsedTime * 1.5) * 0.4;
 
       renderer.render(scene, camera);
     };
@@ -290,19 +231,13 @@ export function MinimalistSculpture3D({ className = "" }: MinimalistSculpture3DP
       }
 
       // Dispose resources
-      glassKnotGeom.dispose();
-      creamKnotGeom.dispose();
-      innerKnotGeom.dispose();
-      cardGeom.dispose();
-      dotGeom.dispose();
-      bar1Geom.dispose();
-      bar2Geom.dispose();
+      sapphireCylinderGeom.dispose();
+      pearlCylinderGeom.dispose();
+      ringCylinderGeom.dispose();
 
-      glassMaterial.dispose();
-      creamMaterial.dispose();
-      lavenderMaterial.dispose();
-      frostedCardMaterial.dispose();
-      cardDetailMaterial.dispose();
+      sapphireGlassMaterial.dispose();
+      pearlCylinderMaterial.dispose();
+      skyGlassMaterial.dispose();
 
       renderer.dispose();
     };
@@ -313,14 +248,12 @@ export function MinimalistSculpture3D({ className = "" }: MinimalistSculpture3DP
       ref={containerRef}
       className={`relative w-full h-[360px] sm:h-[440px] lg:h-[490px] flex items-center justify-center cursor-grab active:cursor-grabbing select-none ${className}`}
     >
-      {/* Fallback image while Three.js initializes */}
-      <img
-        src="/images/landing/minimalist-sculpture-alpha.png"
-        alt="3D Craft & Innovation Sculpture"
-        className={`absolute inset-0 w-full h-full object-contain pointer-events-none transition-opacity duration-700 ease-out ${
-          isReady ? "opacity-0" : "opacity-100"
-        }`}
-      />
+      {/* Subtle loader shimmer before WebGL starts */}
+      {!isReady && (
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <div className="w-48 h-48 rounded-full border-4 border-blue-500/20 border-t-blue-500 animate-spin" />
+        </div>
+      )}
     </div>
   );
 }
