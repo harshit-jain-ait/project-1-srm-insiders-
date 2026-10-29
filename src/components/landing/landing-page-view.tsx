@@ -28,7 +28,13 @@ import { GithubIcon, LinkedinIcon, TwitterIcon, YoutubeIcon } from "@/components
 import { Logo } from "@/components/ui/logo";
 import { useTheme } from "@/components/theme-provider";
 
+import dynamic from "next/dynamic";
 import { StudioShowcase } from "@/components/landing/studio-showcase";
+
+const MinimalistSculpture3D = dynamic(
+  () => import("@/components/3d/minimalist-sculpture-3d").then((mod) => mod.MinimalistSculpture3D),
+  { ssr: false }
+);
 
 export function LandingPageView() {
   const templates = getAllTemplates();
@@ -685,19 +691,9 @@ export function LandingPageView() {
                   </div>
                 </div>
 
-                {/* Right Column: 3D Minimalist Ribbon Sculpture with Floating Frosted Glass Card */}
-                <div className="lg:col-span-5 flex items-center justify-center relative">
-                  <motion.div
-                    animate={{ y: [-4, 4, -4], rotate: [-0.5, 0.5, -0.5] }}
-                    transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                    className="w-full max-w-md flex items-center justify-center relative"
-                  >
-                    <img
-                      src="/images/landing/minimalist-sculpture-alpha.png"
-                      alt="The art of thoughtful digital experiences"
-                      className="w-full h-auto object-contain select-none pointer-events-none drop-shadow-xl"
-                    />
-                  </motion.div>
+                {/* Right Column: Interactive 3D Minimalist Ribbon Sculpture with Floating Frosted Glass Card */}
+                <div className="lg:col-span-5 flex items-center justify-center relative w-full">
+                  <MinimalistSculpture3D />
                 </div>
               </div>
             </div>
