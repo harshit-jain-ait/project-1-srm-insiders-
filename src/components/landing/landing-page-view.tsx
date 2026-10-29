@@ -765,7 +765,7 @@ export function LandingPageView() {
                     {isActive && (
                       <motion.div
                         layoutId="active-contact-orb"
-                        className={`absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full ${card.orbColor} z-20`}
+                        className={`absolute -top-1.25 left-1/2 -translate-x-1/2 w-2.5 h-2.5 rounded-full ${card.orbColor} z-20`}
                         transition={{ type: "spring", stiffness: 400, damping: 28 }}
                       />
                     )}
@@ -812,78 +812,63 @@ export function LandingPageView() {
         </section>
       </main>
 
-      {/* 8. Footer */}
-      <footer className="bg-slate-100 dark:bg-[#090b0e] text-slate-600 dark:text-slate-400 py-14 border-t border-slate-200 dark:border-slate-800/80 text-xs select-none transition-colors duration-300">
-        <div className="max-w-7xl mx-auto px-6 space-y-8">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6 border-b border-slate-200 dark:border-slate-800 pb-8">
-            {/* Brand */}
-            <Link href="/" className="group">
+      {/* 8. Footer - Clean, Smooth & Minimalist */}
+      <footer className="bg-white/80 dark:bg-[#07090e]/90 text-slate-500 dark:text-slate-400 py-10 sm:py-12 border-t border-slate-100 dark:border-slate-800/60 text-xs select-none transition-colors duration-300">
+        <div className="max-w-7xl mx-auto px-6 space-y-6 sm:space-y-8">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6 pb-6 sm:pb-8 border-b border-slate-100 dark:border-slate-800/50">
+            {/* Brand Logo */}
+            <Link href="/" className="group opacity-95 hover:opacity-100 transition-opacity">
               <Logo size="md" isDark={isDark} />
             </Link>
 
-            {/* Links */}
-            <div className="flex flex-wrap items-center justify-center gap-8 font-medium text-slate-500 dark:text-slate-400">
-              <Link href="/" className="hover:text-slate-900 dark:hover:text-white transition-colors">
+            {/* Navigation Links with Smooth Minimalist Hover */}
+            <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-8 text-[13px] font-normal text-slate-500 dark:text-slate-400">
+              <Link href="/" className="hover:text-slate-900 dark:hover:text-white transition-colors duration-200">
                 Home
               </Link>
-              <Link href="/templates" className="hover:text-slate-900 dark:hover:text-white transition-colors">
+              <Link href="/templates" className="hover:text-slate-900 dark:hover:text-white transition-colors duration-200">
                 Templates
               </Link>
-              <a href="#features" className="hover:text-slate-900 dark:hover:text-white transition-colors">
+              <a href="#features" className="hover:text-slate-900 dark:hover:text-white transition-colors duration-200">
                 Features
               </a>
-              <a href="#process" className="hover:text-slate-900 dark:hover:text-white transition-colors">
+              <a href="#process" className="hover:text-slate-900 dark:hover:text-white transition-colors duration-200">
                 Working
               </a>
-              <a href="#contact" className="hover:text-slate-900 dark:hover:text-white transition-colors">
+              <a href="#contact" className="hover:text-slate-900 dark:hover:text-white transition-colors duration-200">
                 Contact
               </a>
             </div>
 
-            {/* Social Icons */}
-            <div className="flex items-center gap-4 text-slate-400">
-              <a
-                href="https://twitter.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-slate-900 dark:hover:text-white transition-colors p-1"
-                aria-label="Twitter"
-              >
-                <TwitterIcon className="w-4 h-4" />
-              </a>
-              <a
-                href="https://linkedin.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-slate-900 dark:hover:text-white transition-colors p-1"
-                aria-label="LinkedIn"
-              >
-                <LinkedinIcon className="w-4 h-4" />
-              </a>
-              <a
-                href="https://github.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-slate-900 dark:hover:text-white transition-colors p-1"
-                aria-label="GitHub"
-              >
-                <GithubIcon className="w-4 h-4" />
-              </a>
-              <a
-                href="https://youtube.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-slate-900 dark:hover:text-white transition-colors p-1"
-                aria-label="YouTube"
-              >
-                <YoutubeIcon className="w-4 h-4" />
-              </a>
+            {/* Minimalist Social Icons */}
+            <div className="flex items-center gap-2 text-slate-400">
+              {[
+                { label: "Twitter", href: "https://twitter.com", icon: TwitterIcon },
+                { label: "LinkedIn", href: "https://linkedin.com", icon: LinkedinIcon },
+                { label: "GitHub", href: "https://github.com", icon: GithubIcon },
+                { label: "YouTube", href: "https://youtube.com", icon: YoutubeIcon },
+              ].map((item) => {
+                const IconComponent = item.icon;
+                return (
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-8 h-8 rounded-full flex items-center justify-center text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800/60 transition-all duration-200 cursor-pointer"
+                    aria-label={item.label}
+                  >
+                    <IconComponent className="w-4 h-4" />
+                  </a>
+                );
+              })}
             </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-500 dark:text-slate-400">
+          {/* Bottom Copyright & Slogan */}
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-slate-400 dark:text-slate-400 tracking-wide">
             <span>© 2026 Portfolify. All rights reserved.</span>
-            <span>Create. Customize. Share.</span>
+            <span>Create. Customize. Stand out.</span>
           </div>
         </div>
       </footer>
