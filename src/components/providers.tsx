@@ -1,12 +1,12 @@
 "use client";
 
-import { SmokeCursor } from "@/components/ui/smoke-cursor";
+import { RocketCursor } from "@/components/ui/rocket-cursor";
 import { ThemeProvider } from "@/components/theme-provider";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <ThemeProvider>
-      <SmokeCursor />
+      <RocketCursor />
       {children}
     </ThemeProvider>
   );
