@@ -383,11 +383,19 @@ export function LandingPageView() {
                   <div>
                     {/* Inner Thumbnail Preview Frame - compact height */}
                     <div className="relative aspect-[16/9.5] rounded-xl bg-slate-100 dark:bg-slate-900 overflow-hidden border border-slate-100/80 dark:border-white/5">
+                      {/* Placeholder underlay */}
+                      <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-slate-900 to-[#070b14] text-center p-3 select-none">
+                        <span className="text-xs font-bold text-slate-300">{item.name}</span>
+                      </div>
+
                       <img
                         src={item.imageSrc}
                         alt={`${item.name} template preview`}
-                        className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700 ease-out"
+                        className="relative z-10 w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700 ease-out"
                         loading="lazy"
+                        onError={(e) => {
+                          e.currentTarget.style.display = "none";
+                        }}
                       />
 
                       {/* Badge in top corner */}

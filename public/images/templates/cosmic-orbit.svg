@@ -1,0 +1,250 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <!-- Background Space Gradients -->
+    <linearGradient id="cosmicBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#05070f"/>
+      <stop offset="40%" stop-color="#070b16"/>
+      <stop offset="70%" stop-color="#0b162c"/>
+      <stop offset="100%" stop-color="#04060c"/>
+    </linearGradient>
+
+    <!-- Nebula Glows -->
+    <radialGradient id="nebulaBlue" cx="20%" cy="25%" r="60%">
+      <stop offset="0%" stop-color="#1e3a8a" stop-opacity="0.5"/>
+      <stop offset="50%" stop-color="#0ea5e9" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#070b16" stop-opacity="0"/>
+    </radialGradient>
+
+    <radialGradient id="nebulaViolet" cx="75%" cy="30%" r="55%">
+      <stop offset="0%" stop-color="#4c1d95" stop-opacity="0.45"/>
+      <stop offset="55%" stop-color="#2563eb" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#070b16" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Planet Earth Surface & Halo -->
+    <radialGradient id="planetBody" cx="50%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#1d4ed8"/>
+      <stop offset="35%" stop-color="#0369a1"/>
+      <stop offset="70%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </radialGradient>
+
+    <linearGradient id="atmosphereRim" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#4be5ff" stop-opacity="0.95"/>
+      <stop offset="25%" stop-color="#38bdf8" stop-opacity="0.6"/>
+      <stop offset="70%" stop-color="#0284c7" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#0284c7" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- Filters for Glows -->
+    <filter id="cyanGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <filter id="planetHalo" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="24" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <linearGradient id="cometGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="1"/>
+      <stop offset="30%" stop-color="#38bdf8" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#4be5ff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Base Space Background -->
+  <rect width="800" height="600" fill="url(#cosmicBg)"/>
+  <rect width="800" height="600" fill="url(#nebulaBlue)"/>
+  <rect width="800" height="600" fill="url(#nebulaViolet)"/>
+
+  <!-- Starfield Points -->
+  <g fill="#ffffff">
+    <circle cx="45" cy="85" r="1" opacity="0.6"/>
+    <circle cx="95" cy="140" r="1.5" opacity="0.8"/>
+    <circle cx="160" cy="70" r="0.8" opacity="0.5"/>
+    <circle cx="210" cy="110" r="1.2" opacity="0.7"/>
+    <circle cx="280" cy="60" r="1.8" opacity="0.9"/>
+    <circle cx="340" cy="130" r="0.9" opacity="0.4"/>
+    <circle cx="420" cy="75" r="1.4" opacity="0.85"/>
+    <circle cx="490" cy="120" r="1.1" opacity="0.6"/>
+    <circle cx="560" cy="65" r="1.6" opacity="0.75"/>
+    <circle cx="620" cy="145" r="0.8" opacity="0.5"/>
+    <circle cx="710" cy="80" r="1.5" opacity="0.8"/>
+    <circle cx="760" cy="135" r="1.2" opacity="0.7"/>
+    <circle cx="80" cy="220" r="1" opacity="0.6"/>
+    <circle cx="130" cy="270" r="1.4" opacity="0.7"/>
+    <circle cx="680" cy="210" r="1.2" opacity="0.65"/>
+    <circle cx="740" cy="260" r="1.6" opacity="0.8"/>
+    <circle cx="30" cy="340" r="0.9" opacity="0.5"/>
+    <circle cx="770" cy="330" r="1.3" opacity="0.7"/>
+  </g>
+
+  <!-- Distant Blue Rim Planet (Top-Left) -->
+  <g transform="translate(60, 50)">
+    <circle cx="0" cy="0" r="38" fill="#091426"/>
+    <circle cx="0" cy="0" r="38" fill="none" stroke="#38bdf8" stroke-width="2.5" opacity="0.7" filter="url(#softGlow)"/>
+    <path d="M -36 -12 A 38 38 0 0 1 20 -32" fill="none" stroke="#bae6fd" stroke-width="3" opacity="0.9"/>
+  </g>
+
+  <!-- Shooting Comet (Upper-Left) -->
+  <line x1="110" y1="90" x2="190" y2="160" stroke="url(#cometGrad)" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="190" cy="160" r="2.5" fill="#ffffff" filter="url(#softGlow)"/>
+
+  <!-- City Skyline Silhouettes (Lower Left & Right) -->
+  <g fill="#060913" opacity="0.95">
+    <!-- Left Silhouettes -->
+    <path d="M0 600 L0 390 L24 390 L24 360 L42 360 L42 420 L65 420 L65 340 L85 340 L85 320 L95 320 L95 440 L130 440 L130 380 L155 380 L155 600 Z"/>
+    <!-- Right Silhouettes -->
+    <path d="M800 600 L800 370 L770 370 L770 330 L745 330 L745 410 L720 410 L720 350 L695 350 L695 430 L665 430 L665 380 L640 380 L640 600 Z"/>
+  </g>
+
+  <!-- City Window Lights -->
+  <g fill="#4be5ff" opacity="0.6">
+    <rect x="28" y="380" width="2" height="3"/>
+    <rect x="34" y="380" width="2" height="3"/>
+    <rect x="70" y="355" width="2" height="3"/>
+    <rect x="76" y="355" width="2" height="3"/>
+    <rect x="70" y="375" width="2" height="3"/>
+    <rect x="138" y="400" width="2" height="3"/>
+    <rect x="675" y="395" width="2" height="3"/>
+    <rect x="705" y="370" width="2" height="3"/>
+    <rect x="755" y="350" width="2" height="3"/>
+  </g>
+
+  <!-- Glowing Earth Planet Arc (Lower Center) -->
+  <!-- Outer Atmospheric Halo Glow -->
+  <ellipse cx="400" cy="620" rx="420" ry="260" fill="none" stroke="#4be5ff" stroke-width="18" opacity="0.45" filter="url(#planetHalo)"/>
+  <!-- Bright Sharp Rim -->
+  <ellipse cx="400" cy="620" rx="410" ry="250" fill="url(#planetBody)" stroke="#38bdf8" stroke-width="4"/>
+  <ellipse cx="400" cy="620" rx="408" ry="248" fill="none" stroke="#ffffff" stroke-width="1.8" opacity="0.8" filter="url(#cyanGlow)"/>
+
+  <!-- Continental Landmass Patterns on Planet -->
+  <path d="M 240 460 Q 280 430 330 450 T 420 440 T 490 480 Q 420 500 340 480 Z" fill="#1e3a8a" opacity="0.6"/>
+  <path d="M 450 470 Q 520 440 580 470 T 630 520 Q 550 530 470 500 Z" fill="#1d4ed8" opacity="0.5"/>
+  <path d="M 300 480 Q 360 460 410 470 T 470 510" fill="none" stroke="#67e8f9" stroke-width="1.5" opacity="0.4"/>
+
+  <!-- Floating Astronaut -->
+  <g transform="translate(400, 310)" filter="url(#softGlow)">
+    <!-- Helmet & Visor -->
+    <ellipse cx="0" cy="-22" rx="14" ry="13" fill="#e2e8f0" stroke="#0f172a" stroke-width="2"/>
+    <ellipse cx="0" cy="-22" rx="10" ry="8" fill="#0f172a"/>
+    <ellipse cx="2" cy="-24" rx="8" ry="6" fill="#1e293b"/>
+    <path d="M -5 -25 Q 0 -28 5 -25" stroke="#38bdf8" stroke-width="1.5" fill="none" opacity="0.8"/>
+    <!-- Space Suit Body -->
+    <rect x="-13" y="-8" width="26" height="24" rx="7" fill="#f8fafc" stroke="#334155" stroke-width="1.5"/>
+    <!-- Chest Display -->
+    <rect x="-6" y="-4" width="12" height="8" rx="2" fill="#0f172a"/>
+    <circle cx="-2" cy="0" r="1.5" fill="#38bdf8"/>
+    <circle cx="2" cy="0" r="1.5" fill="#4be5ff"/>
+    <!-- Arms -->
+    <path d="M -13 -4 Q -22 4 -16 12" stroke="#f8fafc" stroke-width="6" stroke-linecap="round" fill="none"/>
+    <path d="M 13 -4 Q 22 4 16 12" stroke="#f8fafc" stroke-width="6" stroke-linecap="round" fill="none"/>
+    <!-- Legs -->
+    <path d="M -7 16 L -9 28" stroke="#f8fafc" stroke-width="6" stroke-linecap="round"/>
+    <path d="M 7 16 L 9 28" stroke="#f8fafc" stroke-width="6" stroke-linecap="round"/>
+    <!-- Boots -->
+    <ellipse cx="-10" cy="30" rx="4" ry="2.5" fill="#64748b"/>
+    <ellipse cx="10" cy="30" rx="4" ry="2.5" fill="#64748b"/>
+  </g>
+
+  <!-- TOP STICKY NAVIGATION BAR -->
+  <g transform="translate(0, 0)">
+    <rect x="0" y="0" width="800" height="54" fill="#070b14" fill-opacity="0.85" stroke="#202c40" stroke-width="1"/>
+    
+    <!-- Logo: Ringed Planet + Portfolio -->
+    <g transform="translate(48, 27)">
+      <!-- Ringed Planet Icon -->
+      <circle cx="0" cy="0" r="7" fill="none" stroke="#4be5ff" stroke-width="1.6"/>
+      <ellipse cx="0" cy="0" rx="12" ry="4" fill="none" stroke="#4be5ff" stroke-width="1.2" transform="rotate(-25)"/>
+      <text x="20" y="4" font-family="'Orbitron', -apple-system, sans-serif" font-size="13" font-weight="800" fill="#ffffff" letter-spacing="0.08em">PORTFOLIO</text>
+    </g>
+
+    <!-- Nav Links -->
+    <g transform="translate(410, 27)" font-family="ui-monospace, monospace" font-size="11" font-weight="600" letter-spacing="0.04em">
+      <!-- Active "Home" Pill -->
+      <rect x="-14" y="-12" width="56" height="24" rx="12" fill="rgba(75,229,255,0.12)" stroke="#4be5ff" stroke-width="1"/>
+      <text x="0" y="4" fill="#4be5ff">Home</text>
+      <text x="60" y="4" fill="#94a3b8">About</text>
+      <text x="120" y="4" fill="#94a3b8">Experience</text>
+      <text x="210" y="4" fill="#94a3b8">Education</text>
+      <text x="295" y="4" fill="#94a3b8">Projects</text>
+    </g>
+  </g>
+
+  <!-- HUD Telemetry (Upper Right) -->
+  <g transform="translate(740, 85)" text-anchor="end" font-family="ui-monospace, monospace" font-size="10">
+    <text y="0" fill="#4be5ff" font-weight="700" letter-spacing="0.1em">EARTH</text>
+    <text y="14" fill="#64748b" font-size="8.5">28.6139° N 77.2090° E</text>
+  </g>
+
+  <!-- Vertical HUD Edge Ribbon (Far Right) -->
+  <g transform="translate(775, 270)" font-family="ui-monospace, monospace" font-size="8" fill="#4be5ff" opacity="0.6">
+    <line x1="0" y1="-30" x2="0" y2="30" stroke="#4be5ff" stroke-width="1" opacity="0.4"/>
+  </g>
+
+  <!-- HERO CENTER CONTENT -->
+  <!-- Eyebrow: A TRANSMISSION FROM EARTH -->
+  <g transform="translate(400, 115)" text-anchor="middle">
+    <line x1="-190" y1="-3" x2="-130" y2="-3" stroke="#4be5ff" stroke-width="1" opacity="0.7"/>
+    <text y="0" font-family="ui-monospace, monospace" font-size="10" font-weight="700" fill="#4be5ff" letter-spacing="0.3em">A TRANSMISSION FROM EARTH</text>
+    <line x1="130" y1="-3" x2="190" y2="-3" stroke="#4be5ff" stroke-width="1" opacity="0.7"/>
+  </g>
+
+  <!-- Main Display Title (Orbitron 2-Line) -->
+  <!-- Line 1: HELLO, FELLOW (Solid White + Glow) -->
+  <text x="400" y="165" text-anchor="middle" font-family="'Orbitron', -apple-system, sans-serif" font-size="34" font-weight="900" fill="#ffffff" letter-spacing="0.08em" filter="url(#softGlow)">
+    HELLO, FELLOW
+  </text>
+  <!-- Line 2: GALAXY MEMBER (Cyan Outline / Stroke) -->
+  <text x="400" y="208" text-anchor="middle" font-family="'Orbitron', -apple-system, sans-serif" font-size="34" font-weight="900" fill="none" stroke="#4be5ff" stroke-width="1.8" letter-spacing="0.08em" filter="url(#cyanGlow)">
+    GALAXY MEMBER
+  </text>
+
+  <!-- Subtitle: I AM JAY -->
+  <text x="400" y="246" text-anchor="middle" font-family="'Orbitron', -apple-system, sans-serif" font-size="18" font-weight="700" fill="#ffffff" letter-spacing="0.2em">
+    I AM JAY
+  </text>
+
+  <!-- Tagline: A DEVELOPER EXPLORING IDEAS BEYOND BOUNDARIES -->
+  <text x="400" y="268" text-anchor="middle" font-family="ui-monospace, monospace" font-size="9" font-weight="500" fill="#94a3b8" letter-spacing="0.2em">
+    A DEVELOPER EXPLORING IDEAS BEYOND BOUNDARIES
+  </text>
+
+  <!-- CTA Pill: CLICK TO EXPLORE -->
+  <g transform="translate(400, 420)">
+    <!-- Pill Background -->
+    <rect x="-85" y="-18" width="170" height="36" rx="18" fill="rgba(7,11,20,0.85)" stroke="#4be5ff" stroke-width="1.5" filter="url(#softGlow)"/>
+    <text x="-12" y="4" text-anchor="middle" font-family="'Orbitron', -apple-system, sans-serif" font-size="10" font-weight="700" fill="#ffffff" letter-spacing="0.1em">
+      CLICK TO EXPLORE
+    </text>
+    <!-- Circular Arrow Badge -->
+    <circle cx="58" cy="0" r="10" fill="#4be5ff"/>
+    <path d="M 55 -3 L 60 0 L 55 3" stroke="#070b14" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  </g>
+
+  <!-- Scroll Journey Indicator -->
+  <g transform="translate(400, 565)" text-anchor="middle">
+    <circle cx="0" cy="-14" r="7" fill="none" stroke="#4be5ff" stroke-width="1.2" opacity="0.8"/>
+    <line x1="0" y1="-17" x2="0" y2="-11" stroke="#4be5ff" stroke-width="1.2"/>
+    <line x1="-3" y1="-14" x2="3" y2="-14" stroke="#4be5ff" stroke-width="1.2"/>
+    <text y="3" font-family="ui-monospace, monospace" font-size="7.5" font-weight="600" fill="#64748b" letter-spacing="0.25em">
+      SCROLL TO BEGIN YOUR JOURNEY
+    </text>
+  </g>
+</svg>
