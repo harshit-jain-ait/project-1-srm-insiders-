@@ -3,11 +3,14 @@
 import React, { Component, ErrorInfo, ReactNode } from "react";
 import { PortfolioData } from "@/lib/schema/portfolio";
 import { getTemplate, getDefaultTemplate } from "./registry";
+import { DeviceMode } from "./types";
 import { AlertCircle } from "lucide-react";
+import { resolveTemplateTheme } from "./shared/theme";
 
 interface PortfolioRendererProps {
   portfolio: PortfolioData;
   isLivePreview?: boolean;
+  deviceMode?: DeviceMode;
 }
 
 interface ErrorBoundaryProps {
@@ -53,16 +56,15 @@ class TemplateErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryS
   }
 }
 
-import { resolveTemplateTheme } from "./shared/theme";
-
 /**
  * Central Portfolio Template Engine Renderer.
  * Resolves registered templates by stable ID, provides graceful fallback on unrecognized IDs,
- * preserves 100% of portfolio data, and prevents rendering errors from breaking the page.
+ * preserves 100% of portfolio data, and supports deviceMode responsive rendering.
  */
 export function PortfolioRenderer({
   portfolio,
   isLivePreview = false,
+  deviceMode = "desktop",
 }: PortfolioRendererProps) {
   const requestedId = portfolio.appearance.templateId;
   const registered = getTemplate(requestedId);
@@ -80,7 +82,10 @@ export function PortfolioRenderer({
         </div>
       )}
       <div
-        className={`portfolio-theme-root w-full min-h-full transition-colors duration-200 ${theme.fontClass} ${theme.isDark ? "dark" : ""}`}
+        data-device-mode={deviceMode}
+        className={`portfolio-theme-root w-full min-h-full transition-colors duration-200 ${theme.fontClass} ${theme.isDark ? "dark" : ""} ${
+          deviceMode === "mobile" ? "device-mobile" : deviceMode === "tablet" ? "device-tablet" : ""
+        }`}
         style={
           {
             backgroundColor: theme.bgColor,
@@ -94,9 +99,8 @@ export function PortfolioRenderer({
           } as React.CSSProperties
         }
       >
-        <TemplateComponent portfolio={portfolio} isLivePreview={isLivePreview} />
+        <TemplateComponent portfolio={portfolio} isLivePreview={isLivePreview} deviceMode={deviceMode} />
       </div>
     </TemplateErrorBoundary>
   );
 }
-

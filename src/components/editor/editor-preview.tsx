@@ -60,7 +60,7 @@ export function EditorPreview({
                 : "max-w-6xl xl:max-w-7xl w-full rounded-2xl md:rounded-3xl border border-slate-800/90 bg-[#090d16] text-white shadow-[0_20px_70px_rgba(0,0,0,0.85)] overflow-hidden flex flex-col text-left"
             }`}
           >
-            <PortfolioRenderer portfolio={portfolio} isLivePreview={true} />
+            <PortfolioRenderer portfolio={portfolio} isLivePreview={true} deviceMode="desktop" />
           </div>
         )}
 
@@ -70,8 +70,8 @@ export function EditorPreview({
             <div className="h-6 bg-slate-900 flex items-center justify-center border-b border-slate-800">
               <div className="h-1.5 w-12 rounded-full bg-slate-700" />
             </div>
-            <div className="overflow-y-auto max-h-[860px]">
-              <PortfolioRenderer portfolio={portfolio} isLivePreview={true} />
+            <div className="overflow-y-auto max-h-[860px] overflow-x-hidden">
+              <PortfolioRenderer portfolio={portfolio} isLivePreview={true} deviceMode="tablet" />
             </div>
           </div>
         )}
@@ -82,8 +82,8 @@ export function EditorPreview({
             <div className="h-7 bg-slate-900 flex items-center justify-center border-b border-slate-800">
               <div className="h-2 w-20 rounded-full bg-slate-700" />
             </div>
-            <div className="overflow-y-auto max-h-[720px]">
-              <PortfolioRenderer portfolio={portfolio} isLivePreview={true} />
+            <div className="overflow-y-auto max-h-[720px] overflow-x-hidden">
+              <PortfolioRenderer portfolio={portfolio} isLivePreview={true} deviceMode="mobile" />
             </div>
           </div>
         )}

@@ -1,6 +1,8 @@
 import React from "react";
 import { PortfolioData, TemplateId, SectionKey } from "@/lib/schema/portfolio";
 
+export type DeviceMode = "desktop" | "tablet" | "mobile";
+
 export interface TemplateMetadata {
   id: TemplateId;
   name: string;
@@ -18,6 +20,7 @@ export interface TemplateMetadata {
 export interface TemplateProps {
   portfolio: PortfolioData;
   isLivePreview?: boolean;
+  deviceMode?: DeviceMode;
 }
 
 export type TemplateComponent = React.ComponentType<TemplateProps>;

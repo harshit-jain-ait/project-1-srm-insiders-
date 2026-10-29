@@ -21,7 +21,9 @@ import {
 import { KineticSmokeCursor } from "./kinetic-smoke-cursor";
 import { KineticCvModal } from "./kinetic-cv-modal";
 
-export function KineticStudioTemplate({ portfolio, isLivePreview = false }: TemplateProps) {
+export function KineticStudioTemplate({ portfolio, isLivePreview = false, deviceMode = "desktop" }: TemplateProps) {
+  const isMobile = deviceMode === "mobile";
+  const isTablet = deviceMode === "tablet";
   const { profile, projects, experience, skills, education, socialLinks, sections, contactConfig } = portfolio;
   const articleRef = React.useRef<HTMLElement>(null);
   const [isCvModalOpen, setIsCvModalOpen] = useState(false);
@@ -120,7 +122,7 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
   return (
     <article
       ref={articleRef}
-      className={`min-h-screen ${fontClass} selection:bg-[#ff5c1a] selection:text-white transition-colors duration-700 kinetic-cursor-area relative overflow-hidden`}
+      className={`min-h-screen ${fontClass} selection:bg-[#ff5c1a] selection:text-white transition-colors duration-700 relative overflow-x-hidden w-full max-w-full ${isMobile ? "max-w-[375px] mx-auto text-xs" : "kinetic-cursor-area"}`}
       style={{ backgroundColor: bgColor, color: textColor }}
     >
       {/* Animated Wave Theme Transition Overlay */}
@@ -340,6 +342,7 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
           </a>
 
           {/* Desktop Nav Links */}
+          {!isMobile && (
           <nav className="hidden md:flex items-center gap-8 font-mono text-xs uppercase tracking-[0.1em]">
             {isSectionVisible("projects") && (
               <a
@@ -405,6 +408,7 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
               </a>
             )}
           </nav>
+          )}
 
           {/* Action buttons (Generate CV, Command Key, Theme Toggle, Mobile Burger) */}
           <div className="flex items-center gap-2.5 sm:gap-3">
@@ -440,7 +444,7 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden w-9 h-9 rounded-full border flex items-center justify-center cursor-pointer"
+              className={`${isMobile ? "flex" : "md:hidden flex"} w-9 h-9 rounded-full border items-center justify-center cursor-pointer`}
               style={{ borderColor, color: textColor }}
               aria-label="Toggle mobile menu"
             >
@@ -452,7 +456,7 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
         {/* Mobile Dropdown Drawer */}
         {mobileMenuOpen && (
           <div
-            className="md:hidden px-6 py-6 border-b font-mono text-sm uppercase tracking-wider space-y-4"
+            className={`${isMobile ? "block" : "md:hidden"} px-4 sm:px-6 py-5 border-b font-mono text-xs uppercase tracking-wider space-y-3`}
             style={{ backgroundColor: bgColor, borderColor }}
           >
             {isSectionVisible("projects") && (
@@ -547,9 +551,9 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
           )}
 
           {/* Kinetic Statement Title */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-end">
+          <div className={`grid grid-cols-1 ${isMobile ? "gap-4" : "lg:grid-cols-12 gap-6 sm:gap-8"} items-end`}>
             <div className="lg:col-span-8">
-              <h1 className="text-[11vw] sm:text-6xl md:text-7xl lg:text-8xl font-black uppercase tracking-tight leading-[0.95] sm:leading-[0.98]">
+              <h1 className={`${isMobile ? "text-2xl sm:text-3xl leading-[1.08]" : isTablet ? "text-4xl sm:text-5xl leading-tight" : "text-4xl sm:text-6xl md:text-7xl lg:text-8xl leading-[0.98]"} font-black uppercase tracking-tight break-words`}>
                 {displayName ? (
                   <span className="block">I&apos;m {displayName} —</span>
                 ) : null}
@@ -566,7 +570,7 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
             </div>
 
             {/* Aside Tagline */}
-            <div className="lg:col-span-4 lg:text-right space-y-2 sm:space-y-3">
+            <div className={`${isMobile ? "pt-2 space-y-2 text-left" : "lg:col-span-4 lg:text-right space-y-2 sm:space-y-3"}`}>
               {displayHeadline && (
                 <p className="font-mono uppercase text-[10px] sm:text-sm tracking-wider leading-relaxed" style={{ color: mutedTextColor }}>
                   Crafting {displayHeadline}
@@ -683,7 +687,7 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
           </div>
 
           {/* 4-Column Stats Grid */}
-          <div className="mt-12 sm:mt-20 grid grid-cols-2 lg:grid-cols-4 border-t" style={{ borderColor }}>
+          <div className={`mt-10 sm:mt-16 grid ${isMobile ? "grid-cols-2" : "grid-cols-2 lg:grid-cols-4"} border-t`} style={{ borderColor }}>
             <div className="p-5 sm:p-6 sm:p-8 border-r border-b lg:border-b-0" style={{ borderColor }}>
               <span className="block text-3xl sm:text-4xl sm:text-5xl font-black font-sans tracking-tight">
                 1<span className="text-base sm:text-xl align-super" style={{ color: accentColor }}>st</span>
@@ -753,7 +757,7 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
                       key={project.id || idx}
                       className="py-8 sm:py-12 group transition-colors duration-200"
                     >
-                      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-start">
+                      <div className={`grid grid-cols-1 ${isMobile ? "gap-4" : "lg:grid-cols-12 gap-6 sm:gap-8"} items-start`}>
                         {/* Index Indicator */}
                         <div className="hidden sm:block lg:col-span-1 font-mono text-base font-bold" style={{ color: accentColor }}>
                           {projectIndex}
@@ -764,7 +768,7 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
                           <div className="flex items-center gap-2 sm:hidden">
                             <span className="font-mono text-xs font-bold" style={{ color: accentColor }}>{projectIndex}</span>
                           </div>
-                          <h3 className="text-xl sm:text-2xl sm:text-4xl font-bold uppercase tracking-tight group-hover:translate-x-1.5 transition-transform duration-300">
+                          <h3 className={`${isMobile ? "text-lg font-bold" : "text-xl sm:text-2xl sm:text-4xl font-bold"} uppercase tracking-tight group-hover:translate-x-1.5 transition-transform duration-300`}>
                             {project.title}
                           </h3>
 
@@ -1005,7 +1009,7 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
               <div className="flex-1 h-[1px]" style={{ backgroundColor: borderColor }} />
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+            <div className={`grid grid-cols-1 ${isMobile ? "gap-8" : "lg:grid-cols-2 gap-16"}`}>
               {/* Left Column: Professional Experience */}
               <div>
                 <h3 className="font-mono text-xs uppercase tracking-widest pb-4 border-b mb-8 font-bold" style={{ borderColor, color: mutedTextColor }}>
@@ -1118,7 +1122,7 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
             Open for freelance engineering — from a bespoke landing page to a full AI product, designed, built and deployed. Or agentic systems that actually ship.
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className={`grid grid-cols-1 ${isMobile ? "gap-4" : "md:grid-cols-2 gap-8"}`}>
             {/* Service A */}
             <div
               className="p-8 sm:p-10 rounded-2xl border transition-all hover:border-[#ff5c1a] group"
@@ -1231,7 +1235,7 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
             </div>
 
             {/* Massive Heading */}
-            <h3 className="text-3xl sm:text-4xl sm:text-6xl md:text-7xl font-black uppercase tracking-tight leading-[0.95]">
+            <h3 className={`${isMobile ? "text-2xl sm:text-3xl" : "text-3xl sm:text-4xl sm:text-6xl md:text-7xl"} font-black uppercase tracking-tight leading-[0.95]`}>
               Let&apos;s build something.
             </h3>
 
@@ -1280,7 +1284,7 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
         <section className="pt-20 pb-8 overflow-hidden select-none" aria-hidden="true">
           <div className="max-w-7xl mx-auto px-6 text-center">
             <span
-              className="block text-[14vw] sm:text-[16vw] font-black uppercase tracking-tighter leading-none"
+              className={`block ${isMobile ? "text-3xl sm:text-4xl" : "text-[14vw] sm:text-[16vw]"} font-black uppercase tracking-tighter leading-none`}
               style={{
                 backgroundImage: isDark
                   ? "linear-gradient(to bottom, rgba(237,237,230,0.2) 20%, rgba(237,237,230,0.02) 100%)"
