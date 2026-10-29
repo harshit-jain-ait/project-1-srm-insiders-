@@ -37,41 +37,19 @@ export function LandingPageView() {
   const [activeContactCard, setActiveContactCard] = useState<number>(1);
   const { isDark } = useTheme();
 
-  // The 4 spotlight templates matching Section 4 in the reference design
-  const featuredTemplates = [
-    {
-      id: "minimal-portfolio",
-      name: "Minimal Portfolio",
-      description: "Clean, elegant and focused on your content.",
-      badge: "POPULAR",
-      badgeType: "popular" as const,
-      imageSrc: "/images/templates/preview-minimal.png",
-    },
-    {
-      id: "developer-pro",
-      name: "Developer Pro",
-      description: "A modern template for developers and tech professionals.",
-      badge: "TRENDING",
-      badgeType: "trending" as const,
-      imageSrc: "/images/templates/preview-developer.png",
-    },
-    {
-      id: "bento-studio",
-      name: "Bento Studio",
-      description: "A bold, modern portfolio with a dark theme and interactive showcases.",
-      badge: "NEW",
-      badgeType: "new" as const,
-      imageSrc: "/images/templates/preview-bento.png",
-    },
-    {
-      id: "creative-motion",
-      name: "Creative Flow",
-      description: "A modern and artistic template for creatives, designers and storytellers.",
-      badge: "FEATURED",
-      badgeType: "featured" as const,
-      imageSrc: "/images/templates/preview-creative.png",
-    },
-  ];
+  // Synchronized directly from Interactive Template Spotlight (getAllTemplates)
+  const featuredTemplates = templates.map((tpl) => ({
+    id: tpl.metadata.id,
+    name: tpl.metadata.name,
+    description: tpl.metadata.description,
+    badge: tpl.metadata.isPremium ? "PRO" : tpl.metadata.category.toUpperCase(),
+    badgeType: (tpl.metadata.category === "Engineering" ? "trending" : "popular") as
+      | "popular"
+      | "trending"
+      | "new"
+      | "featured",
+    imageSrc: tpl.metadata.previewImageUrl || `/images/templates/${tpl.metadata.id}.svg`,
+  }));
 
   const handlePreview = (templateId: string) => {
     const found = templates.find((t) => t.metadata.id === templateId);
@@ -385,14 +363,22 @@ export function LandingPageView() {
               </div>
             </div>
 
-            {/* 4-Card Template Grid with Smooth Spring Hover Animations */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+            {/* Template Grid with Smooth Spring Hover Animations */}
+            <div
+              className={
+                featuredTemplates.length === 1
+                  ? "flex justify-center"
+                  : "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5"
+              }
+            >
               {featuredTemplates.map((item) => (
                 <motion.div
                   key={item.id}
                   whileHover={{ y: -6, scale: 1.02 }}
                   transition={{ type: "spring", stiffness: 350, damping: 22 }}
-                  className="rounded-2xl border border-slate-200/90 dark:border-white/10 bg-white/95 dark:bg-[#0c0f18]/95 backdrop-blur-md overflow-hidden shadow-[0_6px_25px_rgba(0,0,0,0.04)] dark:shadow-[0_6px_25px_rgba(0,0,0,0.35)] hover:shadow-[0_18px_35px_rgba(59,130,246,0.14)] dark:hover:shadow-[0_18px_35px_rgba(59,130,246,0.2)] hover:border-blue-400/70 dark:hover:border-blue-500/50 transition-colors flex flex-col justify-between p-3 group cursor-pointer"
+                  className={`rounded-2xl border border-slate-200/90 dark:border-white/10 bg-white/95 dark:bg-[#0c0f18]/95 backdrop-blur-md overflow-hidden shadow-[0_6px_25px_rgba(0,0,0,0.04)] dark:shadow-[0_6px_25px_rgba(0,0,0,0.35)] hover:shadow-[0_18px_35px_rgba(59,130,246,0.14)] dark:hover:shadow-[0_18px_35px_rgba(59,130,246,0.2)] hover:border-blue-400/70 dark:hover:border-blue-500/50 transition-colors flex flex-col justify-between p-3 group cursor-pointer ${
+                    featuredTemplates.length === 1 ? "w-full max-w-sm sm:max-w-md" : ""
+                  }`}
                 >
                   <div>
                     {/* Inner Thumbnail Preview Frame */}
