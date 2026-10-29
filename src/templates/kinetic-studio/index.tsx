@@ -425,15 +425,6 @@ export function KineticStudioTemplate({ portfolio, isLivePreview = false }: Temp
               <span className="sm:hidden font-bold">CV</span>
             </button>
 
-            {/* Command Menu Pill Indicator */}
-            <div
-              className="hidden sm:inline-flex items-center gap-1 px-3 py-1.5 rounded-full border text-[11px] font-mono"
-              style={{ borderColor, color: mutedTextColor }}
-            >
-              <span>⌘</span>
-              <span>K</span>
-            </div>
-
             {/* Day / Night Theme Switcher with Animated Wave */}
             <button
               type="button"

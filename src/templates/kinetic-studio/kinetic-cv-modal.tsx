@@ -3,7 +3,7 @@
 
 import React, { useRef } from "react";
 import { PortfolioData } from "@/lib/schema/portfolio";
-import { Printer, X, Download, FileText, Check } from "lucide-react";
+import { Printer, X, FileText } from "lucide-react";
 
 interface KineticCvModalProps {
   portfolio: PortfolioData;
@@ -65,13 +65,107 @@ export function KineticCvModal({ portfolio, isOpen, onClose }: KineticCvModalPro
     : [];
 
   const handlePrint = () => {
-    if (typeof window !== "undefined") {
+    if (typeof window === "undefined") return;
+
+    const paper = document.getElementById("kinetic-cv-paper");
+    if (!paper) {
       window.print();
+      return;
     }
+
+    // Collect all stylesheets from parent document (Tailwind, global CSS, custom fonts)
+    let stylesHtml = "";
+    document.querySelectorAll("link[rel='stylesheet'], style").forEach((node) => {
+      stylesHtml += node.outerHTML;
+    });
+
+    // Create an isolated hidden iframe for printing to avoid parent overflow:hidden clipping
+    const iframe = document.createElement("iframe");
+    iframe.style.position = "fixed";
+    iframe.style.right = "0";
+    iframe.style.bottom = "0";
+    iframe.style.width = "0";
+    iframe.style.height = "0";
+    iframe.style.border = "0";
+    iframe.style.opacity = "0";
+    iframe.style.pointerEvents = "none";
+    document.body.appendChild(iframe);
+
+    const doc = iframe.contentWindow?.document;
+    if (!doc) {
+      window.print();
+      return;
+    }
+
+    doc.open();
+    doc.write(`
+      <!DOCTYPE html>
+      <html lang="en">
+        <head>
+          <meta charset="UTF-8">
+          <title>${displayName ? `${displayName} - CV` : "Curriculum Vitae"}</title>
+          ${stylesHtml}
+          <style>
+            @page {
+              size: A4 portrait;
+              margin: 10mm;
+            }
+            * {
+              -webkit-print-color-adjust: exact !important;
+              print-color-adjust: exact !important;
+              box-sizing: border-box !important;
+            }
+            html, body {
+              margin: 0 !important;
+              padding: 0 !important;
+              background: #ffffff !important;
+              color: #0f172a !important;
+              font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+              width: 100% !important;
+              min-height: auto !important;
+              overflow: visible !important;
+            }
+            #kinetic-cv-paper {
+              width: 100% !important;
+              max-width: 100% !important;
+              margin: 0 !important;
+              padding: 0 !important;
+              box-shadow: none !important;
+              border-radius: 0 !important;
+              overflow: visible !important;
+              background: #ffffff !important;
+              color: #0f172a !important;
+            }
+          </style>
+        </head>
+        <body>
+          ${paper.outerHTML}
+        </body>
+      </html>
+    `);
+    doc.close();
+
+    // Allow browser layout engine to paint content before print dialog opens
+    setTimeout(() => {
+      try {
+        iframe.contentWindow?.focus();
+        iframe.contentWindow?.print();
+      } catch (err) {
+        console.error("Print iframe failed, fallback to window.print", err);
+        window.print();
+      } finally {
+        setTimeout(() => {
+          if (iframe.parentNode) {
+            iframe.parentNode.removeChild(iframe);
+          }
+        }, 1500);
+      }
+    }, 280);
   };
 
   return (
     <div
+      id="kinetic-cv-modal-root"
       role="dialog"
       aria-modal="true"
       className="fixed inset-0 z-[100] bg-black/85 backdrop-blur-md flex flex-col items-center justify-start overflow-y-auto p-4 sm:p-6 print:p-0 print:bg-white print:static print:inset-auto"
@@ -131,7 +225,7 @@ export function KineticCvModal({ portfolio, isOpen, onClose }: KineticCvModalPro
               />
             ) : (
               <div className="w-full h-full bg-slate-200 flex items-center justify-center text-slate-600 text-3xl font-black">
-                {displayName.charAt(0)}
+                {displayName.charAt(0) || "U"}
               </div>
             )}
           </div>
@@ -142,12 +236,12 @@ export function KineticCvModal({ portfolio, isOpen, onClose }: KineticCvModalPro
             style={{ backgroundColor: "#f7a072" }}
           >
             <h1 className="text-2xl sm:text-3xl font-black uppercase tracking-wider text-black">
-              {displayName}
+              {displayName || "YOUR NAME"}
             </h1>
             <div className="mt-2.5 space-y-1 text-xs sm:text-sm font-medium text-black/85">
-              <p>{displayPhone}</p>
-              <p>{displayEmail}</p>
-              <p className="truncate">{displayWebsite}</p>
+              {displayPhone && <p>{displayPhone}</p>}
+              {displayEmail && <p>{displayEmail}</p>}
+              {displayWebsite && <p className="truncate">{displayWebsite}</p>}
             </div>
           </div>
         </div>
@@ -165,7 +259,7 @@ export function KineticCvModal({ portfolio, isOpen, onClose }: KineticCvModalPro
                 Summary
               </h2>
               <p className="text-xs text-slate-700 leading-relaxed font-normal whitespace-pre-line">
-                {displayBio}
+                {displayBio || "Experienced developer specializing in modern web applications, scalable cloud infrastructure, and user-centered digital products."}
               </p>
             </div>
 
@@ -175,7 +269,12 @@ export function KineticCvModal({ portfolio, isOpen, onClose }: KineticCvModalPro
                 Tech Skills
               </h2>
               <div className="space-y-3.5">
-                {techSkillsList.map((skill, i) => (
+                {(techSkillsList.length > 0 ? techSkillsList : [
+                  { name: "TypeScript / JavaScript", percentage: 90 },
+                  { name: "React & Next.js", percentage: 88 },
+                  { name: "Tailwind CSS", percentage: 85 },
+                  { name: "Node.js & APIs", percentage: 80 },
+                ]).map((skill, i) => (
                   <div key={i} className="space-y-1.5">
                     <div className="text-[11px] font-bold text-slate-800">
                       {skill.name}
@@ -203,7 +302,11 @@ export function KineticCvModal({ portfolio, isOpen, onClose }: KineticCvModalPro
                 Skills
               </h2>
               <ul className="space-y-1.5 text-xs text-slate-700 list-disc list-outside pl-4 leading-relaxed">
-                {skillsBullets.map((bullet, idx) => (
+                {(skillsBullets.length > 0 ? skillsBullets : [
+                  "Modern responsive web design and component architecture.",
+                  "RESTful API design and database integrations.",
+                  "Performance optimization, SEO best practices, and code reliability.",
+                ]).map((bullet, idx) => (
                   <li key={idx}>{bullet}</li>
                 ))}
               </ul>
@@ -215,7 +318,19 @@ export function KineticCvModal({ portfolio, isOpen, onClose }: KineticCvModalPro
                 Experience
               </h2>
               <div className="space-y-4">
-                {experienceList.map((exp, idx) => {
+                {(experienceList.length > 0 ? experienceList : [
+                  {
+                    id: "default-exp",
+                    role: "Software Developer",
+                    company: "Technology Studio",
+                    location: "Remote",
+                    startDate: "2022",
+                    endDate: "Present",
+                    current: true,
+                    description: "Built high-performance web applications and engineered user interfaces with modern tech stacks.",
+                    highlights: [],
+                  },
+                ]).map((exp, idx) => {
                   const duties = exp.description
                     ? exp.description
                         .split("\n")
@@ -254,7 +369,17 @@ export function KineticCvModal({ portfolio, isOpen, onClose }: KineticCvModalPro
                 Education
               </h2>
               <div className="space-y-3">
-                {educationList.map((edu, idx) => (
+                {(educationList.length > 0 ? educationList : [
+                  {
+                    id: "default-edu",
+                    institution: "University / Institution",
+                    degree: "Bachelor's Degree",
+                    fieldOfStudy: "Computer Science / Design",
+                    startDate: "2018",
+                    endDate: "2022",
+                    description: "",
+                  },
+                ]).map((edu, idx) => (
                   <div key={edu.id || idx} className="space-y-0.5">
                     <h3 className="text-xs font-bold uppercase text-slate-900">
                       {edu.institution}
@@ -278,25 +403,33 @@ export function KineticCvModal({ portfolio, isOpen, onClose }: KineticCvModalPro
         </div>
       </div>
 
-      {/* Print Stylesheet */}
+      {/* Direct window.print CSS fallback */}
       <style
         dangerouslySetInnerHTML={{
           __html: `
         @media print {
-          body * {
-            visibility: hidden !important;
+          html, body {
+            overflow: visible !important;
+            height: auto !important;
+            background: #ffffff !important;
           }
-          #kinetic-cv-paper, #kinetic-cv-paper * {
-            visibility: visible !important;
+          body > *:not(#kinetic-cv-modal-root) {
+            display: none !important;
+          }
+          #kinetic-cv-modal-root {
+            position: static !important;
+            display: block !important;
+            overflow: visible !important;
+            padding: 0 !important;
+            background: #ffffff !important;
+            backdrop-filter: none !important;
           }
           #kinetic-cv-paper {
-            position: absolute !important;
-            left: 0 !important;
-            top: 0 !important;
+            position: relative !important;
             width: 100% !important;
             max-width: 100% !important;
             margin: 0 !important;
-            padding: 18mm !important;
+            padding: 10mm !important;
             box-shadow: none !important;
             border-radius: 0 !important;
             -webkit-print-color-adjust: exact !important;
@@ -315,4 +448,3 @@ export function KineticCvModal({ portfolio, isOpen, onClose }: KineticCvModalPro
 }
 
 export default KineticCvModal;
-
