@@ -89,7 +89,7 @@ export function LandingPageView() {
         <StudioShowcase />
 
         {/* 3. Simple Process Section ("From idea to live portfolio in minutes.") */}
-        <section id="process" className="py-12 md:py-16 bg-[#fbfaf8] dark:bg-[#07090f] border-b border-slate-200/80 dark:border-slate-800/80 transition-colors duration-300 relative overflow-hidden">
+        <section id="process" className="py-12 md:py-16 bg-gradient-to-b from-[#fbfaf8] to-[#f6f8fd] dark:from-[#07090f] dark:to-[#07090f] transition-colors duration-300 relative overflow-hidden">
           {/* Full-width Responsive Desk Background Image without quality degradation */}
           <div className="absolute inset-0 w-full h-full pointer-events-none select-none z-0">
             <img
@@ -98,6 +98,9 @@ export function LandingPageView() {
               className="w-full h-full object-cover object-bottom opacity-100 dark:opacity-30 transition-opacity"
             />
           </div>
+
+          {/* Seamless Merging Gradient into Section 4 (Template Gallery) */}
+          <div className="absolute bottom-0 left-0 right-0 h-28 bg-gradient-to-t from-[#f4f7fc] dark:from-[#07090f] via-[#f4f7fc]/50 dark:via-[#07090f]/50 to-transparent pointer-events-none z-[1]" />
 
           <div className="max-w-7xl mx-auto px-6 relative z-10">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
@@ -289,7 +292,10 @@ export function LandingPageView() {
         </section>
 
         {/* 4. Template Gallery Section ("Beautiful templates for every style.") */}
-        <section id="templates" className="mt-6 sm:mt-8 py-8 md:py-10 bg-[#f4f7fc] dark:bg-[#07090f] border-y border-slate-200/80 dark:border-slate-800/80 transition-colors duration-300 relative overflow-hidden">
+        <section id="templates" className="py-10 md:py-14 bg-gradient-to-b from-[#f4f7fc] via-[#f5f8fd] to-[#f7fafe] dark:from-[#07090f] dark:to-[#090b11] transition-colors duration-300 relative overflow-hidden">
+          {/* Seamless Merging Gradient from Section 3 (Simple Process) */}
+          <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-[#fbfaf8]/80 dark:from-[#07090f]/80 to-transparent pointer-events-none z-[1]" />
+
           {/* Full-width Responsive Background Image with enhanced high-resolution rendering */}
           <div className="absolute inset-0 w-full h-full pointer-events-none select-none z-0">
             <img
@@ -299,6 +305,9 @@ export function LandingPageView() {
               style={{ imageRendering: "auto" }}
             />
           </div>
+
+          {/* Seamless Merging Gradient into Section 5 (Powerful Features) */}
+          <div className="absolute bottom-0 left-0 right-0 h-28 bg-gradient-to-t from-[#f7fafe] dark:from-[#090b11] via-[#f7fafe]/50 dark:via-[#090b11]/50 to-transparent pointer-events-none z-[1]" />
 
           <div className="max-w-7xl mx-auto px-6 relative z-10 space-y-6 md:space-y-7">
             {/* Header Row */}
@@ -457,8 +466,11 @@ export function LandingPageView() {
         {/* 5. Powerful Features Section ("Everything you need to create an amazing portfolio.") */}
         <section
           id="features"
-          className="mt-6 sm:mt-8 py-5 sm:py-7 md:py-8 bg-[#f7fafe] dark:bg-[#090b11] border-y border-slate-200/80 dark:border-slate-800/80 transition-colors duration-300 relative overflow-hidden"
+          className="py-10 sm:py-12 md:py-14 bg-gradient-to-b from-[#f7fafe] via-[#f8fbff] to-slate-50/80 dark:from-[#090b11] dark:to-[#07090e] border-b border-slate-200/50 dark:border-slate-800/60 transition-colors duration-300 relative overflow-hidden"
         >
+          {/* Seamless Merging Gradient from Section 4 (Template Gallery) */}
+          <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-[#f4f7fc]/80 dark:from-[#090b11]/80 to-transparent pointer-events-none z-[1]" />
+
           {/* Full-width Panoramic Studio Desk Background Image matching reference design */}
           <div className="absolute inset-0 w-full h-full pointer-events-none select-none z-0">
             <img
@@ -468,6 +480,9 @@ export function LandingPageView() {
               style={{ imageRendering: "auto" }}
             />
           </div>
+
+          {/* Seamless Merging Gradient into Section 6 (Showcase CTA) */}
+          <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-slate-50/90 dark:from-[#07090e]/90 to-transparent pointer-events-none z-[1]" />
 
           <div className="max-w-7xl mx-auto px-6 space-y-5 sm:space-y-6 relative z-10">
             {/* Header Row */}
