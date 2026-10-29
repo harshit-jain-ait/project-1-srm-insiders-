@@ -4,7 +4,7 @@ import React, { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { PortfolioData, TemplateId, AppearanceSettings } from "@/lib/schema/portfolio";
 import { EditorToolbar, DeviceMode } from "@/components/editor/editor-toolbar";
-import { EditorLeftNav, LeftNavSection } from "@/components/editor/editor-left-nav";
+import { LeftNavSection } from "@/components/editor/editor-left-nav";
 import { EditorInspector } from "@/components/editor/editor-inspector";
 import { EditorPreview } from "@/components/editor/editor-preview";
 import { getTemplate } from "@/templates/registry";
@@ -23,14 +23,14 @@ import { Loader2, Sliders, Eye } from "lucide-react";
 function EditorContent() {
   const searchParams = useSearchParams();
   const portfolioId = searchParams.get("id");
-  const templateParam = (searchParams.get("template") as TemplateId | null) || "bento-studio";
+  const templateParam = (searchParams.get("template") as TemplateId | null) || "kinetic-studio";
 
   // Viewport & Studio UI state
   const [deviceMode, setDeviceMode] = useState<DeviceMode>("desktop");
   const [zoom, setZoom] = useState<number>(1);
   const [isDistractionFree, setIsDistractionFree] = useState(false);
   const [mobileView, setMobileView] = useState<"edit" | "preview">("edit");
-  const [activeLeftNavSection, setActiveLeftNavSection] = useState<LeftNavSection>("sections");
+  const [activeLeftNavSection, setActiveLeftNavSection] = useState<LeftNavSection>("about");
 
   // Modals state
   const [isAiModalOpen, setIsAiModalOpen] = useState(false);
@@ -196,103 +196,14 @@ function EditorContent() {
     );
   }
 
-  // Ensure default demo text if opening a fresh blank portfolio
-  const effectivePortfolio: PortfolioData = {
-    ...portfolio,
-    title: portfolio.title || "My Portfolio",
-    profile: {
-      ...portfolio.profile,
-      fullName: portfolio.profile.fullName || "Alex Carter",
-      headline: portfolio.profile.headline || "Product Designer • Developer",
-      bio:
-        portfolio.profile.bio ||
-        "I create modern, user-focused digital experiences that make a difference. Passionate about design, technology and building meaningful products.",
-      statusBadge: portfolio.profile.statusBadge || "Available for new opportunities",
-      avatarUrl: portfolio.profile.avatarUrl || "/images/studio/alex-carter.jpg",
-      location: portfolio.profile.location || "New Delhi, India",
-    },
-    projects:
-      portfolio.projects && portfolio.projects.length > 0
-        ? portfolio.projects
-        : [
-            {
-              id: "proj-1",
-              title: "Design System",
-              tagline: "Component architecture & tokens",
-              description:
-                "A modern design system for building scalable and consistent web applications across multiple product suites.",
-              category: "design",
-              status: "completed",
-              featured: true,
-              visible: true,
-              slug: "design-system",
-              technologies: ["React", "TypeScript", "Tailwind CSS", "Figma"],
-              coverImageUrl: "/images/studio/design-system.jpg",
-              liveUrl: "https://example.com/design-system",
-              repoUrl: "https://github.com/example/design-system",
-              startDate: "",
-              endDate: "",
-              order: 0,
-            },
-            {
-              id: "proj-2",
-              title: "Web Application Platform",
-              tagline: "Cloud analytics & performance dashboard",
-              description:
-                "High-performance cloud dashboard monitoring microservice reliability, request throughput, and real-time events.",
-              category: "software",
-              status: "completed",
-              featured: false,
-              visible: true,
-              slug: "web-application",
-              technologies: ["Next.js", "TypeScript", "Node.js", "PostgreSQL"],
-              coverImageUrl: "/images/studio/web-app.jpg",
-              liveUrl: "https://example.com/web-app",
-              repoUrl: "https://github.com/example/web-app",
-              startDate: "",
-              endDate: "",
-              order: 1,
-            },
-          ],
-    skills:
-      portfolio.skills && portfolio.skills.length > 0
-        ? portfolio.skills
-        : [
-            { id: "s-1", name: "Next.js", category: "Framework", level: "expert", order: 0 },
-            { id: "s-2", name: "React", category: "Frontend", level: "expert", order: 1 },
-            { id: "s-3", name: "TypeScript", category: "Language", level: "expert", order: 2 },
-            { id: "s-4", name: "Tailwind CSS", category: "Styling", level: "advanced", order: 3 },
-            { id: "s-5", name: "Figma", category: "Design", level: "advanced", order: 4 },
-            { id: "s-6", name: "Node.js", category: "Backend", level: "advanced", order: 5 },
-          ],
-    experience:
-      portfolio.experience && portfolio.experience.length > 0
-        ? portfolio.experience
-        : [
-            {
-              id: "exp-1",
-              company: "Design & Tech Studio",
-              role: "Lead Product Designer",
-              location: "Remote",
-              startDate: "2023-01",
-              endDate: "Present",
-              current: true,
-              description:
-                "Leading digital product design, component systems, and frontend architectural development for international clients.",
-              highlights: [
-                "Architected cross-platform design systems used by over 50k active users.",
-                "Reduced user task completion latency by 38% through focused interaction modeling.",
-              ],
-              order: 0,
-            },
-          ],
-  };
+  // Use canonical portfolio directly so typing/deleting is never overwritten by fallback resets
+  const effectivePortfolio: PortfolioData = portfolio;
 
   const activeTemplateMeta = getTemplate(effectivePortfolio.appearance.templateId);
-  const activeTemplateName = activeTemplateMeta?.metadata.name || "Bento Studio";
+  const activeTemplateName = activeTemplateMeta?.metadata.name || "Kinetic Studio";
 
   return (
-    <div className="h-screen w-screen flex flex-col bg-[#07090e] text-slate-100 overflow-hidden font-sans select-none">
+    <div className="h-screen w-screen flex flex-col bg-[#07090e] text-slate-100 overflow-hidden font-sans">
       {/* 1. TOP BAR: Portfolify, My Portfolio, Saved Badge, Device Switchers, Settings, Preview, Publish */}
       <EditorToolbar
         portfolioTitle={effectivePortfolio.title}
@@ -365,19 +276,25 @@ function EditorContent() {
         </div>
       )}
 
-      {/* 2. MAIN 3-PANEL STUDIO CANVAS: Left Nav Rail + Center Live Preview + Right Inspector */}
+      {/* 2. MAIN 2-PANEL STUDIO CANVAS: Single Combined Left Sidebar + Expanded Live Preview */}
       <div className="flex-1 flex flex-col md:flex-row overflow-hidden relative">
-        {/* Panel 1: Left Navigation Sidebar */}
+        {/* Unified Left Sidebar (Inspector + Navigation tabs combined) */}
         {!isDistractionFree && (
-          <EditorLeftNav
-            activeSection={activeLeftNavSection}
-            onSelectSection={setActiveLeftNavSection}
-            templateName={activeTemplateName}
-            className={mobileView === "preview" ? "hidden md:flex" : "hidden md:flex"}
+          <EditorInspector
+            portfolio={effectivePortfolio}
+            onChange={updatePortfolio}
+            activeNavSection={activeLeftNavSection}
+            onSelectNavSection={setActiveLeftNavSection}
+            onTemplateChange={handleTemplateChange}
+            onOpenAiAssist={(field, sourceText, targetId) =>
+              handleOpenAiAssistant("content", field, sourceText, targetId)
+            }
+            onOpenRestyle={() => handleOpenAiAssistant("restyle")}
+            className={mobileView === "preview" ? "hidden md:flex" : "flex"}
           />
         )}
 
-        {/* Panel 2: Center Live Synchronized Studio Canvas */}
+        {/* Center/Right Live Synchronized Studio Canvas (Expanded flex-1 takes full remaining space) */}
         <div
           className={`flex-1 flex flex-col overflow-hidden ${
             !isDistractionFree && mobileView === "edit" ? "hidden md:flex" : "flex"
@@ -391,21 +308,6 @@ function EditorContent() {
             onExitDistractionFree={() => setIsDistractionFree(false)}
           />
         </div>
-
-        {/* Panel 3: Right Inspector Panel */}
-        {!isDistractionFree && (
-          <EditorInspector
-            portfolio={effectivePortfolio}
-            onChange={updatePortfolio}
-            activeNavSection={activeLeftNavSection}
-            onTemplateChange={handleTemplateChange}
-            onOpenAiAssist={(field, sourceText, targetId) =>
-              handleOpenAiAssistant("content", field, sourceText, targetId)
-            }
-            onOpenRestyle={() => handleOpenAiAssistant("restyle")}
-            className={mobileView === "preview" ? "hidden md:flex" : "flex"}
-          />
-        )}
       </div>
 
       {/* Grounded AI Assistant Modal */}

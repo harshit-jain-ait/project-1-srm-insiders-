@@ -12,6 +12,8 @@ import { z } from "zod";
 export function isSafeHttpUrl(urlString?: string): boolean {
   if (!urlString || urlString.trim() === "") return true;
   const trimmed = urlString.trim();
+  // Allow relative paths for local images
+  if (trimmed.startsWith("/")) return true;
   // Quick pre-check for dangerous protocols
   const lower = trimmed.toLowerCase();
   if (
@@ -52,10 +54,10 @@ export type SocialLinkPlatform = z.infer<typeof SocialLinkPlatformSchema>;
 export const SocialLinkSchema = z.object({
   id: z.string(),
   platform: SocialLinkPlatformSchema,
-  label: z.string().min(1, "Label is required"),
+  label: z.string().default(""),
   url: z.string().refine(
     (val) => {
-      if (!val || val.trim() === "") return false;
+      if (!val || val.trim() === "") return true;
       const trimmed = val.trim();
       if (trimmed.startsWith("mailto:")) return true;
       if (isSafeHttpUrl(trimmed)) return true;
@@ -210,7 +212,7 @@ export type ProjectCaseStudy = z.infer<typeof ProjectCaseStudySchema>;
 
 export const ProjectSchema = z.object({
   id: z.string(),
-  title: z.string().min(1, "Project title is required"),
+  title: z.string().default(""),
   tagline: z.string().default(""),
   description: z.string().default(""),
   category: ProjectCategorySchema.default("software"),
@@ -233,8 +235,8 @@ export type Project = z.infer<typeof ProjectSchema>;
 export const ExperienceSchema = z
   .object({
     id: z.string(),
-    company: z.string().min(1, "Company is required"),
-    role: z.string().min(1, "Role is required"),
+    company: z.string().default(""),
+    role: z.string().default(""),
     location: z.string().default(""),
     startDate: z.string().default(""),
     endDate: z.string().default(""),
@@ -264,7 +266,7 @@ export type Experience = z.infer<typeof ExperienceSchema>;
 
 export const EducationSchema = z.object({
   id: z.string(),
-  institution: z.string().min(1, "Institution is required"),
+  institution: z.string().default(""),
   degree: z.string().default(""),
   fieldOfStudy: z.string().default(""),
   startDate: z.string().default(""),
