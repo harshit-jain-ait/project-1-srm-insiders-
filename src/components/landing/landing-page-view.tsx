@@ -456,42 +456,54 @@ export function LandingPageView() {
         {/* 5. Powerful Features Section ("Everything you need to create an amazing portfolio.") */}
         <section
           id="features"
-          className="py-24 bg-gradient-to-b from-white via-blue-50/20 to-white dark:from-[#090b11] dark:via-[#0b0e18] dark:to-[#090b11] border-b border-slate-200/80 dark:border-slate-800/80 transition-colors duration-300 relative overflow-hidden"
+          className="py-12 sm:py-16 bg-[#f7fafe] dark:bg-[#090b11] border-b border-slate-200/80 dark:border-slate-800/80 transition-colors duration-300 relative overflow-hidden"
         >
-          {/* Ambient background curves */}
-          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-100/40 dark:bg-blue-900/10 rounded-full blur-3xl pointer-events-none -mr-40 -mt-40" />
-          <div className="absolute top-1/3 left-0 w-[450px] h-[450px] bg-sky-100/30 dark:bg-sky-950/20 rounded-full blur-3xl pointer-events-none -ml-40" />
+          {/* Authentic Studio Lighting & Background Curves matching reference image */}
+          {/* Top-left soft blue circular arc */}
+          <div className="absolute -top-32 -left-32 w-[480px] h-[480px] rounded-full bg-[#e8f1fd]/80 dark:bg-blue-900/15 pointer-events-none" />
+          <svg className="absolute top-0 left-0 w-[420px] h-[360px] pointer-events-none text-blue-200/50 dark:text-blue-800/20" viewBox="0 0 420 360" fill="none">
+            <path d="M-40 200 C120 220 280 140 380 -20" stroke="currentColor" strokeWidth="1.5" strokeDasharray="4 4" />
+          </svg>
+
+          {/* Right side soft blue arc + curve */}
+          <div className="absolute -top-10 -right-24 w-[520px] h-[520px] rounded-full bg-[#ebf3fd]/85 dark:bg-blue-950/25 pointer-events-none" />
+          <svg className="absolute -top-10 right-0 w-[500px] h-[450px] pointer-events-none text-blue-200/60 dark:text-blue-800/20" viewBox="0 0 500 450" fill="none">
+            <path d="M500 80 C360 120 280 260 240 450" stroke="currentColor" strokeWidth="1.5" />
+          </svg>
+
+          {/* Subtle warm desk base gradient at bottom */}
+          <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-[#e9eff7]/70 dark:from-slate-900/50 to-transparent pointer-events-none" />
 
           {/* Corner decorations matching the design */}
-          <div className="absolute -bottom-4 -left-4 w-36 sm:w-48 lg:w-56 pointer-events-none select-none z-0 opacity-90 dark:opacity-30">
+          <div className="absolute bottom-0 left-0 w-28 sm:w-36 lg:w-44 pointer-events-none select-none z-0 opacity-95 dark:opacity-40">
             <img
               src="/images/features/plant-left.png"
               alt="Plant decoration"
-              className="w-full h-auto object-contain"
+              className="w-full h-auto object-contain object-bottom-left"
             />
           </div>
-          <div className="absolute -bottom-2 -right-2 w-44 sm:w-56 lg:w-64 pointer-events-none select-none z-0 opacity-90 dark:opacity-30">
+          <div className="absolute bottom-0 right-0 w-36 sm:w-48 lg:w-56 pointer-events-none select-none z-0 opacity-95 dark:opacity-40">
             <img
               src="/images/features/desk-right.png"
               alt="Desk decoration"
-              className="w-full h-auto object-contain"
+              className="w-full h-auto object-contain object-bottom-right"
             />
           </div>
 
-          <div className="max-w-7xl mx-auto px-6 space-y-12 relative z-10">
+          <div className="max-w-7xl mx-auto px-6 space-y-8 relative z-10">
             {/* Header Row */}
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 text-left">
-              <div className="space-y-3">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-[#2563eb] bg-blue-50 dark:bg-blue-950/60 dark:text-blue-400 px-3 py-1 rounded-full inline-block border border-blue-100 dark:border-blue-900/50">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 text-left">
+              <div className="space-y-2">
+                <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-[#2563eb] bg-blue-50 dark:bg-blue-950/60 dark:text-blue-400 px-3 py-1 rounded-full inline-block border border-blue-100 dark:border-blue-900/50">
                   POWERFUL FEATURES
                 </span>
-                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-[1.15]">
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-[1.15]">
                   Everything you need to create <br />
                   an{" "}
                   <span className="relative inline-block text-blue-600 dark:text-blue-400">
                     amazing
                     <svg
-                      className="absolute -bottom-2 left-0 w-full h-3 text-blue-500 overflow-visible"
+                      className="absolute -bottom-1.5 left-0 w-full h-2.5 text-blue-500 overflow-visible"
                       viewBox="0 0 100 12"
                       fill="none"
                       preserveAspectRatio="none"
@@ -506,15 +518,15 @@ export function LandingPageView() {
                   </span>{" "}
                   portfolio.
                 </h2>
-                <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-normal max-w-xl">
+                <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-normal max-w-xl">
                   Professional tools, beautiful templates and complete control — all in one place.
                 </p>
               </div>
 
               {/* Handwritten Note + Arrow */}
-              <div className="hidden lg:flex flex-col items-end relative -top-2 select-none pr-6">
+              <div className="hidden lg:flex flex-col items-end relative -top-1 select-none pr-4">
                 <span
-                  className="text-blue-500 font-semibold text-base leading-snug block rotate-[-3deg]"
+                  className="text-blue-500 font-semibold text-sm leading-snug block rotate-[-3deg]"
                   style={{ fontFamily: "cursive, sans-serif" }}
                 >
                   Build. Showcase.
@@ -522,7 +534,7 @@ export function LandingPageView() {
                   Stand out.
                 </span>
                 <svg
-                  className="w-10 h-10 text-blue-500 mt-1 mr-3 rotate-[-10deg]"
+                  className="w-9 h-9 text-blue-500 mt-0.5 mr-2 rotate-[-10deg]"
                   viewBox="0 0 40 40"
                   fill="none"
                   stroke="currentColor"
@@ -538,7 +550,7 @@ export function LandingPageView() {
             </div>
 
             {/* 6 Feature Grid Cards (2 rows x 3 columns) */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
               {[
                 {
                   title: "AI Portfolio Generation",
@@ -599,49 +611,52 @@ export function LandingPageView() {
                 return (
                   <motion.div
                     key={feature.title}
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 16 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-40px" }}
-                    transition={{ duration: 0.45, delay: idx * 0.07, ease: "easeOut" }}
-                    whileHover={{ y: -6, scale: 1.015 }}
-                    className="p-5 sm:p-6 rounded-3xl border border-slate-100/90 dark:border-slate-800/80 bg-white/95 dark:bg-[#0f121d]/95 backdrop-blur-sm shadow-[0_4px_20px_-4px_rgba(0,0,0,0.04)] hover:shadow-[0_16px_32px_-8px_rgba(37,99,235,0.12)] transition-all duration-300 relative overflow-hidden flex flex-row items-center justify-between gap-3 group text-left min-h-[190px]"
+                    viewport={{ once: true, margin: "-30px" }}
+                    transition={{ duration: 0.4, delay: idx * 0.06, ease: "easeOut" }}
+                    whileHover={{ y: -5, scale: 1.015 }}
+                    className="p-4 sm:p-5 rounded-2xl sm:rounded-3xl border border-white/80 dark:border-slate-800/80 bg-white/95 dark:bg-[#0f121d]/95 backdrop-blur-sm shadow-[0_4px_16px_-4px_rgba(0,0,0,0.05)] hover:shadow-[0_16px_30px_-6px_rgba(37,99,235,0.12)] transition-all duration-300 relative overflow-hidden flex flex-row items-center justify-between gap-3 group text-left min-h-[155px] sm:min-h-[165px]"
                   >
                     {/* Left content: Icon, Title, Description, Button */}
                     <div className="flex-1 flex flex-col justify-between h-full min-w-0 pr-1 z-10">
                       <div>
                         <div
-                          className={`w-9 h-9 rounded-xl border flex items-center justify-center ${feature.iconBg} ${feature.iconColor} shadow-sm`}
+                          className={`w-8 h-8 rounded-lg sm:rounded-xl border flex items-center justify-center ${feature.iconBg} ${feature.iconColor} shadow-xs`}
                         >
-                          <IconComponent className="w-4 h-4" />
+                          <IconComponent className="w-3.5 h-3.5" />
                         </div>
-                        <h3 className="font-bold text-[15px] sm:text-base text-slate-900 dark:text-white mt-3 leading-snug">
+                        <h3 className="font-bold text-sm sm:text-[15px] text-slate-900 dark:text-white mt-2.5 leading-snug">
                           {feature.title}
                         </h3>
-                        <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed line-clamp-2">
+                        <p className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed line-clamp-2">
                           {feature.description}
                         </p>
                       </div>
 
-                      <div className="mt-4">
+                      <div className="mt-3">
                         <div
-                          className={`w-7 h-7 rounded-full flex items-center justify-center ${feature.btnBg} transition-transform duration-200 group-hover:translate-x-1 shadow-xs`}
+                          className={`w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center ${feature.btnBg} transition-transform duration-200 group-hover:translate-x-1 shadow-xs`}
                         >
-                          <ArrowRight className="w-3.5 h-3.5" />
+                          <ArrowRight className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                         </div>
                       </div>
                     </div>
 
                     {/* Right content: Dedicated 3D Mockup Graphic */}
-                    <div className="w-[125px] sm:w-[145px] shrink-0 flex items-center justify-center relative z-10">
+                    <div className="w-[110px] sm:w-[130px] shrink-0 flex items-center justify-center relative z-10">
                       <img
                         src={feature.image}
                         alt={feature.title}
-                        className="w-full h-auto max-h-[135px] object-contain transition-transform duration-500 ease-out group-hover:scale-105 select-none pointer-events-none drop-shadow-sm"
+                        className="w-full h-auto max-h-[110px] sm:max-h-[120px] object-contain transition-transform duration-500 ease-out group-hover:scale-105 select-none pointer-events-none drop-shadow-sm"
                       />
                     </div>
                   </motion.div>
                 );
               })}
+            </div>
+          </div>
+        </section>
             </div>
           </div>
         </section>
