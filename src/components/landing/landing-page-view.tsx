@@ -33,6 +33,7 @@ import { StudioShowcase } from "@/components/landing/studio-showcase";
 export function LandingPageView() {
   const templates = getAllTemplates();
   const [previewTemplate, setPreviewTemplate] = useState<RegisteredTemplate | null>(null);
+  const [activeContactCard, setActiveContactCard] = useState<number>(1);
   const { isDark } = useTheme();
 
   // The 4 spotlight templates matching Section 4 in the reference design
@@ -685,12 +686,12 @@ export function LandingPageView() {
           </div>
         </section>
 
-        {/* 7. Contact Section ("Get in Touch") */}
-        <section id="contact" className="py-20 bg-white dark:bg-[#090b11] border-b border-slate-200/80 dark:border-slate-800/80 transition-colors duration-300">
-          <div className="max-w-7xl mx-auto px-6">
+        {/* 7. Contact Section ("Have questions? We are here to help.") */}
+        <section id="contact" className="py-20 bg-white dark:bg-[#090b11] border-b border-slate-200/80 dark:border-slate-800/80 transition-colors duration-300 relative overflow-hidden">
+          <div className="max-w-7xl mx-auto px-6 relative z-10">
             <div className="max-w-3xl mx-auto text-center space-y-4 mb-12">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-purple-600 bg-purple-50 dark:bg-purple-950/60 dark:text-purple-400 px-2.5 py-1 rounded-md inline-block">
-                CONTACT & SUPPORT
+              <span className="text-[11px] font-bold uppercase tracking-wider text-purple-600 bg-purple-50 dark:bg-purple-950/60 dark:text-purple-400 px-3.5 py-1 rounded-full inline-block border border-purple-100 dark:border-purple-900/50">
+                CONTACT &amp; SUPPORT
               </span>
               <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
                 Have questions? We are here to help.
@@ -701,65 +702,111 @@ export function LandingPageView() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-              {/* Card 1: Email Support */}
-              <div className="p-6 rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-slate-50/50 dark:bg-[#0c0e16] space-y-4 text-left transition-all hover:border-purple-300 dark:hover:border-purple-600">
-                <div className="w-12 h-12 rounded-xl bg-purple-50 dark:bg-purple-950/60 border border-purple-100 dark:border-purple-800/40 text-purple-600 dark:text-purple-400 flex items-center justify-center">
-                  <Mail className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="font-bold text-base text-slate-900 dark:text-white">Email Us Directly</h3>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
-                    Drop us a message for general inquiries or dedicated support.
-                  </p>
-                </div>
-                <a
-                  href="mailto:support@portfolify.dev"
-                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-purple-600 dark:text-purple-400 hover:underline pt-1"
-                >
-                  <span>support@portfolify.dev</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </a>
-              </div>
+              {[
+                {
+                  title: "Email Us Directly",
+                  description: "Drop us a message for general inquiries or dedicated support.",
+                  linkText: "support@portfolify.dev",
+                  href: "mailto:support@portfolify.dev",
+                  isExternal: true,
+                  icon: Mail,
+                  iconColor: "text-purple-600 dark:text-purple-400",
+                  iconBg: "bg-purple-50 dark:bg-purple-950/70 border-purple-100 dark:border-purple-800/40",
+                  linkColor: "text-purple-600 dark:text-purple-400",
+                  activeBorder: "border-purple-400/90 dark:border-purple-500/80 shadow-[0_12px_36px_-6px_rgba(168,85,247,0.16)]",
+                  orbColor: "bg-purple-500 shadow-[0_0_12px_rgba(168,85,247,0.9)]",
+                },
+                {
+                  title: "Community & Discussions",
+                  description: "Join our vibrant community of developers, designers, and creators.",
+                  linkText: "Join Community",
+                  href: "/templates",
+                  isExternal: false,
+                  icon: MessageSquare,
+                  iconColor: "text-blue-600 dark:text-blue-400",
+                  iconBg: "bg-blue-50 dark:bg-blue-950/70 border-blue-100 dark:border-blue-800/40",
+                  linkColor: "text-blue-600 dark:text-blue-400",
+                  activeBorder: "border-blue-400/90 dark:border-blue-500/80 shadow-[0_12px_36px_-6px_rgba(37,99,235,0.16)]",
+                  orbColor: "bg-blue-500 shadow-[0_0_12px_rgba(59,130,246,0.95)]",
+                },
+                {
+                  title: "Interactive Editor",
+                  description: "Ready to start right now? Jump directly into the live studio.",
+                  linkText: "Launch Editor",
+                  href: "/editor",
+                  isExternal: false,
+                  icon: Send,
+                  iconColor: "text-emerald-600 dark:text-emerald-400",
+                  iconBg: "bg-emerald-50 dark:bg-emerald-950/70 border-emerald-100 dark:border-emerald-800/40",
+                  linkColor: "text-emerald-600 dark:text-emerald-400",
+                  activeBorder: "border-emerald-400/90 dark:border-emerald-500/80 shadow-[0_12px_36px_-6px_rgba(16,185,129,0.16)]",
+                  orbColor: "bg-emerald-500 shadow-[0_0_12px_rgba(16,185,129,0.9)]",
+                },
+              ].map((card, idx) => {
+                const IconComponent = card.icon;
+                const isActive = activeContactCard === idx;
 
-              {/* Card 2: Community Chat */}
-              <div className="p-6 rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-slate-50/50 dark:bg-[#0c0e16] space-y-4 text-left transition-all hover:border-blue-300 dark:hover:border-blue-600">
-                <div className="w-12 h-12 rounded-xl bg-blue-50 dark:bg-blue-950/60 border border-blue-100 dark:border-blue-800/40 text-blue-600 dark:text-blue-400 flex items-center justify-center">
-                  <MessageSquare className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="font-bold text-base text-slate-900 dark:text-white">Community & Discussions</h3>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
-                    Join our vibrant community of developers, designers, and creators.
-                  </p>
-                </div>
-                <Link
-                  href="/templates"
-                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-600 dark:text-blue-400 hover:underline pt-1"
-                >
-                  <span>Join Community</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
+                return (
+                  <motion.div
+                    key={card.title}
+                    initial={{ opacity: 0, y: 24 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-40px" }}
+                    transition={{ duration: 0.45, delay: idx * 0.1, ease: "easeOut" }}
+                    whileHover={{ y: -8, scale: 1.018 }}
+                    onMouseEnter={() => setActiveContactCard(idx)}
+                    className={`group relative p-7 rounded-3xl bg-white dark:bg-[#0c0e16] border transition-all duration-300 text-left flex flex-col justify-between min-h-[220px] cursor-pointer ${
+                      isActive
+                        ? `${card.activeBorder} ring-1 ring-black/5 dark:ring-white/5`
+                        : "border-slate-200/80 dark:border-slate-800/90 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.04)] hover:border-slate-300 dark:hover:border-slate-700"
+                    }`}
+                  >
+                    {/* Glowing Indicator Orb on Active Card matching reference image */}
+                    {isActive && (
+                      <motion.div
+                        layoutId="active-contact-orb"
+                        className={`absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full ${card.orbColor} z-20`}
+                        transition={{ type: "spring", stiffness: 400, damping: 28 }}
+                      />
+                    )}
 
-              {/* Card 3: Quick Start */}
-              <div className="p-6 rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-slate-50/50 dark:bg-[#0c0e16] space-y-4 text-left transition-all hover:border-emerald-300 dark:hover:border-emerald-600">
-                <div className="w-12 h-12 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-100 dark:border-emerald-800/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
-                  <Send className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="font-bold text-base text-slate-900 dark:text-white">Interactive Editor</h3>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
-                    Ready to start right now? Jump directly into the live studio.
-                  </p>
-                </div>
-                <Link
-                  href="/editor"
-                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-600 dark:text-emerald-400 hover:underline pt-1"
-                >
-                  <span>Launch Editor</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
+                    <div>
+                      <div
+                        className={`w-12 h-12 rounded-2xl border flex items-center justify-center ${card.iconBg} ${card.iconColor} shadow-xs transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3`}
+                      >
+                        <IconComponent className="w-5 h-5" />
+                      </div>
+
+                      <h3 className="font-bold text-base text-slate-900 dark:text-white mt-5 tracking-tight">
+                        {card.title}
+                      </h3>
+                      <p className="text-xs text-slate-500 dark:text-slate-400 mt-1.5 leading-relaxed">
+                        {card.description}
+                      </p>
+                    </div>
+
+                    <div className="pt-5">
+                      {card.isExternal ? (
+                        <a
+                          href={card.href}
+                          className={`inline-flex items-center gap-1.5 text-xs font-semibold ${card.linkColor} group-hover:gap-2.5 transition-all`}
+                        >
+                          <span>{card.linkText}</span>
+                          <ArrowRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-1" />
+                        </a>
+                      ) : (
+                        <Link
+                          href={card.href}
+                          className={`inline-flex items-center gap-1.5 text-xs font-semibold ${card.linkColor} group-hover:gap-2.5 transition-all`}
+                        >
+                          <span>{card.linkText}</span>
+                          <ArrowRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-1" />
+                        </Link>
+                      )}
+                    </div>
+                  </motion.div>
+                );
+              })}
             </div>
           </div>
         </section>
