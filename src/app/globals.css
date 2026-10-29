@@ -1,4 +1,49 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *));
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Circular wave theme transition */
+::view-transition-old(root) {
+  animation: none;
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 9999;
+  animation: theme-wave 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes theme-wave {
+  from {
+    clip-path: circle(0px at var(--wave-x, 50%) var(--wave-y, 0px));
+  }
+  to {
+    clip-path: circle(var(--wave-r, 150vmax) at var(--wave-x, 50%) var(--wave-y, 0px));
+  }
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(root),
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none !important;
+  }
+}
 
 @layer base {
   :root {

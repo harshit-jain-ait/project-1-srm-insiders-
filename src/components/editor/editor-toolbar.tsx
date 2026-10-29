@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { Logo } from "@/components/ui/logo";
 import {
   Smartphone,
   Tablet,
@@ -20,7 +20,6 @@ import {
   BarChart3,
   ExternalLink,
   Eye,
-  Pencil,
   CheckCheck,
 } from "lucide-react";
 import { TemplateId } from "@/lib/schema/portfolio";
@@ -61,7 +60,6 @@ export function EditorToolbar({
   portfolioTitle,
   onTitleChange,
   saveStatus,
-  lastSavedAt,
   isPublished,
   slug,
   activeTemplate,
@@ -70,7 +68,6 @@ export function EditorToolbar({
   isDistractionFree,
   onToggleDistractionFree,
   onTemplateChange,
-  onSave,
   onTogglePublish,
   onOpenAiAssistant,
   onOpenUrlImport,
@@ -102,13 +99,8 @@ export function EditorToolbar({
       {/* 1. LEFT: Brand, Portfolio Selector & Saved Badge */}
       <div className="flex items-center gap-3 sm:gap-4 min-w-0">
         {/* Portfolify Logo */}
-        <Link href="/" className="flex items-center gap-2 group shrink-0">
-          <div className="h-7 w-7 rounded-lg bg-[#2563eb] flex items-center justify-center text-white font-mono text-xs font-bold shadow-sm transition-transform group-hover:scale-105">
-            P
-          </div>
-          <span className="font-extrabold text-sm tracking-tight text-white hidden sm:inline">
-            Portfolify
-          </span>
+        <Link href="/" className="group shrink-0">
+          <Logo size="sm" isDark={true} />
         </Link>
 
         <div className="h-4 w-px bg-slate-800 shrink-0" />

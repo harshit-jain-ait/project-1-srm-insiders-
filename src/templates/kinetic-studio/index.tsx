@@ -3,18 +3,11 @@
 
 import React, { useState } from "react";
 import { TemplateProps } from "../types";
-import { SafeExternalLink, SocialPlatformIcon, EmptySectionHint, resolveTemplateTheme } from "../shared";
+import { SafeExternalLink, EmptySectionHint, resolveTemplateTheme } from "../shared";
 import { PublicContactForm } from "@/components/contact/public-contact-form";
 import Link from "next/link";
 import {
   ArrowUpRight,
-  Sparkles,
-  MapPin,
-  Mail,
-  Briefcase,
-  GraduationCap,
-  Layers,
-  Code2,
   Terminal,
   ArrowRight,
   ChevronDown,
