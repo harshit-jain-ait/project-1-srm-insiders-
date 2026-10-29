@@ -458,35 +458,13 @@ export function LandingPageView() {
           id="features"
           className="mt-6 sm:mt-8 py-8 md:py-10 bg-[#f7fafe] dark:bg-[#090b11] border-y border-slate-200/80 dark:border-slate-800/80 transition-colors duration-300 relative overflow-hidden"
         >
-          {/* Authentic Studio Lighting & Background Curves matching reference image */}
-          {/* Top-left soft blue circular arc */}
-          <div className="absolute -top-32 -left-32 w-[480px] h-[480px] rounded-full bg-[#e8f1fd]/80 dark:bg-blue-900/15 pointer-events-none" />
-          <svg className="absolute top-0 left-0 w-[420px] h-[360px] pointer-events-none text-blue-200/50 dark:text-blue-800/20" viewBox="0 0 420 360" fill="none">
-            <path d="M-40 200 C120 220 280 140 380 -20" stroke="currentColor" strokeWidth="1.5" strokeDasharray="4 4" />
-          </svg>
-
-          {/* Right side soft blue arc + curve */}
-          <div className="absolute -top-10 -right-24 w-[520px] h-[520px] rounded-full bg-[#ebf3fd]/85 dark:bg-blue-950/25 pointer-events-none" />
-          <svg className="absolute -top-10 right-0 w-[500px] h-[450px] pointer-events-none text-blue-200/60 dark:text-blue-800/20" viewBox="0 0 500 450" fill="none">
-            <path d="M500 80 C360 120 280 260 240 450" stroke="currentColor" strokeWidth="1.5" />
-          </svg>
-
-          {/* Subtle warm desk base gradient at bottom */}
-          <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-[#e9eff7]/70 dark:from-slate-900/50 to-transparent pointer-events-none" />
-
-          {/* Corner decorations matching the design */}
-          <div className="absolute bottom-0 left-0 w-28 sm:w-36 lg:w-44 pointer-events-none select-none z-0 opacity-95 dark:opacity-40">
+          {/* Full-width Panoramic Studio Desk Background Image matching reference design */}
+          <div className="absolute inset-0 w-full h-full pointer-events-none select-none z-0">
             <img
-              src="/images/features/plant-left.png"
-              alt="Plant decoration"
-              className="w-full h-auto object-contain object-bottom-left"
-            />
-          </div>
-          <div className="absolute bottom-0 right-0 w-36 sm:w-48 lg:w-56 pointer-events-none select-none z-0 opacity-95 dark:opacity-40">
-            <img
-              src="/images/features/desk-right.png"
-              alt="Desk decoration"
-              className="w-full h-auto object-contain object-bottom-right"
+              src="/images/landing/features-desk-bg.png"
+              alt="Powerful features studio desk background with plant, books, smiling mug and ambient lighting"
+              className="w-full h-full object-cover object-bottom opacity-100 dark:opacity-30 transition-opacity"
+              style={{ imageRendering: "auto" }}
             />
           </div>
 
@@ -616,7 +594,7 @@ export function LandingPageView() {
                     viewport={{ once: true, margin: "-30px" }}
                     transition={{ duration: 0.4, delay: idx * 0.06, ease: "easeOut" }}
                     whileHover={{ y: -5, scale: 1.015 }}
-                    className="p-4 sm:p-5 rounded-2xl sm:rounded-3xl border border-white/80 dark:border-slate-800/80 bg-white/95 dark:bg-[#0f121d]/95 backdrop-blur-sm shadow-[0_4px_16px_-4px_rgba(0,0,0,0.05)] hover:shadow-[0_16px_30px_-6px_rgba(37,99,235,0.12)] transition-all duration-300 relative overflow-hidden flex flex-row items-center justify-between gap-3 group text-left min-h-[155px] sm:min-h-[165px]"
+                    className="p-4 sm:p-5 rounded-2xl sm:rounded-3xl border border-white/90 dark:border-slate-800/80 bg-white/90 dark:bg-[#0f121d]/90 backdrop-blur-md shadow-[0_8px_24px_-6px_rgba(0,0,0,0.06)] hover:shadow-[0_18px_36px_-6px_rgba(37,99,235,0.14)] transition-all duration-300 relative overflow-hidden flex flex-row items-center justify-between gap-3 group text-left min-h-[155px] sm:min-h-[165px]"
                   >
                     {/* Left content: Icon, Title, Description, Button */}
                     <div className="flex-1 flex flex-col justify-between h-full min-w-0 pr-1 z-10">
