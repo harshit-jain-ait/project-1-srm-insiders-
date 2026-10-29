@@ -12,7 +12,6 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
-    "@types/three": "^0.186.0",
     "clsx": "^2.1.1",
     "framer-motion": "^14.6.0",
     "gsap": "^3.15.0",
@@ -32,6 +31,7 @@
     "@types/node": "^22.20.5",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/three": "^0.186.0",
     "eslint": "^9",
     "eslint-config-next": "16.4.3",
     "tailwindcss": "^4",
