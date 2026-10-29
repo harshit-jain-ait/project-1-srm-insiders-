@@ -27,6 +27,7 @@ import {
 import { GithubIcon, LinkedinIcon, TwitterIcon, YoutubeIcon } from "@/components/ui/icons";
 import { Logo } from "@/components/ui/logo";
 import { useTheme } from "@/components/theme-provider";
+import { ClickSound } from "@/components/ui/click-sound";
 
 import { StudioShowcase } from "@/components/landing/studio-showcase";
 
@@ -81,6 +82,9 @@ export function LandingPageView() {
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-[#07090e] text-slate-900 dark:text-slate-100 transition-colors duration-300 selection:bg-blue-600/30 selection:text-blue-200 font-sans">
+      {/* Click sound micro-interaction for homepage */}
+      <ClickSound />
+
       {/* 1. Header / Navbar matching dark reference design */}
       <LandingNavbar />
 
