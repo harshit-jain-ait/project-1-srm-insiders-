@@ -636,54 +636,68 @@ export function LandingPageView() {
           </div>
         </section>
 
-        {/* 6. Dark CTA Banner ("Build your portfolio today.") */}
-        <section className="py-20 bg-slate-50 dark:bg-[#07090e] transition-colors duration-300">
+        {/* 6. Clean Minimalist Showcase CTA ("Craft & Innovation • The art of thoughtful digital portfolios.") */}
+        <section className="py-14 sm:py-20 bg-slate-50/60 dark:bg-[#07090e] transition-colors duration-300">
           <div className="max-w-7xl mx-auto px-6">
-            <div className="rounded-3xl bg-gradient-to-r from-[#0c0e14] via-[#11141c] to-[#0a0c10] border border-slate-800 p-8 sm:p-12 lg:p-16 text-white relative overflow-hidden shadow-2xl">
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
-                {/* Left Column */}
-                <div className="lg:col-span-7 space-y-5 text-left">
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
-                    READY TO GET STARTED?
+            <div className="rounded-[2.5rem] bg-[#FAF8F5] dark:bg-[#0f1118] border border-[#ECE7DE] dark:border-white/10 p-8 sm:p-14 lg:p-16 relative overflow-hidden shadow-[0_20px_50px_-20px_rgba(0,0,0,0.05)]">
+              {/* Subtle ambient glow in background */}
+              <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-purple-100/40 dark:bg-purple-950/20 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20" />
+              <div className="absolute bottom-0 left-1/3 w-[400px] h-[400px] bg-amber-50/50 dark:bg-amber-950/10 rounded-full blur-3xl pointer-events-none" />
+
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center relative z-10">
+                {/* Left Column: Clean Minimalist Typography & Actions */}
+                <div className="lg:col-span-7 space-y-6 text-left">
+                  <span className="text-xs sm:text-[13px] font-semibold uppercase tracking-[0.22em] text-neutral-500 dark:text-neutral-400 block">
+                    CRAFT &amp; INNOVATION
                   </span>
-                  <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight">
-                    Build your portfolio today.
+
+                  <h2 className="text-3xl sm:text-5xl lg:text-[3.5rem] font-bold text-neutral-900 dark:text-white tracking-tight leading-[1.12]">
+                    The art of <br />
+                    thoughtful digital <br />
+                    portfolios.
                   </h2>
-                  <p className="text-sm sm:text-base text-slate-400 font-normal leading-relaxed max-w-lg">
-                    Join thousands of creators, designers and developers who trust Portfolify to showcase their work.
+
+                  <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-400 font-normal leading-relaxed max-w-md">
+                    A minimalist, collaborative space for modern creators, designers, and developers to showcase their work.
                   </p>
 
-                  <div className="flex flex-wrap items-center gap-3 pt-3">
+                  <div className="flex items-center gap-6 pt-2">
                     <Link href="/generate">
-                      <button
+                      <motion.button
                         type="button"
-                        className="bg-[#2563eb] hover:bg-blue-600 text-white font-semibold px-5 py-3 rounded-lg flex items-center gap-2 shadow-lg shadow-blue-600/30 text-sm transition-all cursor-pointer"
+                        whileHover={{ scale: 1.03 }}
+                        whileTap={{ scale: 0.97 }}
+                        className="bg-[#111111] hover:bg-neutral-800 text-white dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-200 font-medium px-7 py-3.5 rounded-full text-sm shadow-xs transition-all cursor-pointer"
                       >
-                        <span>Create Your Portfolio</span>
-                        <ArrowRight className="w-4 h-4" />
-                      </button>
+                        Get started
+                      </motion.button>
                     </Link>
 
-                    <Link href="/templates">
-                      <button
-                        type="button"
-                        className="border border-slate-700 bg-slate-900/60 text-slate-200 hover:bg-slate-800 px-5 py-3 rounded-lg text-sm font-semibold transition-all cursor-pointer"
-                      >
-                        Explore Templates
-                      </button>
+                    <Link
+                      href="/templates"
+                      className="inline-flex items-center gap-1.5 text-sm font-medium text-neutral-700 dark:text-neutral-300 hover:text-neutral-950 dark:hover:text-white transition-colors group cursor-pointer"
+                    >
+                      <span>Explore templates</span>
+                      <span className="text-base leading-none transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+                        ↗
+                      </span>
                     </Link>
                   </div>
                 </div>
 
-                {/* Right Column: Device Mockups */}
+                {/* Right Column: 3D Minimalist Ribbon Sculpture with Floating Frosted Glass Card */}
                 <div className="lg:col-span-5 flex items-center justify-center relative">
-                  <div className="w-full max-w-md">
+                  <motion.div
+                    animate={{ y: [-4, 4, -4], rotate: [-0.5, 0.5, -0.5] }}
+                    transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                    className="w-full max-w-md flex items-center justify-center relative"
+                  >
                     <img
-                      src="/images/landing/responsive-devices.svg"
-                      alt="Portfolify Responsive Devices Preview"
-                      className="w-full h-auto drop-shadow-2xl"
+                      src="/images/landing/minimalist-sculpture-alpha.png"
+                      alt="The art of thoughtful digital experiences"
+                      className="w-full h-auto object-contain select-none pointer-events-none drop-shadow-xl"
                     />
-                  </div>
+                  </motion.div>
                 </div>
               </div>
             </div>
