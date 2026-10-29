@@ -124,25 +124,25 @@ export function MinimalistSculpture3D({ className = "" }: MinimalistSculpture3DP
       side: THREE.DoubleSide,
     });
 
-    // 5. Cylindrical 3D Geometries (Slim, Elegant Cylindrical Cross-Section)
+    // 5. Cylindrical 3D Geometries (Ultra-Slim, Refined Cylindrical Tubes)
     const mainGroup = new THREE.Group();
     scene.add(mainGroup);
 
-    // Cylinder 1: Main Sapphire Blue Cylindrical Torus Knot (radius 1.15, tube 0.16)
-    const sapphireCylinderGeom = new THREE.TorusKnotGeometry(1.15, 0.16, 240, 48, 2, 3);
+    // Cylinder 1: Main Sapphire Blue Cylindrical Torus Knot (radius 1.15, tube 0.085)
+    const sapphireCylinderGeom = new THREE.TorusKnotGeometry(1.15, 0.085, 240, 48, 2, 3);
     const sapphireCylinderMesh = new THREE.Mesh(sapphireCylinderGeom, sapphireGlassMaterial);
     sapphireCylinderMesh.rotation.set(0.35, 0.15, 0.45);
     mainGroup.add(sapphireCylinderMesh);
 
-    // Cylinder 2: Entwined Pearl White Cylindrical Torus Knot (radius 1.18, tube 0.15)
-    const pearlCylinderGeom = new THREE.TorusKnotGeometry(1.18, 0.15, 240, 48, 2, 3);
+    // Cylinder 2: Entwined Pearl White Cylindrical Torus Knot (radius 1.18, tube 0.08)
+    const pearlCylinderGeom = new THREE.TorusKnotGeometry(1.18, 0.08, 240, 48, 2, 3);
     const pearlCylinderMesh = new THREE.Mesh(pearlCylinderGeom, pearlCylinderMaterial);
     pearlCylinderMesh.rotation.set(-0.55, 1.15, -0.25);
     pearlCylinderMesh.position.set(-0.04, 0.04, 0.04);
     mainGroup.add(pearlCylinderMesh);
 
-    // Cylinder 3: Delicate Orbiting Cylindrical Ring around the sculpture (radius 1.65, tube 0.055)
-    const ringCylinderGeom = new THREE.TorusGeometry(1.65, 0.055, 32, 180);
+    // Cylinder 3: Delicate Orbiting Cylindrical Ring around the sculpture (radius 1.65, tube 0.032)
+    const ringCylinderGeom = new THREE.TorusGeometry(1.65, 0.032, 32, 180);
     const ringCylinderMesh = new THREE.Mesh(ringCylinderGeom, skyGlassMaterial);
     ringCylinderMesh.rotation.set(1.1, 0.3, 0.6);
     mainGroup.add(ringCylinderMesh);

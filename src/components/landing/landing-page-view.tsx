@@ -645,7 +645,7 @@ export function LandingPageView() {
         {/* 6. Clean Minimalist Showcase CTA ("Craft & Innovation • The art of thoughtful digital portfolios.") */}
         <section className="py-14 sm:py-20 bg-slate-50/60 dark:bg-[#07090e] transition-colors duration-300">
           <div className="max-w-7xl mx-auto px-6">
-            <div className="rounded-[2.5rem] bg-[#FAF8F5] dark:bg-[#0f1118] border border-[#ECE7DE] dark:border-white/10 p-8 sm:p-14 lg:p-16 relative overflow-hidden shadow-[0_20px_50px_-20px_rgba(0,0,0,0.05)]">
+            <div className="rounded-[3rem] sm:rounded-[3.75rem] lg:rounded-[4.5rem] bg-[#FAF8F5] dark:bg-[#0f1118] border border-[#ECE7DE] dark:border-white/10 p-8 sm:p-14 lg:p-16 relative overflow-hidden shadow-[0_20px_50px_-20px_rgba(0,0,0,0.05)]">
               {/* Subtle ambient glow in background matching royal blue theme */}
               <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-100/50 dark:bg-blue-950/25 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20" />
               <div className="absolute bottom-0 left-1/3 w-[400px] h-[400px] bg-sky-100/40 dark:bg-sky-950/20 rounded-full blur-3xl pointer-events-none" />
