@@ -456,7 +456,7 @@ export function LandingPageView() {
         {/* 5. Powerful Features Section ("Everything you need to create an amazing portfolio.") */}
         <section
           id="features"
-          className="mt-6 sm:mt-8 py-8 md:py-10 bg-[#f7fafe] dark:bg-[#090b11] border-y border-slate-200/80 dark:border-slate-800/80 transition-colors duration-300 relative overflow-hidden"
+          className="mt-6 sm:mt-8 py-5 sm:py-7 md:py-8 bg-[#f7fafe] dark:bg-[#090b11] border-y border-slate-200/80 dark:border-slate-800/80 transition-colors duration-300 relative overflow-hidden"
         >
           {/* Full-width Panoramic Studio Desk Background Image matching reference design */}
           <div className="absolute inset-0 w-full h-full pointer-events-none select-none z-0">
@@ -468,20 +468,20 @@ export function LandingPageView() {
             />
           </div>
 
-          <div className="max-w-7xl mx-auto px-6 space-y-8 relative z-10">
+          <div className="max-w-7xl mx-auto px-6 space-y-5 sm:space-y-6 relative z-10">
             {/* Header Row */}
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 text-left">
-              <div className="space-y-2">
-                <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-[#2563eb] bg-blue-50 dark:bg-blue-950/60 dark:text-blue-400 px-3 py-1 rounded-full inline-block border border-blue-100 dark:border-blue-900/50">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-3 text-left">
+              <div className="space-y-1.5">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-[#2563eb] bg-blue-50 dark:bg-blue-950/60 dark:text-blue-400 px-2.5 py-0.5 rounded-full inline-block border border-blue-100 dark:border-blue-900/50">
                   POWERFUL FEATURES
                 </span>
-                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-[1.15]">
+                <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-[1.15]">
                   Everything you need to create <br />
                   an{" "}
                   <span className="relative inline-block text-blue-600 dark:text-blue-400">
                     amazing
                     <svg
-                      className="absolute -bottom-1.5 left-0 w-full h-2.5 text-blue-500 overflow-visible"
+                      className="absolute -bottom-1 left-0 w-full h-2 text-blue-500 overflow-visible"
                       viewBox="0 0 100 12"
                       fill="none"
                       preserveAspectRatio="none"
@@ -496,7 +496,7 @@ export function LandingPageView() {
                   </span>{" "}
                   portfolio.
                 </h2>
-                <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-normal max-w-xl">
+                <p className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 font-normal max-w-xl">
                   Professional tools, beautiful templates and complete control — all in one place.
                 </p>
               </div>
@@ -504,7 +504,7 @@ export function LandingPageView() {
               {/* Handwritten Note + Arrow */}
               <div className="hidden lg:flex flex-col items-end relative -top-1 select-none pr-4">
                 <span
-                  className="text-blue-500 font-semibold text-sm leading-snug block rotate-[-3deg]"
+                  className="text-blue-500 font-semibold text-xs sm:text-sm leading-snug block rotate-[-3deg]"
                   style={{ fontFamily: "cursive, sans-serif" }}
                 >
                   Build. Showcase.
@@ -512,7 +512,7 @@ export function LandingPageView() {
                   Stand out.
                 </span>
                 <svg
-                  className="w-9 h-9 text-blue-500 mt-0.5 mr-2 rotate-[-10deg]"
+                  className="w-8 h-8 text-blue-500 mt-0.5 mr-2 rotate-[-10deg]"
                   viewBox="0 0 40 40"
                   fill="none"
                   stroke="currentColor"
@@ -528,7 +528,7 @@ export function LandingPageView() {
             </div>
 
             {/* 6 Feature Grid Cards (2 rows x 3 columns) */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-4">
               {[
                 {
                   title: "AI Portfolio Generation",
@@ -589,44 +589,44 @@ export function LandingPageView() {
                 return (
                   <motion.div
                     key={feature.title}
-                    initial={{ opacity: 0, y: 16 }}
+                    initial={{ opacity: 0, y: 14 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-30px" }}
-                    transition={{ duration: 0.4, delay: idx * 0.06, ease: "easeOut" }}
-                    whileHover={{ y: -5, scale: 1.015 }}
-                    className="p-4 sm:p-5 rounded-2xl sm:rounded-3xl border border-white/90 dark:border-slate-800/80 bg-white/90 dark:bg-[#0f121d]/90 backdrop-blur-md shadow-[0_8px_24px_-6px_rgba(0,0,0,0.06)] hover:shadow-[0_18px_36px_-6px_rgba(37,99,235,0.14)] transition-all duration-300 relative overflow-hidden flex flex-row items-center justify-between gap-3 group text-left min-h-[155px] sm:min-h-[165px]"
+                    transition={{ duration: 0.35, delay: idx * 0.05, ease: "easeOut" }}
+                    whileHover={{ y: -4, scale: 1.015 }}
+                    className="p-3.5 sm:p-4 rounded-2xl sm:rounded-3xl border border-white/90 dark:border-slate-800/80 bg-white/90 dark:bg-[#0f121d]/90 backdrop-blur-md shadow-[0_6px_20px_-6px_rgba(0,0,0,0.06)] hover:shadow-[0_16px_32px_-6px_rgba(37,99,235,0.13)] transition-all duration-300 relative overflow-hidden flex flex-row items-center justify-between gap-3 group text-left min-h-[135px] sm:min-h-[142px]"
                   >
                     {/* Left content: Icon, Title, Description, Button */}
                     <div className="flex-1 flex flex-col justify-between h-full min-w-0 pr-1 z-10">
                       <div>
                         <div
-                          className={`w-8 h-8 rounded-lg sm:rounded-xl border flex items-center justify-center ${feature.iconBg} ${feature.iconColor} shadow-xs`}
+                          className={`w-7 h-7 sm:w-7.5 sm:h-7.5 rounded-lg border flex items-center justify-center ${feature.iconBg} ${feature.iconColor} shadow-xs`}
                         >
                           <IconComponent className="w-3.5 h-3.5" />
                         </div>
-                        <h3 className="font-bold text-sm sm:text-[15px] text-slate-900 dark:text-white mt-2.5 leading-snug">
+                        <h3 className="font-bold text-[13px] sm:text-sm text-slate-900 dark:text-white mt-1.5 leading-snug">
                           {feature.title}
                         </h3>
-                        <p className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed line-clamp-2">
+                        <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 leading-relaxed line-clamp-2">
                           {feature.description}
                         </p>
                       </div>
 
-                      <div className="mt-3">
+                      <div className="mt-2">
                         <div
-                          className={`w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center ${feature.btnBg} transition-transform duration-200 group-hover:translate-x-1 shadow-xs`}
+                          className={`w-5.5 h-5.5 sm:w-6 sm:h-6 rounded-full flex items-center justify-center ${feature.btnBg} transition-transform duration-200 group-hover:translate-x-1 shadow-xs`}
                         >
-                          <ArrowRight className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+                          <ArrowRight className="w-3 h-3" />
                         </div>
                       </div>
                     </div>
 
                     {/* Right content: Dedicated 3D Mockup Graphic */}
-                    <div className="w-[110px] sm:w-[130px] shrink-0 flex items-center justify-center relative z-10">
+                    <div className="w-[95px] sm:w-[115px] shrink-0 flex items-center justify-center relative z-10">
                       <img
                         src={feature.image}
                         alt={feature.title}
-                        className="w-full h-auto max-h-[110px] sm:max-h-[120px] object-contain transition-transform duration-500 ease-out group-hover:scale-105 select-none pointer-events-none drop-shadow-sm"
+                        className="w-full h-auto max-h-[85px] sm:max-h-[95px] object-contain transition-transform duration-500 ease-out group-hover:scale-105 select-none pointer-events-none drop-shadow-sm"
                       />
                     </div>
                   </motion.div>
