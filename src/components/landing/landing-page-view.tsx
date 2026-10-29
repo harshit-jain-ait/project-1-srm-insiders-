@@ -454,96 +454,194 @@ export function LandingPageView() {
         </section>
 
         {/* 5. Powerful Features Section ("Everything you need to create an amazing portfolio.") */}
-        <section id="features" className="py-20 bg-white dark:bg-[#090b11] border-b border-slate-200/80 dark:border-slate-800/80 transition-colors duration-300">
-          <div className="max-w-7xl mx-auto px-6 space-y-12">
+        <section
+          id="features"
+          className="py-24 bg-gradient-to-b from-white via-blue-50/20 to-white dark:from-[#090b11] dark:via-[#0b0e18] dark:to-[#090b11] border-b border-slate-200/80 dark:border-slate-800/80 transition-colors duration-300 relative overflow-hidden"
+        >
+          {/* Ambient background curves */}
+          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-100/40 dark:bg-blue-900/10 rounded-full blur-3xl pointer-events-none -mr-40 -mt-40" />
+          <div className="absolute top-1/3 left-0 w-[450px] h-[450px] bg-sky-100/30 dark:bg-sky-950/20 rounded-full blur-3xl pointer-events-none -ml-40" />
+
+          {/* Corner decorations matching the design */}
+          <div className="absolute -bottom-4 -left-4 w-36 sm:w-48 lg:w-56 pointer-events-none select-none z-0 opacity-90 dark:opacity-30">
+            <img
+              src="/images/features/plant-left.png"
+              alt="Plant decoration"
+              className="w-full h-auto object-contain"
+            />
+          </div>
+          <div className="absolute -bottom-2 -right-2 w-44 sm:w-56 lg:w-64 pointer-events-none select-none z-0 opacity-90 dark:opacity-30">
+            <img
+              src="/images/features/desk-right.png"
+              alt="Desk decoration"
+              className="w-full h-auto object-contain"
+            />
+          </div>
+
+          <div className="max-w-7xl mx-auto px-6 space-y-12 relative z-10">
             {/* Header Row */}
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 text-left">
-              <div className="space-y-2">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-[#2563eb] bg-blue-50 dark:bg-blue-950/60 dark:text-blue-400 px-2.5 py-1 rounded-md inline-block">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 text-left">
+              <div className="space-y-3">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-[#2563eb] bg-blue-50 dark:bg-blue-950/60 dark:text-blue-400 px-3 py-1 rounded-full inline-block border border-blue-100 dark:border-blue-900/50">
                   POWERFUL FEATURES
                 </span>
-                <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight">
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-[1.15]">
                   Everything you need to create <br />
-                  an amazing portfolio.
+                  an{" "}
+                  <span className="relative inline-block text-blue-600 dark:text-blue-400">
+                    amazing
+                    <svg
+                      className="absolute -bottom-2 left-0 w-full h-3 text-blue-500 overflow-visible"
+                      viewBox="0 0 100 12"
+                      fill="none"
+                      preserveAspectRatio="none"
+                    >
+                      <path
+                        d="M2 9C28 3 72 3 98 8"
+                        stroke="currentColor"
+                        strokeWidth="3.5"
+                        strokeLinecap="round"
+                      />
+                    </svg>
+                  </span>{" "}
+                  portfolio.
                 </h2>
+                <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-normal max-w-xl">
+                  Professional tools, beautiful templates and complete control — all in one place.
+                </p>
               </div>
 
-              <Link
-                href="/templates"
-                className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#2563eb] hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 transition-colors"
-              >
-                <span>Explore all features</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
+              {/* Handwritten Note + Arrow */}
+              <div className="hidden lg:flex flex-col items-end relative -top-2 select-none pr-6">
+                <span
+                  className="text-blue-500 font-semibold text-base leading-snug block rotate-[-3deg]"
+                  style={{ fontFamily: "cursive, sans-serif" }}
+                >
+                  Build. Showcase.
+                  <br />
+                  Stand out.
+                </span>
+                <svg
+                  className="w-10 h-10 text-blue-500 mt-1 mr-3 rotate-[-10deg]"
+                  viewBox="0 0 40 40"
+                  fill="none"
+                  stroke="currentColor"
+                >
+                  <path
+                    d="M32 4C24 14 16 26 6 34M6 34L4 24M6 34L16 36"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </div>
             </div>
 
             {/* 6 Feature Grid Cards (2 rows x 3 columns) */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {/* Feature 1 */}
-              <div className="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0f121d] hover:border-blue-200 dark:hover:border-blue-700 hover:shadow-sm transition-all space-y-3 text-left">
-                <div className="w-10 h-10 rounded-full bg-blue-50 dark:bg-blue-950/60 border border-blue-100 dark:border-blue-800/50 text-[#2563eb] dark:text-blue-400 flex items-center justify-center">
-                  <Sparkles className="w-5 h-5" />
-                </div>
-                <h3 className="font-bold text-base text-slate-900 dark:text-white">AI Portfolio Generation</h3>
-                <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed font-normal">
-                  Turn your information into a polished portfolio with AI.
-                </p>
-              </div>
+              {[
+                {
+                  title: "AI Portfolio Generation",
+                  description: "Turn your information into a polished portfolio with AI.",
+                  icon: Sparkles,
+                  iconColor: "text-blue-600 dark:text-blue-400",
+                  iconBg: "bg-blue-50 dark:bg-blue-950/70 border-blue-100 dark:border-blue-800/40",
+                  btnBg: "bg-blue-50 text-blue-600 dark:bg-blue-950/70 dark:text-blue-400",
+                  image: "/images/features/feature-ai.png",
+                },
+                {
+                  title: "Template Library",
+                  description: "Choose from a growing collection of modern templates.",
+                  icon: Layout,
+                  iconColor: "text-purple-600 dark:text-purple-400",
+                  iconBg: "bg-purple-50 dark:bg-purple-950/70 border-purple-100 dark:border-purple-800/40",
+                  btnBg: "bg-purple-50 text-purple-600 dark:bg-purple-950/70 dark:text-purple-400",
+                  image: "/images/features/feature-templates.png",
+                },
+                {
+                  title: "Custom Domains",
+                  description: "Use your own domain for a professional touch.",
+                  icon: Globe,
+                  iconColor: "text-emerald-600 dark:text-emerald-400",
+                  iconBg: "bg-emerald-50 dark:bg-emerald-950/70 border-emerald-100 dark:border-emerald-800/40",
+                  btnBg: "bg-emerald-50 text-emerald-600 dark:bg-emerald-950/70 dark:text-emerald-400",
+                  image: "/images/features/feature-domains.png",
+                },
+                {
+                  title: "Visual Editor",
+                  description: "Edit your portfolio with a simple drag and drop interface.",
+                  icon: Edit3,
+                  iconColor: "text-amber-600 dark:text-amber-400",
+                  iconBg: "bg-amber-50 dark:bg-amber-950/70 border-amber-100 dark:border-amber-800/40",
+                  btnBg: "bg-amber-50 text-amber-600 dark:bg-amber-950/70 dark:text-amber-400",
+                  image: "/images/features/feature-editor.png",
+                },
+                {
+                  title: "SEO & Sharing",
+                  description: "Get discovered and share your work with the world.",
+                  icon: Share2,
+                  iconColor: "text-sky-600 dark:text-sky-400",
+                  iconBg: "bg-sky-50 dark:bg-sky-950/70 border-sky-100 dark:border-sky-800/40",
+                  btnBg: "bg-sky-50 text-sky-600 dark:bg-sky-950/70 dark:text-sky-400",
+                  image: "/images/features/feature-seo.png",
+                },
+                {
+                  title: "Responsive Design",
+                  description: "Looks great on every device, from mobile to desktop.",
+                  icon: Smartphone,
+                  iconColor: "text-indigo-600 dark:text-indigo-400",
+                  iconBg: "bg-indigo-50 dark:bg-indigo-950/70 border-indigo-100 dark:border-indigo-800/40",
+                  btnBg: "bg-indigo-50 text-indigo-600 dark:bg-indigo-950/70 dark:text-indigo-400",
+                  image: "/images/features/feature-responsive.png",
+                },
+              ].map((feature, idx) => {
+                const IconComponent = feature.icon;
+                return (
+                  <motion.div
+                    key={feature.title}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-40px" }}
+                    transition={{ duration: 0.45, delay: idx * 0.07, ease: "easeOut" }}
+                    whileHover={{ y: -6, scale: 1.015 }}
+                    className="p-5 sm:p-6 rounded-3xl border border-slate-100/90 dark:border-slate-800/80 bg-white/95 dark:bg-[#0f121d]/95 backdrop-blur-sm shadow-[0_4px_20px_-4px_rgba(0,0,0,0.04)] hover:shadow-[0_16px_32px_-8px_rgba(37,99,235,0.12)] transition-all duration-300 relative overflow-hidden flex flex-row items-center justify-between gap-3 group text-left min-h-[190px]"
+                  >
+                    {/* Left content: Icon, Title, Description, Button */}
+                    <div className="flex-1 flex flex-col justify-between h-full min-w-0 pr-1 z-10">
+                      <div>
+                        <div
+                          className={`w-9 h-9 rounded-xl border flex items-center justify-center ${feature.iconBg} ${feature.iconColor} shadow-sm`}
+                        >
+                          <IconComponent className="w-4 h-4" />
+                        </div>
+                        <h3 className="font-bold text-[15px] sm:text-base text-slate-900 dark:text-white mt-3 leading-snug">
+                          {feature.title}
+                        </h3>
+                        <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed line-clamp-2">
+                          {feature.description}
+                        </p>
+                      </div>
 
-              {/* Feature 2 */}
-              <div className="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0f121d] hover:border-blue-200 dark:hover:border-blue-700 hover:shadow-sm transition-all space-y-3 text-left">
-                <div className="w-10 h-10 rounded-full bg-blue-50 dark:bg-blue-950/60 border border-blue-100 dark:border-blue-800/50 text-[#2563eb] dark:text-blue-400 flex items-center justify-center">
-                  <Layout className="w-5 h-5" />
-                </div>
-                <h3 className="font-bold text-base text-slate-900 dark:text-white">Template Library</h3>
-                <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed font-normal">
-                  Choose from a growing collection of modern templates.
-                </p>
-              </div>
+                      <div className="mt-4">
+                        <div
+                          className={`w-7 h-7 rounded-full flex items-center justify-center ${feature.btnBg} transition-transform duration-200 group-hover:translate-x-1 shadow-xs`}
+                        >
+                          <ArrowRight className="w-3.5 h-3.5" />
+                        </div>
+                      </div>
+                    </div>
 
-              {/* Feature 3 */}
-              <div className="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0f121d] hover:border-blue-200 dark:hover:border-blue-700 hover:shadow-sm transition-all space-y-3 text-left">
-                <div className="w-10 h-10 rounded-full bg-blue-50 dark:bg-blue-950/60 border border-blue-100 dark:border-blue-800/50 text-[#2563eb] dark:text-blue-400 flex items-center justify-center">
-                  <Globe className="w-5 h-5" />
-                </div>
-                <h3 className="font-bold text-base text-slate-900 dark:text-white">Custom Domains</h3>
-                <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed font-normal">
-                  Use your own domain for a professional touch.
-                </p>
-              </div>
-
-              {/* Feature 4 */}
-              <div className="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0f121d] hover:border-blue-200 dark:hover:border-blue-700 hover:shadow-sm transition-all space-y-3 text-left">
-                <div className="w-10 h-10 rounded-full bg-blue-50 dark:bg-blue-950/60 border border-blue-100 dark:border-blue-800/50 text-[#2563eb] dark:text-blue-400 flex items-center justify-center">
-                  <Edit3 className="w-5 h-5" />
-                </div>
-                <h3 className="font-bold text-base text-slate-900 dark:text-white">Visual Editor</h3>
-                <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed font-normal">
-                  Edit your portfolio with a simple drag and drop interface.
-                </p>
-              </div>
-
-              {/* Feature 5 */}
-              <div className="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0f121d] hover:border-blue-200 dark:hover:border-blue-700 hover:shadow-sm transition-all space-y-3 text-left">
-                <div className="w-10 h-10 rounded-full bg-blue-50 dark:bg-blue-950/60 border border-blue-100 dark:border-blue-800/50 text-[#2563eb] dark:text-blue-400 flex items-center justify-center">
-                  <Share2 className="w-5 h-5" />
-                </div>
-                <h3 className="font-bold text-base text-slate-900 dark:text-white">SEO &amp; Sharing</h3>
-                <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed font-normal">
-                  Get discovered and share your work with the world.
-                </p>
-              </div>
-
-              {/* Feature 6 */}
-              <div className="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0f121d] hover:border-blue-200 dark:hover:border-blue-700 hover:shadow-sm transition-all space-y-3 text-left">
-                <div className="w-10 h-10 rounded-full bg-blue-50 dark:bg-blue-950/60 border border-blue-100 dark:border-blue-800/50 text-[#2563eb] dark:text-blue-400 flex items-center justify-center">
-                  <Smartphone className="w-5 h-5" />
-                </div>
-                <h3 className="font-bold text-base text-slate-900 dark:text-white">Responsive Design</h3>
-                <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed font-normal">
-                  Looks great on every device, from mobile to desktop.
-                </p>
-              </div>
+                    {/* Right content: Dedicated 3D Mockup Graphic */}
+                    <div className="w-[125px] sm:w-[145px] shrink-0 flex items-center justify-center relative z-10">
+                      <img
+                        src={feature.image}
+                        alt={feature.title}
+                        className="w-full h-auto max-h-[135px] object-contain transition-transform duration-500 ease-out group-hover:scale-105 select-none pointer-events-none drop-shadow-sm"
+                      />
+                    </div>
+                  </motion.div>
+                );
+              })}
             </div>
           </div>
         </section>
