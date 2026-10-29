@@ -338,9 +338,34 @@ export const TemplateIdSchema = z.enum([
   "bento-studio",
   "kinetic-studio",
   "designer-craft",
+  "cosmic-orbit",
 ]);
 
 export type TemplateId = z.infer<typeof TemplateIdSchema>;
+
+export const CosmicSceneSettingsSchema = z.object({
+  enableIntroAnimation: z.boolean().default(true),
+  showAstronaut: z.boolean().default(true),
+  showPlanetBackground: z.boolean().default(true),
+  showStarParticles: z.boolean().default(true),
+  enableParallaxEffects: z.boolean().default(true),
+  showHudElements: z.boolean().default(false),
+  planetColor: z.string().default("#1269DB"),
+  accentColor: z.string().default("#4BE5FF"),
+  backgroundIntensity: z.number().default(70),
+  planetGlowIntensity: z.number().default(80),
+  starDensity: z.enum(["low", "medium", "high"]).default("medium"),
+  animationIntensity: z.enum(["low", "medium", "high"]).default("medium"),
+  typography: z.enum(["orbitron", "sans", "mono"]).default("orbitron"),
+  heroHeading: z.string().default("HELLO, FELLOW GALAXY MEMBER"),
+  heroSubtitle: z.string().default("I AM JAY"),
+  heroTagline: z.string().default("A DEVELOPER EXPLORING IDEAS BEYOND BOUNDARIES"),
+  callToActionText: z.string().default("CLICK TO EXPLORE"),
+  hudCoordinates: z.string().default("28.6139° N 77.2090° E"),
+  hudEdgeLabel: z.string().default("EXPLORER / LEARN / BUILD / REPEAT"),
+});
+
+export type CosmicSceneSettings = z.infer<typeof CosmicSceneSettingsSchema>;
 
 export const DesignTokensSchema = z
   .object({
@@ -516,6 +541,7 @@ export const PortfolioDataSchema = z.object({
     requireSubject: false,
     showConsent: false,
   })),
+  cosmicSettings: CosmicSceneSettingsSchema.optional(),
   createdAt: z.string(),
   updatedAt: z.string(),
 });
@@ -733,15 +759,47 @@ export function initializePortfolioWithTemplate(
     ? parseResult.data
     : "minimal-portfolio";
 
+  const isCosmic = resolvedTemplate === "cosmic-orbit";
+
   return createEmptyPortfolio({
     ...partial,
     appearance: {
       templateId: resolvedTemplate,
-      colorScheme: "system",
-      accentColor: "neutral",
-      fontFamily: "sans",
+      colorScheme: isCosmic ? "dark" : "system",
+      accentColor: isCosmic ? "blue" : "neutral",
+      fontFamily: isCosmic ? "sans" : "sans",
+      designTokens: {
+        accentHex: isCosmic ? "#4BE5FF" : undefined,
+        backgroundColor: isCosmic ? "#070B14" : undefined,
+        textColor: isCosmic ? "#FFFFFF" : undefined,
+        ...partial?.appearance?.designTokens,
+      },
       ...partial?.appearance,
     },
+    cosmicSettings: isCosmic
+      ? {
+          enableIntroAnimation: true,
+          showAstronaut: true,
+          showPlanetBackground: true,
+          showStarParticles: true,
+          enableParallaxEffects: true,
+          showHudElements: false,
+          planetColor: "#1269DB",
+          accentColor: "#4BE5FF",
+          backgroundIntensity: 70,
+          planetGlowIntensity: 80,
+          starDensity: "medium",
+          animationIntensity: "medium",
+          typography: "orbitron",
+          heroHeading: "HELLO, FELLOW GALAXY MEMBER",
+          heroSubtitle: "I AM JAY",
+          heroTagline: "A DEVELOPER EXPLORING IDEAS BEYOND BOUNDARIES",
+          callToActionText: "CLICK TO EXPLORE",
+          hudCoordinates: "28.6139° N 77.2090° E",
+          hudEdgeLabel: "EXPLORER / LEARN / BUILD / REPEAT",
+          ...partial?.cosmicSettings,
+        }
+      : partial?.cosmicSettings,
   });
 }
 

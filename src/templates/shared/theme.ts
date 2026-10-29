@@ -116,6 +116,15 @@ const TEMPLATE_DEFAULT_THEMES: Record<
     border: "#272b2d",
     accent: "#0080ff",
   },
+  "cosmic-orbit": {
+    isDark: true,
+    fontClass: "font-sans",
+    bg: "#070B14",
+    text: "#FFFFFF",
+    surface: "#0C1426",
+    border: "#202C40",
+    accent: "#4BE5FF",
+  },
 };
 
 export function resolveTemplateTheme(

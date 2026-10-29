@@ -244,46 +244,47 @@ export function EditorToolbar({
         <div className="flex items-center bg-[#0c101a] p-1 rounded-xl border border-slate-800 shrink-0">
           <button
             type="button"
-            onClick={() => onDeviceChange("mobile")}
-            className={`p-1.5 rounded-lg text-xs transition-colors cursor-pointer ${
-              deviceMode === "mobile"
-                ? "bg-slate-800 text-white shadow-sm"
+            onClick={() => onDeviceChange("desktop")}
+            className={`px-2.5 py-1 rounded-lg text-xs transition-colors flex items-center gap-1.5 cursor-pointer ${
+              deviceMode === "desktop"
+                ? "bg-blue-600 text-white shadow-sm font-semibold"
                 : "text-slate-400 hover:text-slate-200"
             }`}
-            title="Mobile View (375px)"
-            aria-label="Mobile preview"
+            title="Desktop View (Fluid)"
+            aria-label="Desktop preview"
           >
-            <Smartphone className="w-3.5 h-3.5" />
+            <Monitor className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline text-[11px]">Desktop</span>
           </button>
 
           <button
             type="button"
             onClick={() => onDeviceChange("tablet")}
-            className={`p-1.5 rounded-lg text-xs transition-colors cursor-pointer ${
+            className={`px-2.5 py-1 rounded-lg text-xs transition-colors flex items-center gap-1.5 cursor-pointer ${
               deviceMode === "tablet"
-                ? "bg-slate-800 text-white shadow-sm"
+                ? "bg-blue-600 text-white shadow-sm font-semibold"
                 : "text-slate-400 hover:text-slate-200"
             }`}
             title="Tablet View (768px)"
             aria-label="Tablet preview"
           >
             <Tablet className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline text-[11px]">Tablet</span>
           </button>
 
           <button
             type="button"
-            onClick={() => onDeviceChange("desktop")}
+            onClick={() => onDeviceChange("mobile")}
             className={`px-2.5 py-1 rounded-lg text-xs transition-colors flex items-center gap-1.5 cursor-pointer ${
-              deviceMode === "desktop"
-                ? "bg-slate-800 text-white shadow-sm font-medium"
+              deviceMode === "mobile"
+                ? "bg-blue-600 text-white shadow-sm font-semibold"
                 : "text-slate-400 hover:text-slate-200"
             }`}
-            title="Desktop View (Full Width)"
-            aria-label="Desktop preview"
+            title="Mobile View (390px)"
+            aria-label="Mobile preview"
           >
-            <Monitor className="w-3.5 h-3.5" />
-            <span className="hidden md:inline text-[11px]">Desktop</span>
-            <ChevronDown className="w-3 h-3 text-slate-400" />
+            <Smartphone className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline text-[11px]">Mobile</span>
           </button>
         </div>
       </div>

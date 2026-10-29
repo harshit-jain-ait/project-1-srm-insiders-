@@ -1,8 +1,31 @@
 import { TemplateId } from "@/lib/schema/portfolio";
 import { RegisteredTemplate } from "./types";
 import { KineticStudioTemplate } from "./kinetic-studio";
+import { CosmicOrbitTemplate } from "./cosmic-orbit";
 
 const TEMPLATES: Partial<Record<TemplateId, RegisteredTemplate>> = {
+  "cosmic-orbit": {
+    metadata: {
+      id: "cosmic-orbit",
+      name: "Cosmic Orbit",
+      description: "An immersive space-themed portfolio template with stunning visuals, smooth animations and futuristic design.",
+      category: "Creative",
+      tagline: "Space · Creative · Developer",
+      tags: ["Space", "Orbitron", "Sci-Fi", "Futuristic", "Astronaut", "Earth Arc"],
+      features: [
+        "A transmission from earth eyebrow with Orbitron glowing heading",
+        "Floating astronaut and earth-like planet halo with customizable glow",
+        "Deep nebula space background with starfield density controls",
+        "Mission briefing about card with portrait and telemetry badges",
+        "Explored planetary project worlds and orbital timeline",
+      ],
+      previewAccent: "#4BE5FF",
+      previewImageUrl: "/images/templates/cosmic-orbit.svg",
+      supportedSections: ["profile", "projects", "experience", "skills", "education", "contact"],
+      isPremium: true,
+    },
+    component: CosmicOrbitTemplate,
+  },
   "kinetic-studio": {
     metadata: {
       id: "kinetic-studio",
@@ -40,5 +63,5 @@ export function isValidTemplateId(id: string): id is TemplateId {
 }
 
 export function getDefaultTemplate(): RegisteredTemplate {
-  return TEMPLATES["kinetic-studio"] as RegisteredTemplate;
+  return (TEMPLATES["cosmic-orbit"] || TEMPLATES["kinetic-studio"]) as RegisteredTemplate;
 }
