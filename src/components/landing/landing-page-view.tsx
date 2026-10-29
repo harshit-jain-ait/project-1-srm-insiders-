@@ -456,7 +456,7 @@ export function LandingPageView() {
         {/* 5. Powerful Features Section ("Everything you need to create an amazing portfolio.") */}
         <section
           id="features"
-          className="py-12 sm:py-16 bg-[#f7fafe] dark:bg-[#090b11] border-b border-slate-200/80 dark:border-slate-800/80 transition-colors duration-300 relative overflow-hidden"
+          className="mt-6 sm:mt-8 py-8 md:py-10 bg-[#f7fafe] dark:bg-[#090b11] border-y border-slate-200/80 dark:border-slate-800/80 transition-colors duration-300 relative overflow-hidden"
         >
           {/* Authentic Studio Lighting & Background Curves matching reference image */}
           {/* Top-left soft blue circular arc */}
